@@ -10,22 +10,43 @@ queue_length = [] #List all the queue lengths for patients
 
 #Creates the simulation environment 
 class AnE:
-    def __init__(self, env, num_doctors, num_nurses, num_beds):
+    def __init__(self, env, num_doctors, num_nurses, num_beds, num_clerk):
         self.env = env
         self.doctor = sp.Resource(env, num_doctors)
         self.nurse = sp.Resource(env, num_nurses)
         self.bed = sp.Resource(env, num_beds)
+        self.clerk = sp.Resource(env, num_clerk) 
+
     
 
     
     #patient is the process
-    def patient_generator(self,mean_interarrival_time,wait_times,queue_length):
+    def patient_generator(self,mean_interarrival_time):
+        patient_id=0
         while True:
+                patient_id+=1
                 interarrival_time= np.random.exponential(mean_interarrival_time)
                 yield self.env.timeout(interarrival_time) 
                 print(f"Patient arrived at {self.env.now}")
-                self.env.process(self.patient_request_nurse_for_risk_assesment(wait_times,queue_length))
+                self.env.process(self.patient_flow(patient_id,wait_time,queue_length))
+                
+    
+    def patient_flow(self, patient_id,wait_times,queue_length):
+         self.env.process(self.patient_request_admission())
+         self.env.process(self.patient_request_nurse_for_risk_assesment( patient_id,wait_times,queue_length))
 
+    def patient_request_admission(self):
+         #Request general data in the reception 
+         req = self.clerk.request()
+         yield req 
+         print(f"Clerk assigned to patient at {self.env.now}")
+
+         #Stimulate the admission process
+         yield env.timeout(random.randint(1,5))
+         print(f"Admission completed at {self.env.now}")
+         #aRelease the clerk
+         self.clerk.release(req)
+         print(f"Clerk released at {self.env.now}")
     def triage_manchester(self):
         patient_urgency= {
                         "Red (Immediate)": 5, # 5% chance of being immediate
@@ -38,17 +59,20 @@ class AnE:
         return triage_calculator
 
 
-    def patient_request_nurse_for_risk_assesment (self,wait_times,queue_length):
+
+
+    def patient_request_nurse_for_risk_assesment (self,patient_id,wait_times,queue_length):
+            queue_length.append(len(self.nurse.queue))
             #Request a nurse for risk assessment
             req= self.nurse.request()
             yield req # Wait for the nurse to be avaailale
-            print(f"Nurse assigned to patient at {self.env.now}")
+            print(f"Nurse assigned to patient {patient_id} at {self.env.now}")
 
             #Simulate the risk assesment process
             yield self.env.timeout(random.randint(1,5))
             triage_category= self.triage_manchester()
-            print(f"Risk assesment completed at {self.env.now}")
-            print(f"Patient triaged as {triage_category}")
+            print(f"Risk assesment for patient {patient_id} completed at {self.env.now}")
+            print(f"Patient {patient_id} triaged as {triage_category}")
 
             #Release the nurse
             self.nurse.release(req)
@@ -56,15 +80,27 @@ class AnE:
             wait_times.append(self.env.now)
             queue_length.append(len(wait_times))
 
-    def patient_request_doctor_for_doctor_consultation(self):
+    def patient_request_doctor_for_doctor_consultation(self,patient_id):
          #Request a doctor for consulation
          req = self.doctor.request()
          yield req # Wait for the doctor to be avavaible 
-         print(f"Doctor assigned to patient at {self.env.now}")
+         print(f"Doctor assigned to patient {patient_id} at {self.env.now}")
         
          #Stimulate the doctor consultation process 
-         yield env.timeout(random.randint(1,5))
+         yield self.env.timeout(random.randint(1,5))
          print(f"Doctor Consultation completed at {self.env.now}")
+         decision =random.uniform(0,1)
+         if decision <0.5:
+                print(f"Patient {patient_id} is discharged at {self.env.now}")
+         elif decision<0.9:
+              yield self.env.process(self.patient_request_tests(patient_id))
+         else:
+              yield self.env.process(self.patient_request_medication(patient_id))
+         #Release the doctor
+         self.doctor.release(req)
+         print(f"Doctor released at {self.env.now}")
+         
+
 
 
 
@@ -72,7 +108,7 @@ class AnE:
 #Creates the simulation environmnment (A&E)
 env = sp.Environment()
 # Create the A&E department with resources
-a_and_e = AnE(env, num_doctors=9, num_nurses=10, num_beds=5)
+a_and_e = AnE(env, num_doctors=9, num_nurses=10, num_beds=5, num_clerk=1)
 mean_interarrival_time=3
 env.process(a_and_e.patient_generator(mean_interarrival_time,wait_time,queue_length))
 env.run(until=200)
