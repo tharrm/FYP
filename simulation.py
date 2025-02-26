@@ -21,7 +21,7 @@ class AnE:
 
     
     #patient is the process
-    def patient_generator(self,mean_interarrival_time):
+    def patient_generator(self, mean_interarrival_time, wait_time, queue_length):
         patient_id=0
         while True:
                 patient_id+=1
@@ -32,8 +32,10 @@ class AnE:
                 
     
     def patient_flow(self, patient_id,wait_times,queue_length):
-         self.env.process(self.patient_request_admission())
-         self.env.process(self.patient_request_nurse_for_risk_assesment( patient_id,wait_times,queue_length))
+        yield self.env.process(self.patient_request_admission())
+        yield self.env.process(self.patient_request_nurse_for_risk_assesment( patient_id,wait_times,queue_length))
+        yield self.env.process(self.patient_request_doctor_for_doctor_consultation(patient_id))
+        print(f"Patient {patient_id} has left the A&E at {self.env.now}")
 
     def patient_request_admission(self):
          #Request general data in the reception 
@@ -62,7 +64,7 @@ class AnE:
 
 
     def patient_request_nurse_for_risk_assesment (self,patient_id,wait_times,queue_length):
-            queue_length.append(len(self.nurse.queue))
+            queue_length.append(len(self.nurse.queue)) # This tracks the length of the queue before the nurse is accomodated
             #Request a nurse for risk assessment
             req= self.nurse.request()
             yield req # Wait for the nurse to be avaailale
@@ -99,7 +101,21 @@ class AnE:
          #Release the doctor
          self.doctor.release(req)
          print(f"Doctor released at {self.env.now}")
-         
+     
+    def patient_rest_request_tests(self,patient_id):
+     req = self.nurse.request()
+     yield req
+     print(f"Nurse assigned to patient {patient_id} at {env.now}")
+     yield env.timeout(random.randint(1,5))
+     print(f" {patient_id} 's tests completed at {env.now} ")
+     self.nurse.release(req)
+     print(f"Nurse released at {env.now}")
+     yield self.env.process(self.patient_request_doctor_for_doctor_consultation(patient_id))
+
+
+    def patient_request_medication(self,patient_id):
+     print("Hello")
+
 
 
 
