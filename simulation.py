@@ -12,8 +12,8 @@ queue_length = [] #List all the queue lengths for patients
 class AnE:
     def __init__(self, env, num_doctors, num_nurses, num_beds, num_clerk):
         self.env = env
-        self.doctor = sp.Resource(env, num_doctors)
-        self.nurse = sp.Resource(env, num_nurses)
+        self.doctor = sp.PriorityResource(env, num_doctors)
+        self.nurse = sp.PriorityResource(env, num_nurses)
         self.bed = sp.Resource(env, num_beds)
         self.clerk = sp.Resource(env, num_clerk) 
 
@@ -34,7 +34,6 @@ class AnE:
     def patient_flow(self, patient_id,wait_times,queue_length):
         yield self.env.process(self.patient_request_admission())
         yield self.env.process(self.patient_request_nurse_for_risk_assesment( patient_id,wait_times,queue_length))
-        yield self.env.process(self.patient_request_doctor_for_doctor_consultation(patient_id))
         print(f"Patient {patient_id} has left the A&E at {self.env.now}")
 
     def patient_request_admission(self):
@@ -44,21 +43,22 @@ class AnE:
          print(f"Clerk assigned to patient at {self.env.now}")
 
          #Stimulate the admission process
-         yield env.timeout(random.randint(1,5))
+         yield self.env.timeout(random.randint(1,5))
          print(f"Admission completed at {self.env.now}")
          #aRelease the clerk
          self.clerk.release(req)
          print(f"Clerk released at {self.env.now}")
     def triage_manchester(self):
         patient_urgency= {
-                        "Red (Immediate)": 5, # 5% chance of being immediate
-                        "Orange (Very Urgent)": 10, # 10% chance of being very urgent
-                        "Yellow (Urgent)": 35, #35% chance of being urgent
-                        "Green (Standard)": 30, #30% chance of being standard
-                        "Blue (Non-Urgent)": 20, #20% chance of being non-urgent
+                        "Red (Immediate)": (5,0), # 5% chance of being immediate with 0 being the highest prirority
+                        "Orange (Very Urgent)": (10,1), # 10% chance of being very urgent
+                        "Yellow (Urgent)": (35,2), #35% chance of being urgent
+                        "Green (Standard)": (30,3), #30% chance of being standard
+                        "Blue (Non-Urgent)": (20,4) #20% chance of being non-urgent
                     }
-        triage_calculator= random.choices(list(patient_urgency.keys()), weights=patient_urgency.values())[0]#Randomly selects a traige based on the weights and then selects the first element from the list
-        return triage_calculator
+        triage_calculator= random.choices(list(patient_urgency.keys()), weights= [value[0] for value in patient_urgency.values()])[0] #Randomly selects a traige based on the weights and then selects the first element from the list
+        priority = patient_urgency[triage_calculator][1] #Selects the priority of the selected triage
+        return triage_calculator, priority 
 
 
 
@@ -66,27 +66,27 @@ class AnE:
     def patient_request_nurse_for_risk_assesment (self,patient_id,wait_times,queue_length):
             #trying to make it  based on patient piriority 
             queue_length.append(len(self.nurse.queue)) # This tracks the length of the queue before the nurse is accomodated
-            category, priority =self.traige_manchester()
             #Request a nurse for risk assessment
-            req= self.nurse.request(priority = priority)
-            yield req # Wait for the nurse to be avaailale
+            req= self.nurse.request()
+            yield req # Wait for the nurse to be availale
             print(f"Nurse assigned to patient {patient_id} at {self.env.now}")
-
-            #Simulate the risk assesment process
-            yield self.env.timeout(random.randint(1,5))
-            triage_category= self.triage_manchester()
-            print(f"Risk assesment for patient {patient_id} completed at {self.env.now}")
+            triage_category, priority = self.triage_manchester()
             print(f"Patient {patient_id} triaged as {triage_category} priority")
 
+
+            #Simulate the risk assesment process time
+            yield self.env.timeout(random.randint(1,5))
             #Release the nurse
             self.nurse.release(req)
             print(f"Nurse released at {self.env.now}")
             wait_times.append(self.env.now)
             queue_length.append(len(wait_times))
+            yield self.env.process(self.patient_request_doctor_for_doctor_consultation(patient_id,priority))
+
 
     def patient_request_doctor_for_doctor_consultation(self,patient_id,priority):
          #Request a doctor for consulation
-         req = self.doctor.request()
+         req = self.doctor.request(priority= priority)
          yield req # Wait for the doctor to be avavaible 
          print(f"Doctor assigned to patient {patient_id} at {self.env.now}")
         
@@ -97,27 +97,33 @@ class AnE:
          if decision <0.5:
                 print(f"Patient {patient_id} is discharged at {self.env.now}")
          elif decision<0.9:
-              yield self.env.process(self.patient_request_tests(patient_id))
+              yield self.env.process(self.patient_request_tests(patient_id,priority))
          else:
-              yield self.env.process(self.patient_request_medication(patient_id))
+              yield self.env.process(self.patient_request_medication(patient_id,priority))
          #Release the doctor
          self.doctor.release(req)
          print(f"Doctor released at {self.env.now}")
      
-    def patient_rest_request_tests(self,patient_id):
+    def patient_request_tests(self,patient_id,priority):
      req = self.nurse.request()
      yield req
-     print(f"Nurse assigned to patient {patient_id} at {env.now}")
-     yield env.timeout(random.randint(1,5))
-     print(f" {patient_id} 's tests completed at {env.now} ")
+     print(f"Nurse assigned to patient {patient_id} at {self.env.now}")
+     yield self.env.timeout(random.randint(1,5))
+     print(f" {patient_id} 's tests completed at {self.env.now} ")
      self.nurse.release(req)
-     print(f"Nurse released at {env.now}")
-     yield self.env.process(self.patient_request_doctor_for_doctor_consultation(patient_id))
+     print(f"Nurse released at {self.env.now}")
+     yield self.env.process(self.patient_request_doctor_for_doctor_consultation(patient_id,priority))
      
 
-
-    def patient_request_medication(self,patient_id):
-     print("Hello")
+    def patient_request_medication(self,patient_id,priority):
+        req = self.nurse.request(priority= priority )
+        yield req
+        print(f"Nurse assigned to patient {patient_id} at {self.env.now}")
+        yield self.env.timeout(random.randint(1,5))
+        print(f" {patient_id} 's medication completed at {self.env.now} ")
+        self.nurse.release(req)
+        print(f"Nurse released at {self.env.now}")
+        yield self.env.process(self.patient_request_doctor_for_doctor_consultation(patient_id,priority))
 
 
 
