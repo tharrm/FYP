@@ -30,7 +30,7 @@ class AnE:
                 print(f"Patient arrived at {self.env.now}")
                 self.env.process(self.patient_flow(patient_id,wait_time,queue_length))
                 
-    
+     
     def patient_flow(self, patient_id,wait_times,queue_length):
         yield self.env.process(self.patient_request_admission())
         yield self.env.process(self.patient_request_nurse_for_risk_assesment( patient_id,wait_times,queue_length))
@@ -62,11 +62,13 @@ class AnE:
 
 
 
-
+    
     def patient_request_nurse_for_risk_assesment (self,patient_id,wait_times,queue_length):
+            #trying to make it  based on patient piriority 
             queue_length.append(len(self.nurse.queue)) # This tracks the length of the queue before the nurse is accomodated
+            category, priority =self.traige_manchester()
             #Request a nurse for risk assessment
-            req= self.nurse.request()
+            req= self.nurse.request(priority = priority)
             yield req # Wait for the nurse to be avaailale
             print(f"Nurse assigned to patient {patient_id} at {self.env.now}")
 
@@ -74,7 +76,7 @@ class AnE:
             yield self.env.timeout(random.randint(1,5))
             triage_category= self.triage_manchester()
             print(f"Risk assesment for patient {patient_id} completed at {self.env.now}")
-            print(f"Patient {patient_id} triaged as {triage_category}")
+            print(f"Patient {patient_id} triaged as {triage_category} priority")
 
             #Release the nurse
             self.nurse.release(req)
@@ -82,7 +84,7 @@ class AnE:
             wait_times.append(self.env.now)
             queue_length.append(len(wait_times))
 
-    def patient_request_doctor_for_doctor_consultation(self,patient_id):
+    def patient_request_doctor_for_doctor_consultation(self,patient_id,priority):
          #Request a doctor for consulation
          req = self.doctor.request()
          yield req # Wait for the doctor to be avavaible 
@@ -111,6 +113,7 @@ class AnE:
      self.nurse.release(req)
      print(f"Nurse released at {env.now}")
      yield self.env.process(self.patient_request_doctor_for_doctor_consultation(patient_id))
+     
 
 
     def patient_request_medication(self,patient_id):
