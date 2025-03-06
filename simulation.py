@@ -33,9 +33,9 @@ class AnE:
      
     def patient_flow(self, patient_id,wait_times,queue_length):
         yield self.env.process(self.patient_request_admission())
-        yield self.env.process(self.patient_request_nurse_for_risk_assesment( patient_id,wait_times,queue_length))
-        print(f"Patient {patient_id} has left the A&E at {self.env.now}")
-
+        priority=yield self.env.process(self.patient_request_nurse_for_risk_assesment( patient_id,wait_times,queue_length))
+        yield self.env.process(self.patient_request_doctor_for_doctor_consultation(patient_id,priority))
+        yield self.env.process(self.patient_request_doctor_follow_up(patient_id,priority))
     def patient_request_admission(self):
          #Request general data in the reception 
          req = self.clerk.request()
@@ -81,7 +81,7 @@ class AnE:
             print(f"Nurse released at {self.env.now}")
             wait_times.append(self.env.now)
             queue_length.append(len(wait_times))
-            yield self.env.process(self.patient_request_doctor_for_doctor_consultation(patient_id,priority))
+            return priority
 
 
     def patient_request_doctor_for_doctor_consultation(self,patient_id,priority):
@@ -112,7 +112,6 @@ class AnE:
      print(f" {patient_id} 's tests completed at {self.env.now} ")
      self.nurse.release(req)
      print(f"Nurse released at {self.env.now}")
-     yield self.env.process(self.patient_request_doctor_for_doctor_consultation(patient_id,priority))
      
 
     def patient_request_medication(self,patient_id,priority):
@@ -123,9 +122,20 @@ class AnE:
         print(f" {patient_id} 's medication completed at {self.env.now} ")
         self.nurse.release(req)
         print(f"Nurse released at {self.env.now}")
-        yield self.env.process(self.patient_request_doctor_for_doctor_consultation(patient_id,priority))
 
+    def patient_request_doctor_follow_up(self,patient_id,priority):
+        queue_length.append(len(self.doctor.queue))
+        req= self.doctor.request(priority= priority)
+        yield req
+        print(f"Doctor assigned to patient {patient_id} at {self.env.now} for a follow up")
+        yield self.env.timeout(random.randit(1,5))
+        print(f"Doctor follow up completed at {self.env.now}")
 
+        print(f"Patient {patient_id} has left the A&E at {self.env.now}") 
+        self.doctor.release(req)
+        print(f"Doctor released at {self.env.now}")
+
+        
 
 
 
