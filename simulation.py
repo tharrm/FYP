@@ -128,7 +128,7 @@ class AnE:
         req= self.doctor.request(priority= priority)
         yield req
         print(f"Doctor assigned to patient {patient_id} at {self.env.now} for a follow up")
-        yield self.env.timeout(random.randit(1,5))
+        yield self.env.timeout(random.randint(1,5))
         print(f"Doctor follow up completed at {self.env.now}")
 
         print(f"Patient {patient_id} has left the A&E at {self.env.now}") 
@@ -143,7 +143,7 @@ class AnE:
 #Creates the simulation environmnment (A&E)
 env = sp.Environment()
 # Create the A&E department with resources
-a_and_e = AnE(env, num_doctors=9, num_nurses=10, num_beds=5, num_clerk=1)
+a_and_e = AnE(env, num_doctors=9, num_nurses=20, num_beds=5, num_clerk=1)
 mean_interarrival_time=3
 env.process(a_and_e.patient_generator(mean_interarrival_time,wait_time,queue_length))
 env.run(until=200)
