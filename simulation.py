@@ -35,7 +35,7 @@ class AnE:
         yield self.env.process(self.patient_request_admission())
         priority=yield self.env.process(self.patient_request_nurse_for_risk_assesment( patient_id,wait_times,queue_length))
         yield self.env.process(self.patient_request_doctor_for_doctor_consultation(patient_id,priority))
-        yield self.env.process(self.patient_request_doctor_follow_up(patient_id,priority))
+        print(f"Patient {patient_id} has left the A&E at {self.env.now}")
     def patient_request_admission(self):
          #Request general data in the reception 
          req = self.clerk.request()
@@ -112,6 +112,8 @@ class AnE:
      print(f" {patient_id} 's tests completed at {self.env.now} ")
      self.nurse.release(req)
      print(f"Nurse released at {self.env.now}")
+     yield self.env.process(self.patient_request_doctor_follow_up(patient_id,priority))
+
      
 
     def patient_request_medication(self,patient_id,priority):
@@ -122,6 +124,8 @@ class AnE:
         print(f" {patient_id} 's medication completed at {self.env.now} ")
         self.nurse.release(req)
         print(f"Nurse released at {self.env.now}")
+        yield self.env.process(self.patient_request_doctor_follow_up(patient_id,priority))
+
 
     def patient_request_doctor_follow_up(self,patient_id,priority):
         queue_length.append(len(self.doctor.queue))
