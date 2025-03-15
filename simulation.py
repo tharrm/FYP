@@ -41,13 +41,17 @@ class AnE:
                 self.patient_id+=1
                 interarrival_time= np.random.exponential(mean_interarrival_time)
                 yield self.env.timeout(interarrival_time) 
-                print(f"Patient arrived at {self.sim_format_time(self.env.now)}")
+                print(f"Patient {self.patient_id} arrived at {self.sim_format_time(self.env.now)}")
                 self.env.process(self.patient_flow(patient_spent_time, patient_total_wait_time))
+                
                 
      #The stages of what the patient goes through
     def patient_flow(self,patient_spent_time,patient_total_wait_time):
         arrival_time=self.env.now #Records when the patient arrives
         yield self.env.process(self.patient_request_admission(patient_total_wait_time))
+        if len(self.clerk.queue)>0:
+            next_patient = self.clerk.queue[0]
+            self.clerk.release(next_patient)
         priority=yield self.env.process(self.patient_request_nurse_for_risk_assesment(patient_total_wait_time))
         #If the patient is immediate, they are assigned to a bed 
         if priority == 0:
@@ -60,24 +64,23 @@ class AnE:
         
         total_time_patient_spent = self.env.now - arrival_time
         patient_spent_time.append(total_time_patient_spent)
-
-        print(f"Patient {self.patient_id} has left the A&E at {self.sim_format_time(self.env.now)}")
     
     def patient_request_admission(self,patient_total_wait_time):
          arrival_time = self.env.now
+         print(f"Patient {self.patient_id} is waiting for a clerk at {self.sim_format_time(self.env.now)}")
          #Request general data in the reception 
          req = self.clerk.request()
          yield req 
          wait_time = self.env.now - arrival_time
          patient_total_wait_time.append(wait_time)
-         print(f"Clerk assigned to patient at {self.sim_format_time(self.env.now)}")
+         print(f"Patient {self.patient_id} was assigned a Clerk at {self.sim_format_time(self.env.now)}")
 
          #Stimulate the admission process
          yield self.env.timeout(random.randint(1,5))
-         print(f"Admission completed at {self.sim_format_time(self.env.now)}")
+         print(f"Patient {self.patient_id}'s admission completed at {self.sim_format_time(self.env.now)}")
          #aRelease the clerk
          self.clerk.release(req)
-         print(f"Clerk released at {self.sim_format_time(self.env.now)}")
+         print(f"Patient {self.patient_id}'s clerk released at {self.sim_format_time(self.env.now)}")
     def triage_manchester(self):
         patient_urgency= {
                         "Red (Immediate)": (5,0), # 5% chance of being immediate with 0 being the highest prirority
@@ -92,7 +95,7 @@ class AnE:
 
 
 
-    
+     
     def patient_request_nurse_for_risk_assesment (self,patient_total_wait_time):
             arrival_time= self.env.now
             #trying to make it  based on patient piriority 
@@ -102,7 +105,7 @@ class AnE:
             wait_time = self.env.now - arrival_time
             patient_total_wait_time.append(wait_time)
             (wait_time)
-            print(f"Nurse assigned to patient {self.patient_id} at {self.sim_format_time(self.env.now)}")
+            print(f"Patient {self.patient_id} was assigned a nurse at at {self.sim_format_time(self.env.now)}")
             triage_category, priority = self.triage_manchester()
             print(f"Patient {self.patient_id} triaged as {triage_category} priority")
 
@@ -111,7 +114,7 @@ class AnE:
             yield self.env.timeout(random.randint(1,5))
             #Release the nurse
             self.nurse.release(req)
-            print(f"Nurse released at {self.sim_format_time(self.env.now)}")
+            print(f"Patient {self.patient_id}'s nurse  was released at {self.sim_format_time(self.env.now)}")
             return priority
     
     def patient_gets_doctor(self,patient_total_wait_time):
@@ -121,11 +124,14 @@ class AnE:
         yield req # Wait for the doctor to be avaiable
         wait_time = self.env.now - arrival_time
         patient_total_wait_time.append(wait_time)
-        print(f"Doctor assigned to patient {self.patient_id} at {self.sim_format_time(self.env.now)}")
+        print(f"Patient {self.patient_id} was assigned a Doctor assigned at {self.sim_format_time(self.env.now)}")
         yield self.env.timeout(random.randint(1,5))
-        print(f"Treatment completed at {self.sim_format_time(self.env.now)}")
+        print(f"Patient {self.patient_id}'s treatment completed at {self.sim_format_time(self.env.now)}")
         self.doctor.release(req)
 
+    def update_bed_occupancy(self):
+        occupied_beds = self.bed.users
+        self.track_bed_usage.append((self.env.now,occupied_beds))
 
 
     def patient_request_bed(self,patient_total_wait_time):
@@ -135,12 +141,13 @@ class AnE:
         yield req # Waiit for a bed
         wait_time = self.env.now - arrival_time
         patient_total_wait_time.append(wait_time)
-        print(f"Bed assigned to patient {self.patient_id} at {self.sim_format_time(self.env.now)}")
+        print(f"Patient {self.patient_id} was  assigned to a bed at {self.sim_format_time(self.env.now)}")
         
         yield self.env.process(self.patient_gets_doctor(patient_total_wait_time))              
 
-        occupied_beds = self.bed.capacity - len(self.bed.queue)
-        self.track_bed_usage.append((self.env.now,occupied_beds))
+        #occupied_beds = self.bed.capacity - len(self.bed.queue)
+        #self.track_bed_usage.append((self.env.now,occupied_beds))
+        self.update_bed_occupancy()
         
         #Stimulate the length of stay (LOS) in the bed
         los = random.randint(30,120)
@@ -149,8 +156,9 @@ class AnE:
         self.bed.release(req)
         
         #This tracks when the user leaves the bed 
-        occupied_beds = self.bed.capacity - len(self.bed.queue)
-        self.track_bed_usage.append((self.env.now, occupied_beds))
+        #occupied_beds = self.bed.capacity - len(self.bed.queue)
+        #self.track_bed_usage.append((self.env.now, occupied_beds))
+        self.update_bed_occupancy()
 
         patient_LOS.append(los)
 
@@ -162,21 +170,25 @@ class AnE:
          yield req # Wait for the doctor to be avavaible 
          wait_time = self.env.now - arrival_time
          patient_total_wait_time.append(wait_time)
-         print(f"Doctor assigned to patient {self.patient_id} at{self.sim_format_time(self.env.now)}")
+         print(f"Patient {self.patient_id} was assigned to a Doctor {self.patient_id} at{self.sim_format_time(self.env.now)}")
         
          #Stimulate the doctor consultation process 
          yield self.env.timeout(random.randint(1,5))
-         print(f"Doctor Consultation completed at {self.sim_format_time(self.env.now)}")
+         print(f"Patient {self.patient_id}'s Doctor Consultation was completed at {self.sim_format_time(self.env.now)}")
          decision =random.uniform(0,1)
          if decision <0.5:
                 print(f"Patient {self.patient_id} is discharged at {self.sim_format_time(self.env.now)}")
          elif decision<0.9:
+              print(f"Patient {self.patient_id} needs to do tests")
               yield self.env.process(self.patient_request_tests(priority,patient_total_wait_time))
+              return
          else:
+              print(f"Patient {self.patient_id} needs to take medication")
               yield self.env.process(self.patient_request_medication(priority,patient_total_wait_time))
+              return
          #Release the doctor
          self.doctor.release(req)
-         print(f"Doctor released at {self.sim_format_time(self.env.now)}")
+         print(f"Patient {self.patient_id}'s Doctor released at {self.sim_format_time(self.env.now)}")
      
     def patient_request_tests(self,priority, patient_total_wait_time):
      arrival_time = self.env.now
@@ -184,11 +196,11 @@ class AnE:
      yield req
      wait_time = self.env.now - arrival_time
      patient_total_wait_time.append(wait_time)
-     print(f"Nurse assigned to patient {self.patient_id} at {self.sim_format_time(self.env.now)}")
+     print(f"Patient {self.patient_id} was assigned to a Nurse at {self.sim_format_time(self.env.now)}")
      yield self.env.timeout(random.randint(1,5))
-     print(f" {self.patient_id} 's tests completed at {self.sim_format_time(self.env.now)}")
+     print(f"Patient {self.patient_id} 's tests completed at {self.sim_format_time(self.env.now)}")
      self.nurse.release(req)
-     print(f"Nurse released at {self.sim_format_time(self.env.now)}")
+     print(f"Patient {self.patient_id}'s Nurse released at {self.sim_format_time(self.env.now)}")
      yield self.env.process(self.patient_request_doctor_follow_up(priority,patient_total_wait_time))
 
      
@@ -199,11 +211,11 @@ class AnE:
         yield req
         wait_time = self.env.now - arrival_time
         patient_total_wait_time.append(wait_time)
-        print(f"Nurse assigned to patient {self.patient_id} at {self.sim_format_time(self.env.now)}")
+        print(f"Patient {self.patient_id} was assigned to a Nurse at {self.sim_format_time(self.env.now)}")
         yield self.env.timeout(random.randint(1,5))
-        print(f" {self.patient_id} 's medication completed at {self.sim_format_time(self.env.now)}")
+        print(f"Patient {self.patient_id} 's medication completed at {self.sim_format_time(self.env.now)}")
         self.nurse.release(req)
-        print(f"Nurse released at {self.sim_format_time(self.env.now)}")
+        print(f"Patient {self.patient_id}'s Nurse released at {self.sim_format_time(self.env.now)}")
         yield self.env.process(self.patient_request_doctor_follow_up(priority,patient_total_wait_time))
 
 
@@ -213,24 +225,30 @@ class AnE:
         yield req
         wait_time = self.env.now - arrival_time
         patient_total_wait_time.append(wait_time)
-        print(f"Doctor assigned to patient {self.patient_id}  a follow up at {self.sim_format_time(self.env.now)}")
+        print(f"Patient {self.patient_id} was assigned to a Doctor for a follow up at {self.sim_format_time(self.env.now)}")
         yield self.env.timeout(random.randint(1,5))
-        print(f"Doctor follow up completed at {self.sim_format_time(self.env.now)}")
+        print(f"Patient {self.patient_id}'s Doctor follow up completed at {self.sim_format_time(self.env.now)}")
 
         print(f"Patient {self.patient_id} has left the A&E at {self.sim_format_time(self.env.now)}") 
         self.doctor.release(req)
-        print(f"Doctor released at {self.sim_format_time(self.env.now)}")
+        print(f"Patient {self.patient_id}'s Doctor released at {self.sim_format_time(self.env.now)}")
 
         
 #Creates the simulation environmnment (A&E)
 env = sp.Environment()
 # Create the A&E department with resources
-a_and_e = AnE(env, num_doctors=15, num_nurses=20, num_beds=65, num_clerk=3)
-mean_interarrival_time=3
+a_and_e = AnE(env, num_doctors=15, num_nurses=20, num_beds=65, num_clerk=4)
+mean_interarrival_time=5
 env.process(a_and_e.patient_generator(mean_interarrival_time, patient_spent_time,patient_total_wait_time))
-until= 500
-while env.peek()<until: # ensures there are no more events left to process
+
+env.run(until= 500)
+until=500
+while env.peek()<until: #or len(a_and_e.bed.users)>0 or len (a_and_e.nurse.users)>0 or len(a_and_e.doctor.users)>0: # ensures there are no more events left to process
      env.step()
+
+#This to test if the  last patient has been processed fully 
+print(f"Last patient {a_and_e.patient_id} left at {a_and_e.sim_format_time(env.now)}")
+print(f"Total patients seen: {a_and_e.patient_id}")
 
 #This calculates the average waiting time for patients who had to wait
 if len(patient_total_wait_time) > 0:
@@ -249,9 +267,10 @@ else:
 
 times,bed_count = zip(*a_and_e.track_bed_usage) # This  unpacks into two lists time and bed count 
 
-plt.plot(times, bed_count)
-plt.xlabel("Simulation Time in minutes")
-plt.ylabel("Occupied Beds")
-plt.title("Bed Occupancy Over Time")
-plt.grid()
-plt.show()
+#This graph is for bed occupancy over time 
+#plt.scatter(times, bed_count, marker="x", color="red")
+#plt.xlabel("Simulation Time in minutes")
+#plt.ylabel("Occupied Beds")
+#plt.title("Bed Occupancy Over Time")
+#plt.grid()
+#plt.show()
