@@ -47,11 +47,13 @@ class AnE:
     def patient_flow(self,patient_spent_time,patient_total_wait_time):
         arrival_time=self.env.now #Records when the patient arrives
         yield self.env.process(self.patient_request_admission(patient_total_wait_time))
-        traige_category,priority=yield self.env.process(self.patient_request_nurse_for_risk_assesment(patient_total_wait_time))
-        
-        if traige_category == "Red (Immediate)":
+        priority=yield self.env.process(self.patient_request_nurse_for_risk_assesment(patient_total_wait_time))
+        #If the patient is immediate, they are assigned to a bed 
+        if priority == 0:
              print(f"Patient {self.patient_id} is immediate. Assigning a bed at {self.sim_format_time(self.env.now)}")
              yield self.env.process(self.patient_request_bed(patient_total_wait_time))
+             yield self.env.process(self.patient_request_doctor_follow_up(priority,patient_total_wait_time))
+
         else:
              yield self.env.process(self.patient_request_doctor_for_doctor_consultation(priority,patient_total_wait_time))
         
@@ -110,6 +112,21 @@ class AnE:
             self.nurse.release(req)
             print(f"Nurse released at {self.sim_format_time(self.env.now)}")
             return priority
+    
+    def patient_gets_doctor(self,patient_total_wait_time):
+        arrival_time= self.env.now
+        #Request a doctor for the patient
+        req = self.doctor.request()
+        yield req # Wait for the doctor to be avaiable
+        wait_time = self.env.now - arrival_time
+        patient_total_wait_time.append(wait_time)
+        print(f"Doctor assigned to patient {self.patient_id} at {self.sim_format_time(self.env.now)}")
+        yield self.env.timeout(random.randint(1,5))
+        print(f"Treatment completed at {self.sim_format_time(self.env.now)}")
+        self.doctor.release(req)
+
+
+
     def patient_request_bed(self,patient_total_wait_time):
         arrival_time= self.env.now 
         #Request a bed for the patient
@@ -118,6 +135,8 @@ class AnE:
         wait_time = self.env.now - arrival_time
         patient_total_wait_time.append(wait_time)
         print(f"Bed assigned to patient {self.patient_id} at {self.sim_format_time(self.env.now)}")
+        
+        yield self.env.process(self.patient_gets_doctor(patient_total_wait_time))              
 
         #Stimulate the length of stay (LOS) in the bed
         los = random.randint(30,120)
