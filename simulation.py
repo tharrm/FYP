@@ -20,6 +20,7 @@ class AnE:
         self.clerk = sp.Resource(env, num_clerk) 
         self.patient_id=0
         self.start_time = datetime(2025,3,15,8,0)
+        self.track_bed_usage = [] # This tracks occupied bed over time 
 
 
     
@@ -138,12 +139,19 @@ class AnE:
         
         yield self.env.process(self.patient_gets_doctor(patient_total_wait_time))              
 
+        occupied_beds = self.bed.capacity - len(self.bed.queue)
+        self.track_bed_usage.append((self.env.now,occupied_beds))
+        
         #Stimulate the length of stay (LOS) in the bed
         los = random.randint(30,120)
         yield self.env.timeout(los)
         print(f"Patient {self.patient_id} has left the bed at {self.sim_format_time(self.env.now)}")
         self.bed.release(req)
         
+        #This tracks when the user leaves the bed 
+        occupied_beds = self.bed.capacity - len(self.bed.queue)
+        self.track_bed_usage.append((self.env.now, occupied_beds))
+
         patient_LOS.append(los)
 
 
@@ -220,7 +228,7 @@ env = sp.Environment()
 a_and_e = AnE(env, num_doctors=15, num_nurses=20, num_beds=65, num_clerk=3)
 mean_interarrival_time=3
 env.process(a_and_e.patient_generator(mean_interarrival_time, patient_spent_time,patient_total_wait_time))
-until= 5000
+until= 500
 while env.peek()<until: # ensures there are no more events left to process
      env.step()
 
@@ -238,3 +246,12 @@ if a_and_e.patient_id>0:
 else:
         ("No patient count recorded")
         overall_average_time = 0
+
+times,bed_count = zip(*a_and_e.track_bed_usage) # This  unpacks into two lists time and bed count 
+
+plt.plot(times, bed_count)
+plt.xlabel("Simulation Time in minutes")
+plt.ylabel("Occupied Beds")
+plt.title("Bed Occupancy Over Time")
+plt.grid()
+plt.show()
