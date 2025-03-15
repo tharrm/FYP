@@ -42,16 +42,14 @@ class AnE:
                 interarrival_time= np.random.exponential(mean_interarrival_time)
                 yield self.env.timeout(interarrival_time) 
                 print(f"Patient {self.patient_id} arrived at {self.sim_format_time(self.env.now)}")
-                self.env.process(self.patient_flow(patient_spent_time, patient_total_wait_time))
+                yield self.env.process(self.patient_flow(patient_spent_time, patient_total_wait_time))
                 
                 
      #The stages of what the patient goes through
     def patient_flow(self,patient_spent_time,patient_total_wait_time):
         arrival_time=self.env.now #Records when the patient arrives
         yield self.env.process(self.patient_request_admission(patient_total_wait_time))
-        if len(self.clerk.queue)>0:
-            next_patient = self.clerk.queue[0]
-            self.clerk.release(next_patient)
+        
         priority=yield self.env.process(self.patient_request_nurse_for_risk_assesment(patient_total_wait_time))
         #If the patient is immediate, they are assigned to a bed 
         if priority == 0:
@@ -237,14 +235,14 @@ class AnE:
 #Creates the simulation environmnment (A&E)
 env = sp.Environment()
 # Create the A&E department with resources
-a_and_e = AnE(env, num_doctors=15, num_nurses=20, num_beds=65, num_clerk=4)
-mean_interarrival_time=5
+a_and_e = AnE(env, num_doctors=15, num_nurses=1, num_beds=65, num_clerk=4)
+mean_interarrival_time=10
 env.process(a_and_e.patient_generator(mean_interarrival_time, patient_spent_time,patient_total_wait_time))
 
-env.run(until= 500)
+env.run(until= 500) #This runs for 500 minutes
 until=500
-while env.peek()<until: #or len(a_and_e.bed.users)>0 or len (a_and_e.nurse.users)>0 or len(a_and_e.doctor.users)>0: # ensures there are no more events left to process
-     env.step()
+while env.peek()<until: # or len(a_and_e.bed.users)>0 or len (a_and_e.nurse.users)>0 or len(a_and_e.doctor.users)>0: # ensures there are no more events left to process
+     env.run()
 
 #This to test if the  last patient has been processed fully 
 print(f"Last patient {a_and_e.patient_id} left at {a_and_e.sim_format_time(env.now)}")
