@@ -15,31 +15,32 @@ class AnE:
         self.nurse = sp.PriorityResource(env, num_nurses)
         self.bed = sp.Resource(env, num_beds)
         self.clerk = sp.Resource(env, num_clerk) 
+        self.patient_id=0
 
     
 
     
     #patient is the process
     def patient_generator(self, mean_interarrival_time, patient_spent_time, patient_total_wait_time):
-        patient_id=0
+        
         while True:
-                patient_id+=1
+                self.patient_id+=1
                 interarrival_time= np.random.exponential(mean_interarrival_time)
                 yield self.env.timeout(interarrival_time) 
                 print(f"Patient arrived at {self.env.now}")
-                self.env.process(self.patient_flow(patient_id,patient_spent_time, patient_total_wait_time))
+                self.env.process(self.patient_flow(patient_spent_time, patient_total_wait_time))
                 
      #The stages of what the patient goes through
-    def patient_flow(self, patient_id,patient_spent_time,patient_total_wait_time):
+    def patient_flow(self,patient_spent_time,patient_total_wait_time):
         arrival_time=self.env.now #Records when the patient arrives
         yield self.env.process(self.patient_request_admission(patient_total_wait_time))
-        priority=yield self.env.process(self.patient_request_nurse_for_risk_assesment( patient_id,patient_total_wait_time))
-        yield self.env.process(self.patient_request_doctor_for_doctor_consultation(patient_id,priority,patient_total_wait_time))
+        priority=yield self.env.process(self.patient_request_nurse_for_risk_assesment(patient_total_wait_time))
+        yield self.env.process(self.patient_request_doctor_for_doctor_consultation(priority,patient_total_wait_time))
         
         total_time_patient_spent = self.env.now - arrival_time
         patient_spent_time.append(total_time_patient_spent)
 
-        print(f"Patient {patient_id} has left the A&E at {self.env.now}")
+        print(f"Patient {self.patient_id} has left the A&E at {self.env.now}")
     
     def patient_request_admission(self,patient_total_wait_time):
          arrival_time = self.env.now
@@ -71,7 +72,7 @@ class AnE:
 
 
     
-    def patient_request_nurse_for_risk_assesment (self,patient_id,patient_total_wait_time):
+    def patient_request_nurse_for_risk_assesment (self,patient_total_wait_time):
             arrival_time= self.env.now
             #trying to make it  based on patient piriority 
             #Request a nurse for risk assessment
@@ -80,9 +81,9 @@ class AnE:
             wait_time = self.env.now - arrival_time
             patient_total_wait_time.append(wait_time)
             (wait_time)
-            print(f"Nurse assigned to patient {patient_id} at {self.env.now}")
+            print(f"Nurse assigned to patient {self.patient_id} at {self.env.now}")
             triage_category, priority = self.triage_manchester()
-            print(f"Patient {patient_id} triaged as {triage_category} priority")
+            print(f"Patient {self.patient_id} triaged as {triage_category} priority")
 
 
             #Simulate the risk assesment process time
@@ -93,69 +94,69 @@ class AnE:
             return priority
 
 
-    def patient_request_doctor_for_doctor_consultation(self,patient_id,priority,patient_total_wait_time):
+    def patient_request_doctor_for_doctor_consultation(self,priority,patient_total_wait_time):
          arrival_time = self.env.now
          #Request a doctor for consulation
          req = self.doctor.request(priority= priority)
          yield req # Wait for the doctor to be avavaible 
          wait_time = self.env.now - arrival_time
          patient_total_wait_time.append(wait_time)
-         print(f"Doctor assigned to patient {patient_id} at {self.env.now}")
+         print(f"Doctor assigned to patient {self.patient_id} at {self.env.now}")
         
          #Stimulate the doctor consultation process 
          yield self.env.timeout(random.randint(1,5))
          print(f"Doctor Consultation completed at {self.env.now}")
          decision =random.uniform(0,1)
          if decision <0.5:
-                print(f"Patient {patient_id} is discharged at {self.env.now}")
+                print(f"Patient {self.patient_id} is discharged at {self.env.now}")
          elif decision<0.9:
-              yield self.env.process(self.patient_request_tests(patient_id,priority,patient_total_wait_time))
+              yield self.env.process(self.patient_request_tests(priority,patient_total_wait_time))
          else:
-              yield self.env.process(self.patient_request_medication(patient_id,priority,patient_total_wait_time))
+              yield self.env.process(self.patient_request_medication(priority,patient_total_wait_time))
          #Release the doctor
          self.doctor.release(req)
          print(f"Doctor released at {self.env.now}")
      
-    def patient_request_tests(self,patient_id,priority, patient_total_wait_time):
+    def patient_request_tests(self,priority, patient_total_wait_time):
      arrival_time = self.env.now
      req = self.nurse.request()
      yield req
      wait_time = self.env.now - arrival_time
      patient_total_wait_time.append(wait_time)
-     print(f"Nurse assigned to patient {patient_id} at {self.env.now}")
+     print(f"Nurse assigned to patient {self.patient_id} at {self.env.now}")
      yield self.env.timeout(random.randint(1,5))
-     print(f" {patient_id} 's tests completed at {self.env.now} ")
+     print(f" {self.patient_id} 's tests completed at {self.env.now} ")
      self.nurse.release(req)
      print(f"Nurse released at {self.env.now}")
-     yield self.env.process(self.patient_request_doctor_follow_up(patient_id,priority,patient_total_wait_time))
+     yield self.env.process(self.patient_request_doctor_follow_up(priority,patient_total_wait_time))
 
      
 
-    def patient_request_medication(self,patient_id,priority,patient_total_wait_time):
+    def patient_request_medication(self,priority,patient_total_wait_time):
         arrival_time = self.env.now
         req = self.nurse.request(priority= priority )
         yield req
         wait_time = self.env.now - arrival_time
         patient_total_wait_time.append(wait_time)
-        print(f"Nurse assigned to patient {patient_id} at {self.env.now}")
+        print(f"Nurse assigned to patient {self.patient_id} at {self.env.now}")
         yield self.env.timeout(random.randint(1,5))
-        print(f" {patient_id} 's medication completed at {self.env.now} ")
+        print(f" {self.patient_id} 's medication completed at {self.env.now} ")
         self.nurse.release(req)
         print(f"Nurse released at {self.env.now}")
-        yield self.env.process(self.patient_request_doctor_follow_up(patient_id,priority,patient_total_wait_time))
+        yield self.env.process(self.patient_request_doctor_follow_up(priority,patient_total_wait_time))
 
 
-    def patient_request_doctor_follow_up(self,patient_id,priority,patient_total_wait_time):
+    def patient_request_doctor_follow_up(self,priority,patient_total_wait_time):
         arrival_time = self.env.now
         req= self.doctor.request(priority= priority)
         yield req
         wait_time = self.env.now - arrival_time
         patient_total_wait_time.append(wait_time)
-        print(f"Doctor assigned to patient {patient_id} at {self.env.now} for a follow up")
+        print(f"Doctor assigned to patient {self.patient_id} at {self.env.now} for a follow up")
         yield self.env.timeout(random.randint(1,5))
         print(f"Doctor follow up completed at {self.env.now}")
 
-        print(f"Patient {patient_id} has left the A&E at {self.env.now}") 
+        print(f"Patient {self.patient_id} has left the A&E at {self.env.now}") 
         self.doctor.release(req)
         print(f"Doctor released at {self.env.now}")
 
@@ -182,9 +183,9 @@ else:
     # print("No waiting times recorded") Testing
      average_waited_time = 0
 
-if a_and_e.patient_generator.patient_id>0:
-     overall_average_time = sum(patient_total_wait_time) /  a_and_e.patient_generator.patient_id
-    # print(f"The overall average time is {overall_average_time} for all the patients") Testing
+if a_and_e.patient_id>0:
+     overall_average_time = sum(patient_total_wait_time) /  a_and_e.patient_id
+     print(f"The overall average time is {overall_average_time} for all the patients") #Testing
 else:
-        #Testing print("No patient count recorded")
+        ("No patient count recorded")
         overall_average_time = 0
