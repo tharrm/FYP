@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 
 patient_total_wait_time = [] #List all the wait times for patients
 patient_spent_time=[]# List the time the patient spent in the A&E
+patient_LOS=[] # Length of stay for the patient if they are admitted to a bed
 
 
 #Creates the simulation environment 
@@ -46,8 +47,13 @@ class AnE:
     def patient_flow(self,patient_spent_time,patient_total_wait_time):
         arrival_time=self.env.now #Records when the patient arrives
         yield self.env.process(self.patient_request_admission(patient_total_wait_time))
-        priority=yield self.env.process(self.patient_request_nurse_for_risk_assesment(patient_total_wait_time))
-        yield self.env.process(self.patient_request_doctor_for_doctor_consultation(priority,patient_total_wait_time))
+        traige_category,priority=yield self.env.process(self.patient_request_nurse_for_risk_assesment(patient_total_wait_time))
+        
+        if traige_category == "Red (Immediate)":
+             print(f"Patient {self.patient_id} is immediate. Assigning a bed at {self.sim_format_time(self.env.now)}")
+             yield self.env.process(self.patient_request_bed(patient_total_wait_time))
+        else:
+             yield self.env.process(self.patient_request_doctor_for_doctor_consultation(priority,patient_total_wait_time))
         
         total_time_patient_spent = self.env.now - arrival_time
         patient_spent_time.append(total_time_patient_spent)
@@ -104,6 +110,22 @@ class AnE:
             self.nurse.release(req)
             print(f"Nurse released at {self.sim_format_time(self.env.now)}")
             return priority
+    def patient_request_bed(self,patient_total_wait_time):
+        arrival_time= self.env.now 
+        #Request a bed for the patient
+        req= self.bed.request()
+        yield req # Waiit for a bed
+        wait_time = self.env.now - arrival_time
+        patient_total_wait_time.append(wait_time)
+        print(f"Bed assigned to patient {self.patient_id} at {self.sim_format_time(self.env.now)}")
+
+        #Stimulate the length of stay (LOS) in the bed
+        los = random.randint(30,120)
+        yield self.env.timeout(los)
+        print(f"Patient {self.patient_id} has left the bed at {self.sim_format_time(self.env.now)}")
+        self.bed.release(req)
+        
+        patient_LOS.append(los)
 
 
     def patient_request_doctor_for_doctor_consultation(self,priority,patient_total_wait_time):
@@ -173,17 +195,13 @@ class AnE:
         print(f"Doctor released at {self.sim_format_time(self.env.now)}")
 
         
-
-
-
-
 #Creates the simulation environmnment (A&E)
 env = sp.Environment()
 # Create the A&E department with resources
-a_and_e = AnE(env, num_doctors=9, num_nurses=20, num_beds=5, num_clerk=1)
+a_and_e = AnE(env, num_doctors=15, num_nurses=20, num_beds=65, num_clerk=3)
 mean_interarrival_time=3
 env.process(a_and_e.patient_generator(mean_interarrival_time, patient_spent_time,patient_total_wait_time))
-until= 200
+until= 5000
 while env.peek()<until: # ensures there are no more events left to process
      env.step()
 
