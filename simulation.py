@@ -335,7 +335,7 @@ if a_and_e.patient_id>0:
 else:
         ("No patient count recorded")
         overall_average_time = 0
-print(a_and_e.track_bed_usage)
+#print(a_and_e.track_bed_usage) Testing 
 times,bed_count = zip(*a_and_e.track_bed_usage) # This  unpacks into two lists time and bed count 
 
 #This graph is for bed occupancy over time 
@@ -346,4 +346,32 @@ plt.title("Bed Occupancy Over Time")
 plt.grid()
 plt.xlim(0,until)
 plt.ylim(0,a_and_e.bed.capacity)
+plt.show()
+
+#This graph is for the time pateints spent in the AnE
+plt.boxplot(patient_spent_time, vert=False, patch_artist = True, boxprops=dict(facecolor="red"))
+plt.title("Time Patients Spent in A&E")
+plt.xlabel("Time Patient Spent in A&E (minutes)")
+plt.grid()
+plt.show()
+
+number_of_bins = int(np.sqrt(len(a_and_e.patient_total_wait_time)))
+#This graph is for the average waiting time for patients
+
+plt.hist(a_and_e.patient_total_wait_time, bins=number_of_bins, color="blue", edgecolor="black")
+plt.title("Wait Time for Patients")
+plt.xlabel("Wait Time (minutes)")
+plt.ylabel("Frequency")
+plt.grid()
+plt.xlim(0,until)
+plt.show()
+
+
+
+
+plt.boxplot(a_and_e.patient_total_wait_time , vert=False, patch_artist=True, boxprops=dict(facecolor="blue"))
+plt.title("Wait Time for Patients")
+plt.xlabel("Wait Time (minutes)")
+plt.xlim(0,until)
+plt.grid()
 plt.show()
