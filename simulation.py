@@ -43,9 +43,12 @@ class AnE:
         while True:
                 interarrival_time= np.random.exponential(mean_interarrival_time)
                 yield self.env.timeout(interarrival_time) 
-                self.patient_id+=1
-                print(f"Patient {self.patient_id} arrived at {self.sim_format_time(self.env.now)}")
-                yield self.env.process(self.patient_flow(patient_spent_time))
+                
+                number_of_patients_arrival = max(1,np.random.poisson(1.5))
+                for _ in range(number_of_patients_arrival):
+                    self.patient_id+=1
+                    print(f"Patient {self.patient_id} arrived at {self.sim_format_time(self.env.now)}")
+                    self.env.process(self.patient_flow(patient_spent_time))
                 
      #The stages of what the patient goes through
     def patient_flow(self,patient_spent_time):
@@ -277,8 +280,8 @@ a_and_e = AnE(env, num_doctors=15, num_nurses=1, num_beds=65, num_clerk=4)
 mean_interarrival_time=3
 env.process(a_and_e.patient_generator(mean_interarrival_time, patient_spent_time))
 
-env.run(until= 5000) #This runs for 5000 minutes
-until=5000
+env.run(until= 200) #This runs for 5000 minutes
+until=200
 
 while any( resource.users for resource in [a_and_e.doctor, a_and_e.nurse, a_and_e.bed, a_and_e.clerk]):
     env.step()
@@ -303,6 +306,22 @@ for resource in [a_and_e.doctor, a_and_e.nurse, a_and_e.bed, a_and_e.clerk]:
 #####################################################
 #This calculates the average waiting time for patients who had to wait
 print(a_and_e.patient_total_wait_time)
+
+average_wait_time = sum(a_and_e.patient_total_wait_time) / len(a_and_e.patient_total_wait_time)
+
+hours = int(average_wait_time // 60)
+minutes = int(average_wait_time % 60)
+print(f"The average wait time is {hours} hours and {minutes} minutes for the patients who waited")
+
+
+
+
+
+
+
+
+
+
 
 if len(a_and_e.patient_total_wait_time) > 0:
     average_waited_time = sum(a_and_e.patient_total_wait_time) / len(a_and_e.patient_total_wait_time)
