@@ -22,6 +22,7 @@ class AnE:
         self.track_bed_usage = [] # This tracks occupied bed over time 
         self.last_patient_time=0
         self.patient_total_wait_time = [] #List all the wait times for patients
+        self.occupied_beds = 0 #Will increment and decrement 
 
 
 
@@ -93,9 +94,9 @@ class AnE:
     
     def triage_manchester(self):
         patient_urgency= {
-                        "Red (Immediate)": (5,0), # 5% chance of being immediate with 0 being the highest prirority
+                        "Red (Immediate)": (35,0), # 5% chance of being immediate with 0 being the highest prirority
                         "Orange (Very Urgent)": (10,1), # 10% chance of being very urgent
-                        "Yellow (Urgent)": (35,2), #35% chance of being urgent
+                        "Yellow (Urgent)": (5,2), #35% chance of being urgent
                         "Green (Standard)": (30,3), #30% chance of being standard
                         "Blue (Non-Urgent)": (20,4) #20% chance of being non-urgent
                     }
@@ -147,8 +148,7 @@ class AnE:
         self.doctor.release(req)
 
     def update_bed_occupancy(self):
-        occupied_beds = self.bed.users
-        self.track_bed_usage.append((self.env.now,occupied_beds))
+        self.track_bed_usage.append((self.env.now,self.occupied_beds))
 
 
     def patient_request_bed(self):
@@ -157,7 +157,7 @@ class AnE:
         #Request a bed for the patient
         req= self.bed.request()
         yield req # Waiit for a bed
-        
+        self.occupied_beds += 1
         wait_time = self.env.now - arrival_time
         if wait_time > 0:
             self.patient_total_wait_time.append(wait_time)
@@ -167,14 +167,17 @@ class AnE:
 
         #occupied_beds = self.bed.capacity - len(self.bed.queue)
         #self.track_bed_usage.append((self.env.now,occupied_beds))
-        self.update_bed_occupancy()
         
         #Stimulate the length of stay (LOS) in the bed
         los = random.randint(30,120)
         yield self.env.timeout(los)
         self.update_last_patient_time()
         print(f"Patient {self.patient_id} has left the bed at {self.sim_format_time(self.env.now)}")
+
+        self.occupied_beds-= 1
         self.bed.release(req)
+        self.update_bed_occupancy()
+
         
         #This tracks when the user leaves the bed 
         #occupied_beds = self.bed.capacity - len(self.bed.queue)
@@ -283,8 +286,8 @@ env.process(a_and_e.patient_generator(mean_interarrival_time, patient_spent_time
 env.run(until= 200) #This runs for 5000 minutes
 until=200
 
-while any( resource.users for resource in [a_and_e.doctor, a_and_e.nurse, a_and_e.bed, a_and_e.clerk]):
-    env.step()
+#while any( resource.users for resource in [a_and_e.doctor, a_and_e.nurse, a_and_e.bed, a_and_e.clerk]):
+    #env.step()
 #while env.peek() < float("inf") and any(resource.users for resource in [a_and_e.doctor, a_and_e.nurse, a_and_e.clerk, a_and_e.bed]):
      #env.step()
 #This to test if the  last patient has been processed fully 
@@ -293,25 +296,21 @@ print(f"Total patients seen: {a_and_e.patient_id}")
 
 ######################################################
 #Debugging purposes checking unfinished patients
-
-print("Checking for unfished patients")
-
-for resource in [a_and_e.doctor, a_and_e.nurse, a_and_e.bed, a_and_e.clerk]:
-    if resource.users:
-         print (f"Resource {resource} has unfinished patients  {[user for user in resource.users]}")
-    else:
-        print(f"Resource {resource} has no unfinished patients")
-
-
+#print("Checking for unfished patients")
+#for resource in [a_and_e.doctor, a_and_e.nurse, a_and_e.bed, a_and_e.clerk]:
+    #if resource.users:
+    #     print (f"Resource {resource} has unfinished patients  {[user for user in resource.users]}")
+    #else:
+    #    print(f"Resource {resource} has no unfinished patients")
 #####################################################
 #This calculates the average waiting time for patients who had to wait
-print(a_and_e.patient_total_wait_time)
+#print(a_and_e.patient_total_wait_time) Testing 
 
 average_wait_time = sum(a_and_e.patient_total_wait_time) / len(a_and_e.patient_total_wait_time)
 
 hours = int(average_wait_time // 60)
 minutes = int(average_wait_time % 60)
-print(f"The average wait time is {hours} hours and {minutes} minutes for the patients who waited")
+print(f"The average wait time is {hours} hours and {minutes} minutes")
 
 
 
@@ -336,13 +335,15 @@ if a_and_e.patient_id>0:
 else:
         ("No patient count recorded")
         overall_average_time = 0
-
-#times,bed_count = zip(*a_and_e.track_bed_usage) # This  unpacks into two lists time and bed count 
+print(a_and_e.track_bed_usage)
+times,bed_count = zip(*a_and_e.track_bed_usage) # This  unpacks into two lists time and bed count 
 
 #This graph is for bed occupancy over time 
-#plt.scatter(times, bed_count, marker="x", color="red")
-#plt.xlabel("Simulation Time in minutes")
-#plt.ylabel("Occupied Beds")
-#plt.title("Bed Occupancy Over Time")
-#plt.grid()
-#plt.show()
+plt.scatter(times, bed_count, marker="x", color="red")
+plt.xlabel("Simulation Time in minutes")
+plt.ylabel("Occupied Beds")
+plt.title("Bed Occupancy Over Time")
+plt.grid()
+plt.xlim(0,until)
+plt.ylim(0,a_and_e.bed.capacity)
+plt.show()
