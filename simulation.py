@@ -18,11 +18,46 @@ class AnE:
         self.bed = sp.Resource(env, num_beds)
         self.clerk = sp.Resource(env, num_clerk) 
         self.patient_id=0
-        self.start_time = datetime(2025,3,15,8,0)
-        self.track_bed_usage = [] # This tracks occupied bed over time 
-        self.last_patient_time=0
-        self.patient_total_wait_time = [] #List all the wait times for patients
         self.occupied_beds = 0 #Will increment and decrement 
+        self.last_patient_time=0
+
+        self.start_time = datetime(2025,3,15,8,0)
+       
+        self.track_bed_usage = [] # This tracks occupied bed over time 
+       
+        self.patient_who_waited = [] #List all the wait times for patients who waited
+        self.patient_total_wait_time = [] # Total wait times for all the pateints
+        
+        #This tracks the waiting time for the resources
+        self.track_waiting_time_for_clerk = []
+        self.track_waiting_time_for_nurse = []
+        self.track_waiting_time_for_doctor = []
+        self.track_waiting_time_for_bed = []
+        
+        #This tracks the  time it for the stages of the patient flow - to identify bottlenecks 
+        self.track_time_admission = []
+        self.track_time_risk_assessment = []
+        self.track_time_doctor_consultation = []
+        self.track_time_tests = []
+        self.track_time_medication = []
+        self.track_time_for_follow_up = []
+        self.track_waiting_time_for_discharge = []
+
+
+    # This tracks the number of patients in different stages of the process 
+        self.num_patient_discharged = 0
+        self.num_patient_requires_tests= 0
+        self.num_patient_requires_medication = 0
+        self.num_patient_requires_bed = 0 
+        
+        #This tracks the number of patients in the traige categories 
+        self.num_patient_immediate = 0
+        self.num_patient_very_urgent = 0
+        self.num_patient_urgent = 0
+        self.num_patient_standard = 0
+        self.num_patient_non_urgent = 0
+
+        
 
 
 
@@ -81,7 +116,13 @@ class AnE:
          
          wait_time = self.env.now - arrival_time
          if wait_time > 0:
-            self.patient_total_wait_time.append(wait_time)
+             self.track_waiting_time_for_clerk.append(wait_time)
+
+         self.patient_total_wait_time.append(wait_time)
+         if wait_time > 0:
+            self.patient_who_waited.append(wait_time)
+      
+
          print(f"Patient {self.patient_id} was assigned a Clerk at {self.sim_format_time(self.env.now)}")
 
          #Stimulate the admission process
@@ -116,8 +157,13 @@ class AnE:
             yield req # Wait for the nurse to be availale
             
             wait_time = self.env.now - arrival_time
+           
+            self.patient_total_wait_time.append(wait_time)
             if wait_time > 0:
-                self.patient_total_wait_time.append(wait_time)
+                self.patient_who_waited.append(wait_time)
+                self.track_waiting_time_for_nurse.append(wait_time)
+
+
            
             print(f"Patient {self.patient_id} was assigned a nurse at at {self.sim_format_time(self.env.now)}")
             triage_category, priority = self.triage_manchester()
@@ -139,8 +185,11 @@ class AnE:
         yield req # Wait for the doctor to be avaiable
         
         wait_time = self.env.now - arrival_time
+        self.patient_total_wait_time.append(wait_time)
         if wait_time > 0:
-            self.patient_total_wait_time.append(wait_time)
+            self.patient_who_waited.append(wait_time)
+            self.track_waiting_time_for_doctor.append(wait_time)
+        
         
         print(f"Patient {self.patient_id} was assigned a Doctor assigned at {self.sim_format_time(self.env.now)}")
         yield self.env.timeout(random.randint(1,5))
@@ -159,8 +208,11 @@ class AnE:
         yield req # Waiit for a bed
         self.occupied_beds += 1
         wait_time = self.env.now - arrival_time
+        self.patient_total_wait_time.append(wait_time)
         if wait_time > 0:
-            self.patient_total_wait_time.append(wait_time)
+            self.patient_who_waited.append(wait_time)
+            self.track_waiting_time_for_bed.append(wait_time)
+
         print(f"Patient {self.patient_id} was  assigned to a bed at {self.sim_format_time(self.env.now)}")
         
         yield self.env.process(self.patient_gets_doctor())              
@@ -193,9 +245,14 @@ class AnE:
             #Request a doctor for consulation
             req = self.doctor.request(priority= priority)
             yield req # Wait for the doctor to be avavaible 
+
             wait_time = self.env.now - arrival_time
+            self.patient_total_wait_time.append(wait_time)
             if wait_time > 0:
-                self.patient_total_wait_time.append(wait_time)
+                self.patient_who_waited.append(wait_time)
+                self.track_waiting_time_for_doctor.append(wait_time)
+          
+
             print(f"Patient {self.patient_id} was assigned to a Doctor {self.patient_id} at{self.sim_format_time(self.env.now)}")
         
             #Stimulate the doctor consultation process 
@@ -228,9 +285,14 @@ class AnE:
      arrival_time = self.env.now
      req = self.nurse.request()
      yield req
+
      wait_time = self.env.now - arrival_time
+     self.patient_total_wait_time.append(wait_time)
      if wait_time > 0:
-            self.patient_total_wait_time.append(wait_time)
+            self.patient_who_waited.append(wait_time)
+            self.track_waiting_time_for_nurse.append(wait_time)
+
+    
      print(f"Patient {self.patient_id} was assigned to a Nurse at {self.sim_format_time(self.env.now)}")
      yield self.env.timeout(random.randint(1,5))
      print(f"Patient {self.patient_id} 's tests completed at {self.sim_format_time(self.env.now)}")
@@ -244,9 +306,13 @@ class AnE:
         arrival_time = self.env.now
         req = self.nurse.request(priority= priority )
         yield req
+        
         wait_time = self.env.now - arrival_time
+        self.patient_total_wait_time.append(wait_time)
         if wait_time > 0:
-            self.patient_total_wait_time.append(wait_time)
+            self.patient_who_waited.append(wait_time)
+            self.track_waiting_time_for_nurse.append(wait_time)
+
         print(f"Patient {self.patient_id} was assigned to a Nurse at {self.sim_format_time(self.env.now)}")
         yield self.env.timeout(random.randint(1,5))
         print(f"Patient {self.patient_id}'s medication completed at {self.sim_format_time(self.env.now)}")
@@ -262,8 +328,10 @@ class AnE:
         yield req
         
         wait_time = self.env.now - arrival_time
+        self.patient_total_wait_time.append(wait_time)
         if wait_time > 0:
-            self.patient_total_wait_time.append(wait_time)
+            self.patient_who_waited.append(wait_time)
+            self.track_waiting_time_for_doctor.append(wait_time)
         
         print(f"Patient {self.patient_id} was assigned to a Doctor for a follow up at {self.sim_format_time(self.env.now)}")
         yield self.env.timeout(random.randint(1,5))
@@ -279,7 +347,7 @@ class AnE:
 #Creates the simulation environmnment (A&E)
 env = sp.Environment()
 # Create the A&E department with resources
-a_and_e = AnE(env, num_doctors=15, num_nurses=1, num_beds=65, num_clerk=4)
+a_and_e = AnE(env, num_doctors=1, num_nurses=1, num_beds=5, num_clerk=4)
 mean_interarrival_time=3
 env.process(a_and_e.patient_generator(mean_interarrival_time, patient_spent_time))
 
@@ -306,35 +374,22 @@ print(f"Total patients seen: {a_and_e.patient_id}")
 #This calculates the average waiting time for patients who had to wait
 #print(a_and_e.patient_total_wait_time) Testing 
 
-average_wait_time = sum(a_and_e.patient_total_wait_time) / len(a_and_e.patient_total_wait_time)
+average_wait_time = sum(a_and_e.patient_who_waited) / len(a_and_e.patient_who_waited)
 
 hours = int(average_wait_time // 60)
 minutes = int(average_wait_time % 60)
-print(f"The average wait time is {hours} hours and {minutes} minutes")
+print(f"The average for patients who had to had wait time is {hours} hours and {minutes} minutes")
 
 
+#This calculates the overall average wait time even with pateints who did not wait 
+overall_average_time = sum(a_and_e.patient_total_wait_time) / len (a_and_e.patient_total_wait_time)
+
+hours1= int(overall_average_time // 60)
+minutes1= int(overall_average_time % 60)
+
+print(f"The average  for the overall wait time is (pateints who also did not need to wait) {hours1} hours and {minutes1} minutes")
 
 
-
-
-
-
-
-
-
-if len(a_and_e.patient_total_wait_time) > 0:
-    average_waited_time = sum(a_and_e.patient_total_wait_time) / len(a_and_e.patient_total_wait_time)
-    print(f"The average wait time is  { a_and_e.format_in_hours_and_minutes(average_waited_time)} for the pateints who waited")# Testing
-else:
-    # print("No waiting times recorded") Testing
-     average_waited_time = 0
-
-if a_and_e.patient_id>0:
-     overall_average_time = sum(a_and_e.patient_total_wait_time) /  a_and_e.patient_id
-     print(f"The overall average time is { a_and_e.format_in_hours_and_minutes(overall_average_time)} for all the patients") #Testing
-else:
-        ("No patient count recorded")
-        overall_average_time = 0
 #print(a_and_e.track_bed_usage) Testing 
 times,bed_count = zip(*a_and_e.track_bed_usage) # This  unpacks into two lists time and bed count 
 
@@ -355,10 +410,10 @@ plt.xlabel("Time Patient Spent in A&E (minutes)")
 plt.grid()
 plt.show()
 
-number_of_bins = int(np.sqrt(len(a_and_e.patient_total_wait_time)))
+number_of_bins = int(np.sqrt(len(a_and_e.patient_who_waited)))
 #This graph is for the average waiting time for patients
 
-plt.hist(a_and_e.patient_total_wait_time, bins=number_of_bins, color="blue", edgecolor="black")
+plt.hist(a_and_e.patient_who_waited, bins=number_of_bins, color="blue", edgecolor="black")
 plt.title("Wait Time for Patients")
 plt.xlabel("Wait Time (minutes)")
 plt.ylabel("Frequency")
@@ -368,10 +423,36 @@ plt.show()
 
 
 
-
-plt.boxplot(a_and_e.patient_total_wait_time , vert=False, patch_artist=True, boxprops=dict(facecolor="blue"))
+plt.boxplot(a_and_e.patient_who_waited , vert=False, patch_artist=True, boxprops=dict(facecolor="blue"))
 plt.title("Wait Time for Patients")
 plt.xlabel("Wait Time (minutes)")
 plt.xlim(0,until)
 plt.grid()
 plt.show()
+
+#Wait times for the resources 
+average_resource_wait_time = [ np.mean(a_and_e.track_waiting_time_for_clerk),
+                               np.mean(a_and_e.track_waiting_time_for_nurse),
+                               np.mean(a_and_e.track_waiting_time_for_doctor),
+                               np.mean(a_and_e.track_waiting_time_for_bed)
+                              ]
+resource_names = ["Clerk", "Nurse", "Doctor", "Bed"]
+plt.bar(resource_names, average_resource_wait_time, color = "green" )
+plt.title("Average Wait Time for Resoruces")
+plt.xlabel("Resources")
+plt.ylabel("Average Wait Time Minutes")
+plt.grid(axis="y")
+plt.show()
+
+resource_wait_time = [ sum(a_and_e.track_waiting_time_for_clerk),
+                      sum(a_and_e.track_waiting_time_for_nurse),
+                      sum(a_and_e.track_waiting_time_for_doctor),
+                      sum(a_and_e.track_waiting_time_for_bed)
+                 ]   
+
+plt.bar(resource_names, resource_wait_time, color = "green" )
+plt.title(" Wait Time for Resources")
+plt.xlabel("Resources")
+plt.ylabel("Wait Time (Minutes)")
+plt.grid(axis="y")
+plt.show()    
