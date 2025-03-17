@@ -41,7 +41,7 @@ class AnE:
         self.track_time_tests = []
         self.track_time_medication = []
         self.track_time_for_follow_up = []
-        self.track_waiting_time_for_discharge = []
+        self.track_time_for_discharge = []
 
 
     # This tracks the number of patients in different stages of the process 
@@ -95,11 +95,22 @@ class AnE:
         
         #If the patient is immediate, they are assigned to a bed 
         if priority == 0:
+             self.num_patient_immediate += 1
              print(f"Patient {self.patient_id} is immediate. Assigning a bed at {self.sim_format_time(self.env.now)}")
              yield self.env.process(self.patient_request_bed())
              yield self.env.process(self.patient_request_doctor_follow_up(priority))
 
         else:
+             if priority == 1:
+                 self.num_patient_very_urgent +=1
+             elif priority == 2:
+                self.num_patient_urgent +=1
+             elif priority == 3:
+                 self.num_patient_standard +=1
+             else:
+                    self.num_patient_non_urgent +=1
+
+
              yield self.env.process(self.patient_request_doctor_for_doctor_consultation(priority))
         
         total_time_patient_spent = self.env.now - arrival_time
@@ -127,7 +138,11 @@ class AnE:
 
          #Stimulate the admission process
          yield self.env.timeout(random.randint(1,5))
+         finish_time = self.env.now
+         duration = finish_time - arrival_time
+         self.track_time_admission.append(duration)
          print(f"Patient {self.patient_id}'s admission completed at {self.sim_format_time(self.env.now)}")
+         
          #aRelease the clerk
          self.clerk.release(req)
          print(f"Patient {self.patient_id}'s clerk released at {self.sim_format_time(self.env.now)}")
@@ -172,6 +187,9 @@ class AnE:
 
             #Simulate the risk assesment process time
             yield self.env.timeout(random.randint(1,5))
+            finish_time = self.env.now
+            duration = finish_time - arrival_time
+            self.track_time_risk_assessment.append(duration)
             #Release the nurse
             self.nurse.release(req)
             print(f"Patient {self.patient_id}'s nurse  was released at {self.sim_format_time(self.env.now)}")
@@ -193,8 +211,13 @@ class AnE:
         
         print(f"Patient {self.patient_id} was assigned a Doctor assigned at {self.sim_format_time(self.env.now)}")
         yield self.env.timeout(random.randint(1,5))
+        finish_time = self.env.now
+        duration = finish_time - arrival_time
+        self.track_time_doctor_consultation.append(duration)
+        
         print(f"Patient {self.patient_id}'s treatment completed at {self.sim_format_time(self.env.now)}")
         self.doctor.release(req)
+
 
     def update_bed_occupancy(self):
         self.track_bed_usage.append((self.env.now,self.occupied_beds))
@@ -202,6 +225,7 @@ class AnE:
 
     def patient_request_bed(self):
         arrival_time= self.env.now 
+        self.num_patient_requires_bed += 1
        
         #Request a bed for the patient
         req= self.bed.request()
@@ -258,15 +282,21 @@ class AnE:
             #Stimulate the doctor consultation process 
             yield self.env.timeout(random.randint(1,5))
             print(f"Patient {self.patient_id}'s Doctor Consultation was completed at {self.sim_format_time(self.env.now)}")
+            finish_time = self.env.now
+            duration = finish_time - arrival_time
+            self.track_time_doctor_consultation.append(duration)
             decision =random.uniform(0,1)
             
             if decision <0.5:
                 self.update_last_patient_time()
                 print(f"Patient {self.patient_id} is discharged at {self.sim_format_time(self.env.now)}")
+                self.num_patient_discharged += 1
+
                  #Release the doctor
                 self.doctor.release(req)
                 print(f"Patient {self.patient_id}'s Doctor released at {self.sim_format_time(self.env.now)}")
             elif decision<0.9:
+               self.num_patient_requires_tests += 1
                print(f"Patient {self.patient_id} needs to do tests")
                #Release the doctor
                self.doctor.release(req)
@@ -274,6 +304,7 @@ class AnE:
                yield self.env.process(self.patient_request_tests(priority))
               
             else:
+              self.num_patient_requires_medication += 1
               print(f"Patient {self.patient_id} needs to take medication")
               #Release the doctor
               self.doctor.release(req)
@@ -295,6 +326,11 @@ class AnE:
     
      print(f"Patient {self.patient_id} was assigned to a Nurse at {self.sim_format_time(self.env.now)}")
      yield self.env.timeout(random.randint(1,5))
+     
+     finish_time = self.env.now
+     duration = finish_time - arrival_time
+     self.track_time_tests.append(duration)
+    
      print(f"Patient {self.patient_id} 's tests completed at {self.sim_format_time(self.env.now)}")
      self.nurse.release(req)
      print(f"Patient {self.patient_id}'s Nurse released at {self.sim_format_time(self.env.now)}")
@@ -315,6 +351,11 @@ class AnE:
 
         print(f"Patient {self.patient_id} was assigned to a Nurse at {self.sim_format_time(self.env.now)}")
         yield self.env.timeout(random.randint(1,5))
+        
+        finish_time = self.env.now
+        duration = finish_time - arrival_time
+        self.track_time_medication.append(duration)
+
         print(f"Patient {self.patient_id}'s medication completed at {self.sim_format_time(self.env.now)}")
         self.nurse.release(req)
         print(f"Patient {self.patient_id}'s Nurse released at {self.sim_format_time(self.env.now)}")
@@ -335,8 +376,13 @@ class AnE:
         
         print(f"Patient {self.patient_id} was assigned to a Doctor for a follow up at {self.sim_format_time(self.env.now)}")
         yield self.env.timeout(random.randint(1,5))
+
+        finish_time = self.env.now
+        duration = finish_time - arrival_time
+        self.track_time_for_follow_up.append(duration)
+
         print(f"Patient {self.patient_id}'s Doctor follow up completed at {self.sim_format_time(self.env.now)}")
-        
+    
         self.update_last_patient_time()
         print(f"Patient {self.patient_id} has left the A&E at {self.sim_format_time(self.env.now)}") 
         
@@ -430,7 +476,7 @@ plt.xlim(0,until)
 plt.grid()
 plt.show()
 
-#Wait times for the resources 
+# Average wait times for the resources 
 average_resource_wait_time = [ np.mean(a_and_e.track_waiting_time_for_clerk),
                                np.mean(a_and_e.track_waiting_time_for_nurse),
                                np.mean(a_and_e.track_waiting_time_for_doctor),
@@ -444,6 +490,7 @@ plt.ylabel("Average Wait Time Minutes")
 plt.grid(axis="y")
 plt.show()
 
+#Total wait time for the resources
 resource_wait_time = [ sum(a_and_e.track_waiting_time_for_clerk),
                       sum(a_and_e.track_waiting_time_for_nurse),
                       sum(a_and_e.track_waiting_time_for_doctor),
@@ -456,3 +503,32 @@ plt.xlabel("Resources")
 plt.ylabel("Wait Time (Minutes)")
 plt.grid(axis="y")
 plt.show()    
+
+#Triage patients bar chart
+max_y = (a_and_e.patient_id // 10 + 1) * 10 # Rounds up to the nearest 10
+triage_categories = ["Immediate", "Very Urgent", "Urgent", "Standard", "Non-Urgent"]
+plt.bar(triage_categories, [a_and_e.num_patient_immediate, a_and_e.num_patient_very_urgent, a_and_e.num_patient_urgent, a_and_e.num_patient_standard, a_and_e.num_patient_non_urgent], color="purple")
+plt.title("Number of Patients in Triage Categories")
+plt.ylabel("Number of Patients")
+plt.xlabel("Triage Categories")
+plt.grid(axis='y')
+plt.yticks(range(0, max_y+ 1,10)) #Added +1 as rangee excludes the last number, the y scales goes up by 10
+plt.show()
+
+#Duration for the stages of the patient flow
+average_time_for_stages = [np.mean(a_and_e.track_time_admission),
+                           np.mean(a_and_e.track_time_risk_assessment),
+                           np.mean(a_and_e.track_time_doctor_consultation),
+                           np.mean(a_and_e.track_time_tests),
+                           np.mean(a_and_e.track_time_medication),
+                           np.mean(a_and_e.track_time_for_follow_up),
+                           np.mean(a_and_e.track_time_for_discharge)]
+stage_names = ["Admission", "Risk Assessment", "Doctor Consultation", "Tests", "Medication", "Follow Up", "Discharge"]
+plt.bar(stage_names, average_time_for_stages, color="orange")
+plt.title("Average Time for Stages of Patient Flow")
+plt.xlabel("Stages")
+plt.ylabel("Average Time (minutes)")
+plt.grid(axis="y")
+plt.show()
+
+#Number of patients in different stages of the process 
