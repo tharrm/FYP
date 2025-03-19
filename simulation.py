@@ -80,12 +80,14 @@ class AnE:
               self.last_patient_time = max(self.env.now, self.last_patient_time)
     
     #patient is the process
-    def patient_generator(self, mean_interarrival_time):
+    def patient_generator(self, mean_interarrival_time, finish_time):
         patient_ID = 0
         while True:
                 interarrival_time= np.random.exponential(mean_interarrival_time)
                 yield self.env.timeout(interarrival_time) 
                 
+                if self.env.now > finish_time:
+                    continue 
                 number_of_patients_arrival = max(1,np.random.poisson(1.5))
                 for _ in range(number_of_patients_arrival):
                     self.patientCount +=1 
@@ -404,10 +406,12 @@ class AnE:
         
 #Creates the simulation environmnment (A&E)
 env = sp.Environment()
+until=200
+
 # Create the A&E department with resources
 a_and_e = AnE(env, num_doctors=10, num_nurses=10, num_beds=5, num_clerk=3)
 mean_interarrival_time=3 # This lets user 
-env.process(a_and_e.patient_generator(mean_interarrival_time))
+env.process(a_and_e.patient_generator(mean_interarrival_time,until))
 
 env.run(until= 200) #This runs for 5000 minutes
 until=200
