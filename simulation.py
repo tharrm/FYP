@@ -2,6 +2,7 @@ import simpy as sp
 import random
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd 
 from datetime import datetime, timedelta
 
 
@@ -93,7 +94,8 @@ class AnE:
                     self.patientCount +=1 
                     patient_ID+=1
                     self.active_patients.add(patient_ID)
-                    print(f"Patient {patient_ID} arrived at {self.sim_format_time(self.env.now)}")
+                    with open("patient_log.txt", "a") as output:
+                        output.write(f"Patient {patient_ID} arrived at {self.sim_format_time(self.env.now)}" + '\n')
                     self.env.process(self.patient_flow(patient_ID))
                 
      #The stages of what the patient goes through
@@ -106,7 +108,8 @@ class AnE:
         #If the patient is immediate, they are assigned to a bed 
         if priority == 0:
              self.num_patient_immediate += 1
-             print(f"Patient {patient_ID} is immediate. Assigning a bed at {self.sim_format_time(self.env.now)}")
+             with open("patient_log.txt", "a") as output:
+                output.write(f"Patient {patient_ID} is immediate. Assigning a bed at {self.sim_format_time(self.env.now)}" + '\n')
              yield self.env.process(self.patient_request_bed(patient_ID,priority))
              yield self.env.process(self.patient_request_doctor_follow_up(patient_ID,priority))
 
@@ -129,7 +132,8 @@ class AnE:
 
     def patient_request_admission(self,patient_ID):
          arrival_time = self.env.now
-         print(f"Patient {patient_ID} is waiting for a clerk at {self.sim_format_time(self.env.now)}")
+         with open("patient_log.txt", "a") as output:
+            output.write(f"Patient {patient_ID} is waiting for a clerk at {self.sim_format_time(self.env.now)}"+ '\n')
          
          #Request general data in the reception 
          req = self.clerk.request()
@@ -137,25 +141,27 @@ class AnE:
          
          wait_time = self.env.now - arrival_time
          if wait_time > 0:
-             self.track_waiting_time_for_clerk.append(wait_time)
+            self.track_waiting_time_for_clerk.append(wait_time)
 
          self.patient_total_wait_time.append(wait_time)
          if wait_time > 0:
             self.patient_who_waited.append(wait_time)
       
-
-         print(f"Patient {patient_ID} was assigned a Clerk at {self.sim_format_time(self.env.now)}")
+         with open("patient_log.txt", "a") as output:
+            output.write(f"Patient {patient_ID} was assigned a Clerk at {self.sim_format_time(self.env.now)}"+ '\n')
 
          #Stimulate the admission process
          yield self.env.timeout(random.randint(1,5))
          finish_time = self.env.now
          duration = finish_time - arrival_time
          self.track_time_admission.append(duration)
-         print(f"Patient {patient_ID}'s admission completed at {self.sim_format_time(self.env.now)}")
+         with open("patient_log.txt", "a") as output:
+            output.write(f"Patient {patient_ID}'s admission completed at {self.sim_format_time(self.env.now)}"+ '\n')
          
          #aRelease the clerk
          self.clerk.release(req)
-         print(f"Patient {patient_ID}'s clerk released at {self.sim_format_time(self.env.now)}")
+         with open("patient_log.txt", "a") as output:
+            output.write(f"Patient {patient_ID}'s clerk released at {self.sim_format_time(self.env.now)}"+ '\n')
     
     
     def triage_manchester(self):
@@ -189,10 +195,11 @@ class AnE:
                 self.track_waiting_time_for_nurse.append(wait_time)
 
 
-           
-            print(f"Patient {patient_ID} was assigned a nurse at at {self.sim_format_time(self.env.now)}")
+            with open("patient_log.txt", "a") as output:
+                output.write(f"Patient {patient_ID} was assigned a nurse at at {self.sim_format_time(self.env.now)}"+ '\n')
             triage_category, priority = self.triage_manchester()
-            print(f"Patient {patient_ID} triaged as {triage_category} priority")
+            with open("patient_log.txt", "a") as output:
+                output.write(f"Patient {patient_ID} triaged as {triage_category} priority"+ '\n')
 
 
             #Simulate the risk assesment process time
@@ -202,7 +209,8 @@ class AnE:
             self.track_time_risk_assessment.append(duration)
             #Release the nurse
             self.nurse.release(req)
-            print(f"Patient {patient_ID}'s nurse  was released at {self.sim_format_time(self.env.now)}")
+            with open("patient_log.txt", "a") as output:
+                output.write(f"Patient {patient_ID}'s nurse  was released at {self.sim_format_time(self.env.now)}"+ '\n')
             return priority
     
     def patient_gets_doctor(self,patient_ID):
@@ -218,14 +226,14 @@ class AnE:
             self.patient_who_waited.append(wait_time)
             self.track_waiting_time_for_doctor.append(wait_time)
         
-        
-        print(f"Patient {patient_ID} was assigned a Doctor assigned at {self.sim_format_time(self.env.now)}")
+        with open("patient_log.txt", "a") as output:
+            output.write(f"Patient {patient_ID} was assigned a Doctor assigned at {self.sim_format_time(self.env.now)}"+ '\n')
         yield self.env.timeout(random.randint(1,5))
         finish_time = self.env.now
         duration = finish_time - arrival_time
         self.track_time_doctor_consultation.append(duration)
-        
-        print(f"Patient {patient_ID}'s treatment completed at {self.sim_format_time(self.env.now)}")
+        with open("patient_log.txt", "a") as output:
+            output.write(f"Patient {patient_ID}'s treatment completed at {self.sim_format_time(self.env.now)}"+ '\n')
         self.doctor.release(req)
 
 
@@ -246,8 +254,8 @@ class AnE:
         if wait_time > 0:
             self.patient_who_waited.append(wait_time)
             self.track_waiting_time_for_bed.append(wait_time)
-
-        print(f"Patient {patient_ID} was  assigned to a bed at {self.sim_format_time(self.env.now)}")
+        with open("patient_log.txt", "a") as output:
+            output.write(f"Patient {patient_ID} was  assigned to a bed at {self.sim_format_time(self.env.now)}"+ '\n')
         
         yield self.env.process(self.patient_gets_doctor(patient_ID))              
 
@@ -258,7 +266,8 @@ class AnE:
         los = random.randint(30,120)
         yield self.env.timeout(los)
         self.update_last_patient_time()
-        print(f"Patient {patient_ID} has left the bed at {self.sim_format_time(self.env.now)}")
+        with open("patient_log.txt", "a") as output:
+            output.write(f"Patient {patient_ID} has left the bed at {self.sim_format_time(self.env.now)}"+ '\n')
 
         self.occupied_beds-= 1
         self.bed.release(req)
@@ -286,12 +295,13 @@ class AnE:
                 self.patient_who_waited.append(wait_time)
                 self.track_waiting_time_for_doctor.append(wait_time)
           
-
-            print(f"Patient {patient_ID} was assigned to a Doctor at {self.sim_format_time(self.env.now)}")
+            with open("patient_log.txt", "a") as output:
+                output.write(f"Patient {patient_ID} was assigned to a Doctor at {self.sim_format_time(self.env.now)}" + '\n')
         
             #Stimulate the doctor consultation process 
             yield self.env.timeout(random.randint(1,5))
-            print(f"Patient {patient_ID}'s Doctor Consultation was completed at {self.sim_format_time(self.env.now)}")
+            with open("patient_log.txt", "a") as output:
+                output.write(f"Patient {patient_ID}'s Doctor Consultation was completed at {self.sim_format_time(self.env.now)}"+ '\n')
             finish_time = self.env.now
             duration = finish_time - arrival_time
             self.track_time_doctor_consultation.append(duration)
@@ -300,27 +310,33 @@ class AnE:
             if decision <0.5:
                 self.track_time_for_discharge.append(duration)
                 self.update_last_patient_time()
-                print(f"Patient {patient_ID} is discharged at {self.sim_format_time(self.env.now)}")
+                with open("patient_log.txt", "a") as output:
+                    output.write(f"Patient {patient_ID} is discharged at {self.sim_format_time(self.env.now)}"+ '\n')
                 self.num_patient_discharged += 1
                 
 
                  #Release the doctor
                 self.doctor.release(req)
-                print(f"Patient {patient_ID}'s Doctor released at {self.sim_format_time(self.env.now)}")
+                with open("patient_log.txt", "a") as output:
+                    output.write(f"Patient {patient_ID}'s Doctor released at {self.sim_format_time(self.env.now)}"+ '\n')
             elif decision<0.9:
                self.num_patient_requires_tests += 1
-               print(f"Patient {patient_ID} needs to do tests")
+               with open("patient_log.txt", "a") as output:
+                output.write(f"Patient {patient_ID} needs to do tests"+ '\n')
                #Release the doctor
                self.doctor.release(req)
-               print(f"Patient {patient_ID}'s Doctor released at {self.sim_format_time(self.env.now)}")
+               with open("patient_log.txt", "a") as output:
+                output.write(f"Patient {patient_ID}'s Doctor released at {self.sim_format_time(self.env.now)}"+ '\n')
                yield self.env.process(self.patient_request_tests(patient_ID,priority))
               
             else:
               self.num_patient_requires_medication += 1
-              print(f"Patient {patient_ID} needs to take medication")
+              with open("patient_log.txt", "a") as output:
+                output.write(f"Patient {patient_ID} needs to take medication"+ '\n')
               #Release the doctor
               self.doctor.release(req)
-              print(f"Patient {patient_ID}'s Doctor released at {self.sim_format_time(self.env.now)}")
+              with open("patient_log.txt", "a") as output:
+                output.write(f"Patient {patient_ID}'s Doctor released at {self.sim_format_time(self.env.now)}"+ '\n')
               yield self.env.process(self.patient_request_medication(patient_ID,priority))
          
      
@@ -335,17 +351,19 @@ class AnE:
             self.patient_who_waited.append(wait_time)
             self.track_waiting_time_for_nurse.append(wait_time)
 
-    
-     print(f"Patient {patient_ID} was assigned to a Nurse at {self.sim_format_time(self.env.now)}")
+     with open("patient_log.txt", "a") as output:
+        output.write(f"Patient {patient_ID} was assigned to a Nurse at {self.sim_format_time(self.env.now)}"+ '\n')
      yield self.env.timeout(random.randint(1,5))
      
      finish_time = self.env.now
      duration = finish_time - arrival_time
      self.track_time_tests.append(duration)
     
-     print(f"Patient {patient_ID} 's tests completed at {self.sim_format_time(self.env.now)}")
+     with open("patient_log.txt", "a") as output:
+        output.write(f"Patient {patient_ID} 's tests completed at {self.sim_format_time(self.env.now)}"+ '\n')
      self.nurse.release(req)
-     print(f"Patient {patient_ID}'s Nurse released at {self.sim_format_time(self.env.now)}")
+     with open("patient_log.txt", "a") as output:   
+        output.write(f"Patient {patient_ID}'s Nurse released at {self.sim_format_time(self.env.now)}"+ '\n')
      yield self.env.process(self.patient_request_doctor_follow_up(patient_ID, priority))
 
      
@@ -354,25 +372,28 @@ class AnE:
         arrival_time = self.env.now
         req = self.nurse.request(priority= priority )
         yield req
-        print(f"Patient {patient_ID} with priority {priority} was assigned to  a Nurse at {self.sim_format_time(self.env.now)}")
+        with open("patient_log.txt", "a") as output:
+            output.write(f"Patient {patient_ID} with priority {priority} was assigned to  a Nurse at {self.sim_format_time(self.env.now)}"+ '\n')
         wait_time = self.env.now - arrival_time
         self.patient_total_wait_time.append(wait_time)
         if wait_time > 0:
             self.patient_who_waited.append(wait_time)
             self.track_waiting_time_for_nurse.append(wait_time)
-
-        print(f"Patient {patient_ID} was assigned to a Nurse at {self.sim_format_time(self.env.now)}")
+        with open("patient_log.txt", "a") as output:
+            output.write(f"Patient {patient_ID} was assigned to a Nurse at {self.sim_format_time(self.env.now)}"+ '\n')
         yield self.env.timeout(random.randint(1,5))
-        print(f"Pateint {patient_ID} finished medication at {self.sim_format_time(self.env.now)}" )
+        with open("patient_log.txt", "a") as output:
+            output.write(f"Pateint {patient_ID} finished medication at {self.sim_format_time(self.env.now)}" + '\n')
         
         finish_time = self.env.now
         duration = finish_time - arrival_time
         #print(f"Duration " + duration)
         self.track_time_medication.append(duration)
-
-        print(f"Patient {patient_ID}'s medication completed at {self.sim_format_time(self.env.now)}")
+        with open("patient_log.txt", "a") as output:
+            output.write(f"Patient {patient_ID}'s medication completed at {self.sim_format_time(self.env.now)}"+ '\n')
         self.nurse.release(req)
-        print(f"Patient {patient_ID}'s Nurse released at {self.sim_format_time(self.env.now)}")
+        with open("patient_log.txt", "a") as output:
+            output.write(f"Patient {patient_ID}'s Nurse released at {self.sim_format_time(self.env.now)}"+ '\n')
         yield self.env.process(self.patient_request_doctor_follow_up(patient_ID, priority))
 
 
@@ -387,21 +408,24 @@ class AnE:
         if wait_time > 0:
             self.patient_who_waited.append(wait_time)
             self.track_waiting_time_for_doctor.append(wait_time)
-        
-        print(f"Patient {patient_ID} was assigned to a Doctor for a follow up at {self.sim_format_time(self.env.now)}")
+        with open("patient_log.txt", "a") as output:
+            output.write(f"Patient {patient_ID} was assigned to a Doctor for a follow up at {self.sim_format_time(self.env.now)}"+ '\n')
         yield self.env.timeout(random.randint(1,5))
 
         finish_time = self.env.now
         duration = finish_time - arrival_time
         self.track_time_for_follow_up.append(duration)
 
-        print(f"Patient {patient_ID}'s Doctor follow up completed at {self.sim_format_time(self.env.now)}")
+        with open("patient_log.txt", "a") as output:
+            output.write(f"Patient {patient_ID}'s Doctor follow up completed at {self.sim_format_time(self.env.now)}"+ '\n')
     
         self.update_last_patient_time()
-        print(f"Patient {patient_ID} has left the A&E at {self.sim_format_time(self.env.now)}") 
+        with open("patient_log.txt", "a") as output:
+            output.write(f"Patient {patient_ID} has left the A&E at {self.sim_format_time(self.env.now)}"+ '\n') 
         
         self.doctor.release(req)
-        print(f"Patient {patient_ID}'s Doctor released at {self.sim_format_time(self.env.now)}")
+        with open("patient_log.txt", "a") as output:
+            output.write(f"Patient {patient_ID}'s Doctor released at {self.sim_format_time(self.env.now)}"+ '\n')
 
         
 #Creates the simulation environmnment (A&E)
@@ -425,7 +449,7 @@ while a_and_e.active_patients != set():
 #while env.peek() < float("inf") and any(resource.users for resource in [a_and_e.doctor, a_and_e.nurse, a_and_e.clerk, a_and_e.bed]):
     #env.step()
 #This to test if the  last patient has been processed fully 
-print(f"Last patient {a_and_e.patientCount} left at {a_and_e.sim_format_time(a_and_e.last_patient_time)}")
+#print(f"Last patient {a_and_e.patientCount} left at {a_and_e.sim_format_time(a_and_e.last_patient_time)}")
 print(f"Total patients seen: {a_and_e.patientCount}")
 ######################################################
 #Debugging purposes checking unfinished patients
@@ -550,3 +574,4 @@ plt.ylabel("Average Time (minutes)")
 plt.grid(axis="y")
 plt.show()
  
+save_data = pd.DataFrame()
