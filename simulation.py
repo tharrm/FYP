@@ -4,7 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd 
 from datetime import datetime, timedelta
-
+import seaborn as sns 
+import streamlit as st
 
 #Creates the simulation environment 
 class AnE:
@@ -127,7 +128,7 @@ class AnE:
              yield self.env.process(self.patient_request_doctor_for_doctor_consultation(patient_ID, priority))
         
         total_time_patient_spent = self.env.now - arrival_time
-        a_and_e.patient_spent_time.append(total_time_patient_spent)
+        self.patient_spent_time.append(total_time_patient_spent)
         self.active_patients.remove(patient_ID)
 
     def patient_request_admission(self,patient_ID):
@@ -427,151 +428,211 @@ class AnE:
         with open("patient_log.txt", "a") as output:
             output.write(f"Patient {patient_ID}'s Doctor released at {self.sim_format_time(self.env.now)}"+ '\n')
 
-        
-#Creates the simulation environmnment (A&E)
-env = sp.Environment()
-until=200
+st.title("A&E Simulation")
+#st.write("Testing")
 
-# Create the A&E department with resources
-a_and_e = AnE(env, num_doctors=10, num_nurses=10, num_beds=5, num_clerk=3)
-mean_interarrival_time=3 # This lets user 
-env.process(a_and_e.patient_generator(mean_interarrival_time,until))
+with st.sidebar:
+    st.header("Simulation Configuration")
+    num_clerks = st.slider("Number of Clerks", 1, 10, 3)
+    num_nurses = st.slider("Number of Nurses", 1, 20, 10)
+    num_doctors = st.slider("Number of Doctors", 1, 20, 10)
+    num_beds = st.slider("Number of Beds", 1, 20, 5)
+    mean_interarrival_time = st.slider("Mean Ar rival Time", 1, 10,3 )
+    simulation_run_time= st.number_input("Simulation Run Time in minutes", 1, 1440, 1)    
+    #Creates the simulation environmnment (A&E)
+    env = sp.Environment()
 
-env.run(until= 200) #This runs for 5000 minutes
-until=200
-#while env.peek() < until:
-    #env.step()
-while a_and_e.active_patients != set():
-    env.step()
+if st.button ("Run Simulation"):
+    # Create the A&E department with resources
+    a_and_e = AnE(env, num_doctors=10, num_nurses=10, num_beds=5, num_clerk=3)
+    mean_interarrival_time=3 # This lets user 
+    env.process(a_and_e.patient_generator(mean_interarrival_time,simulation_run_time))
 
-#while any( resource.users for resource in [a_and_e.doctor, a_and_e.nurse, a_and_e.bed, a_and_e.clerk]):
-    #env.step()
-#while env.peek() < float("inf") and any(resource.users for resource in [a_and_e.doctor, a_and_e.nurse, a_and_e.clerk, a_and_e.bed]):
-    #env.step()
-#This to test if the  last patient has been processed fully 
-#print(f"Last patient {a_and_e.patientCount} left at {a_and_e.sim_format_time(a_and_e.last_patient_time)}")
-print(f"Total patients seen: {a_and_e.patientCount}")
-######################################################
-#Debugging purposes checking unfinished patients
-#print("Checking for unfished patients")
-#for resource in [a_and_e.doctor, a_and_e.nurse, a_and_e.bed, a_and_e.clerk]:
-    #if resource.users:
-    #     print (f"Resource {resource} has unfinished patients  {[user for user in resource.users]}")
-    #else:
-    #    print(f"Resource {resource} has no unfinished patients")
-#####################################################
-#This calculates the average waiting time for patients who had to wait
-#print(a_and_e.patient_total_wait_time) Testing 
+    env.run(simulation_run_time) #This runs for how long minutes the user wants
+    #while env.peek() < until:
+        #env.step()
+    while a_and_e.active_patients != set():
+        env.step()
 
-average_wait_time = sum(a_and_e.patient_who_waited) / len(a_and_e.patient_who_waited)
+    #while any( resource.users for resource in [a_and_e.doctor, a_and_e.nurse, a_and_e.bed, a_and_e.clerk]):
+        #env.step()
+    #while env.peek() < float("inf") and any(resource.users for resource in [a_and_e.doctor, a_and_e.nurse, a_and_e.clerk, a_and_e.bed]):
+        #env.step()
+    #This to test if the  last patient has been processed fully 
+    #print(f"Last patient {a_and_e.patientCount} left at {a_and_e.sim_format_time(a_and_e.last_patient_time)}")
+   
+   # Display the results
+    st.subheader("Simulation Results")
+    st.write(f"Total patients seen: {a_and_e.patientCount}")
+    
+    ######################################################
+    #Debugging purposes checking unfinished patients
+    #print("Checking for unfished patients")
+    #for resource in [a_and_e.doctor, a_and_e.nurse, a_and_e.bed, a_and_e.clerk]:
+        #if resource.users:
+        #     print (f"Resource {resource} has unfinished patients  {[user for user in resource.users]}")
+        #else:
+        #    print(f"Resource {resource} has no unfinished patients")
+    #####################################################
+    #This calculates the average waiting time for patients who had to wait
+    #print(a_and_e.patient_total_wait_time) Testing 
 
-hours = int(average_wait_time // 60)
-minutes = int(average_wait_time % 60)
-print(f"The average for patients who had to had wait time is {hours} hours and {minutes} minutes")
+    average_wait_time = sum(a_and_e.patient_who_waited) / len(a_and_e.patient_who_waited)
 
-
-#This calculates the overall average wait time even with pateints who did not wait 
-overall_average_time = sum(a_and_e.patient_total_wait_time) / len (a_and_e.patient_total_wait_time)
-
-hours1= int(overall_average_time // 60)
-minutes1= int(overall_average_time % 60)
-
-print(f"The average  for the overall wait time is (pateints who also did not need to wait) {hours1} hours and {minutes1} minutes")
-
-
-#print(a_and_e.track_bed_usage) Testing 
-times,bed_count = zip(*a_and_e.track_bed_usage) # This  unpacks into two lists time and bed count 
-
-#This graph is for bed occupancy over time 
-plt.scatter(times, bed_count, marker="x", color="red")
-plt.xlabel("Simulation Time in minutes")
-plt.ylabel("Occupied Beds")
-plt.title("Bed Occupancy Over Time")
-plt.grid()
-plt.xlim(0,until)
-plt.ylim(0,a_and_e.bed.capacity)
-plt.show()
-
-#This graph is for the time pateints spent in the AnE
-plt.boxplot(a_and_e.patient_spent_time, vert=False, patch_artist = True, boxprops=dict(facecolor="red"))
-plt.title("Time Patients Spent in A&E")
-plt.xlabel("Time Patient Spent in A&E (minutes)")
-plt.grid()
-plt.show()
-
-number_of_bins = int(np.sqrt(len(a_and_e.patient_who_waited)))
-#This graph is for the average waiting time for patients
-
-plt.hist(a_and_e.patient_who_waited, bins=number_of_bins, color="blue", edgecolor="black")
-plt.title("Wait Time for Patients")
-plt.xlabel("Wait Time (minutes)")
-plt.ylabel("Frequency")
-plt.grid()
-plt.xlim(0,until)
-plt.show()
+    hours = int(average_wait_time // 60)
+    minutes = int(average_wait_time % 60)
+    st.write(f"The average for patients who had to had wait time is {hours} hours and {minutes} minutes")
 
 
+    #This calculates the overall average wait time even with pateints who did not wait 
+    overall_average_time = sum(a_and_e.patient_total_wait_time) / len (a_and_e.patient_total_wait_time)
 
-plt.boxplot(a_and_e.patient_who_waited , vert=False, patch_artist=True, boxprops=dict(facecolor="blue"))
-plt.title("Wait Time for Patients")
-plt.xlabel("Wait Time (minutes)")
-plt.xlim(0,until)
-plt.grid()
-plt.show()
+    hours1= int(overall_average_time // 60)
+    minutes1= int(overall_average_time % 60)
 
-# Average wait times for the resources 
-average_resource_wait_time = [ np.mean(a_and_e.track_waiting_time_for_clerk),
-                               np.mean(a_and_e.track_waiting_time_for_nurse),
-                               np.mean(a_and_e.track_waiting_time_for_doctor),
-                               np.mean(a_and_e.track_waiting_time_for_bed)
-                              ]
-resource_names = ["Clerk", "Nurse", "Doctor", "Bed"]
-plt.bar(resource_names, average_resource_wait_time, color = "green" )
-plt.title("Average Wait Time for Resoruces")
-plt.xlabel("Resources")
-plt.ylabel("Average Wait Time Minutes")
-plt.grid(axis="y")
-plt.show()
+    st.write(f"The average  for the overall wait time is (pateints who also did not need to wait) {hours1} hours and {minutes1} minutes")
 
-#Total wait time for the resources
-resource_wait_time = [ sum(a_and_e.track_waiting_time_for_clerk),
-                      sum(a_and_e.track_waiting_time_for_nurse),
-                      sum(a_and_e.track_waiting_time_for_doctor),
-                      sum(a_and_e.track_waiting_time_for_bed)
-                 ]   
 
-plt.bar(resource_names, resource_wait_time, color = "green" )
-plt.title(" Wait Time for Resources")
-plt.xlabel("Resources")
-plt.ylabel("Wait Time (Minutes)")
-plt.grid(axis="y")
-plt.show()    
+    #print(a_and_e.track_bed_usage) Testing 
+    times,bed_count = zip(*a_and_e.track_bed_usage) # This  unpacks into two lists time and bed count 
 
-#Triage patients bar chart
-max_y = (a_and_e.patientCount// 10 + 1) * 10 # Rounds up to the nearest 10
-triage_categories = ["Immediate", "Very Urgent", "Urgent", "Standard", "Non-Urgent"]
-plt.bar(triage_categories, [a_and_e.num_patient_immediate, a_and_e.num_patient_very_urgent, a_and_e.num_patient_urgent, a_and_e.num_patient_standard, a_and_e.num_patient_non_urgent], color="purple")
-plt.title("Number of Patients in Triage Categories")
-plt.ylabel("Number of Patients")
-plt.xlabel("Triage Categories")
-plt.grid(axis='y')
-plt.yticks(range(0, max_y+ 1,10)) #Added +1 as rangee excludes the last number, the y scales goes up by 10
-plt.show()
+    #This graph is for bed occupancy over time 
+    fig, ax = plt.subplots()
+    ax.set_xlabel("Simulation Time in minutes")
+    ax.set_ylabel("Occupied Beds")
+    ax.set_title("Bed Occupancy Over Time")
 
-#Duration for the stages of the patient flow
-average_time_for_stages = [np.mean(a_and_e.track_time_admission),
-                           np.mean(a_and_e.track_time_risk_assessment),
-                           np.mean(a_and_e.track_time_doctor_consultation),
-                           np.mean(a_and_e.track_time_tests),
-                           np.mean(a_and_e.track_time_medication),
-                           np.mean(a_and_e.track_time_for_follow_up),
-                           np.mean(a_and_e.track_time_for_discharge)]
-stage_names = ["Admission", "Risk Assessment", "Doctor Consultation", "Tests", "Medication", "Follow Up", "Discharge"]
-plt.bar(stage_names, average_time_for_stages, color="orange")
-plt.title("Average Time for Stages of Patient Flow")
-plt.xlabel("Stages")
-plt.ylabel("Average Time (minutes)")
-plt.grid(axis="y")
-plt.show()
- 
-save_data = pd.DataFrame()
+    st.plt.scatter(times, bed_count, marker="x", color="red")
+    st.plt.xlabel("Simulation Time in minutes")
+    st.plt.ylabel("Occupied Beds")
+    st.plt.title("Bed Occupancy Over Time")
+    st.plt.grid()
+    st.plt.xlim(0,simulation_run_time)
+    st.plt.ylim(0,a_and_e.bed.capacity)
+    st.pyplot
+
+    #This graph is for the time pateints spent in the AnE
+    plt.boxplot(a_and_e.patient_spent_time, vert=False, patch_artist = True, boxprops=dict(facecolor="red"), flierprops=dict(marker="D", color= "blue", markersize = 8))
+    plt.title("Time Patients Spent in A&E")
+    plt.xlabel("Time Patient Spent in A&E (minutes)")
+    plt.grid()
+    plt.show()
+
+    sns.violinplot(a_and_e.patient_spent_time, color = "red", inner = "quartile", cut = 0)
+    plt.title("Time Patients Spent in A&E")
+    plt.xlabel("Time Patient Spent in A&E (minutes)")
+    plt.ylim(0, max(a_and_e.patient_spent_time) + 10)
+    plt.show()
+
+    #Histogram for patient spent time 
+    number_of_bins = int(np.sqrt(len(a_and_e.patient_spent_time)))
+    plt.hist(a_and_e.patient_spent_time, bins=number_of_bins, color="red", edgecolor="black")
+    plt.title("Time Patients Spent in A&E")
+    plt.xlabel("Time Patient Spent in A&E (minutes)")
+    plt.ylabel("Frequency")
+    plt.grid(axis = "y")
+    plt.show()
+
+
+    number_of_bins1 = int(np.sqrt(len(a_and_e.patient_who_waited)))
+    #This graph is for the average waiting time for patients
+
+    plt.hist(a_and_e.patient_who_waited, bins=number_of_bins1, color="blue", edgecolor="black")
+    plt.title("Wait Time for Patients")
+    plt.xlabel("Wait Time (minutes)")
+    plt.ylabel("Frequency")
+    plt.grid()
+    plt.xlim(0, max(a_and_e.patient_who_waited)+ 40)
+    plt.show()
+
+
+
+    plt.boxplot(a_and_e.patient_who_waited , vert=False, patch_artist=True, boxprops=dict(facecolor="blue"))
+    plt.title("Wait Time for Patients")
+    plt.xlabel("Wait Time (minutes)")
+    plt.xlim(0, max(a_and_e.patient_who_waited)+ 40)
+    plt.grid()
+    plt.show()
+
+    # Average wait times for the resources 
+    average_resource_wait_time = [ np.mean(a_and_e.track_waiting_time_for_clerk),
+                                np.mean(a_and_e.track_waiting_time_for_nurse),
+                                np.mean(a_and_e.track_waiting_time_for_doctor),
+                                np.mean(a_and_e.track_waiting_time_for_bed)
+                                ]
+    resource_names = ["Clerk", "Nurse", "Doctor", "Bed"]
+    plt.bar(resource_names, average_resource_wait_time, color = "green" )
+    plt.title("Average Wait Time for Resoruces")
+    plt.xlabel("Resources")
+    plt.ylabel("Average Wait Time Minutes")
+    plt.grid(axis="y")
+    plt.show()
+
+    #Total wait time for the resources
+    resource_wait_time = [ sum(a_and_e.track_waiting_time_for_clerk),
+                        sum(a_and_e.track_waiting_time_for_nurse),
+                        sum(a_and_e.track_waiting_time_for_doctor),
+                        sum(a_and_e.track_waiting_time_for_bed)
+                    ]   
+
+    plt.bar(resource_names, resource_wait_time, color = "green" )
+    plt.title(" Wait Time for Resources")
+    plt.xlabel("Resources")
+    plt.ylabel("Wait Time (Minutes)")
+    plt.grid(axis="y")
+    plt.show()    
+
+    #Triage patients bar chart
+    max_y = (a_and_e.patientCount// 10 + 1) * 10 # Rounds up to the nearest 10
+    triage_categories = ["Immediate", "Very Urgent", "Urgent", "Standard", "Non-Urgent"]
+    plt.bar(triage_categories, [a_and_e.num_patient_immediate, a_and_e.num_patient_very_urgent, a_and_e.num_patient_urgent, a_and_e.num_patient_standard, a_and_e.num_patient_non_urgent], color="purple")
+    plt.title("Number of Patients in Triage Categories")
+    plt.ylabel("Number of Patients")
+    plt.xlabel("Triage Categories")
+    plt.grid(axis='y')
+    plt.yticks(range(0, max_y+ 1,10)) #Added +1 as rangee excludes the last number, the y scales goes up by 10
+    plt.show()
+
+    #Duration for the stages of the patient flow
+    average_time_for_stages = [np.mean(a_and_e.track_time_admission),
+                            np.mean(a_and_e.track_time_risk_assessment),
+                            np.mean(a_and_e.track_time_doctor_consultation),
+                            np.mean(a_and_e.track_time_tests),
+                            np.mean(a_and_e.track_time_medication),
+                            np.mean(a_and_e.track_time_for_follow_up),
+                            np.mean(a_and_e.track_time_for_discharge)]
+    stage_names = ["Admission", "Risk Assessment", "Doctor Consultation", "Tests", "Medication", "Follow Up", "Discharge"]
+    plt.bar(stage_names, average_time_for_stages, color="orange")
+    plt.title("Average Time for Stages of Patient Flow")
+    plt.xlabel("Stages")
+    plt.ylabel("Average Time (minutes)")
+    plt.grid(axis="y")
+    plt.show()
+    
+    #Resource utilisation
+    resource_utilisation = [a_and_e.doctor.count / a_and_e.doctor.capacity,
+                            a_and_e.nurse.count / a_and_e.nurse.capacity,
+                            a_and_e.bed.count / a_and_e.bed.capacity,
+                            a_and_e.clerk.count / a_and_e.clerk.capacity]
+    plt.bar(resource_names, resource_utilisation, color = "purple")
+    plt.title("Resource Utilisation")
+    plt.xlabel("Resource Type")
+    plt.ylabel("Utilisation Rate")
+    plt.grid(axis="y")
+    plt.show()
+
+    #Number of patients in different stages of the process
+    stage_names = ["Discharged", "Requires Tests", "Requires Medication", "Requires Bed"]
+    plt.bar(stage_names, [a_and_e.num_patient_discharged, a_and_e.num_patient_requires_tests, a_and_e.num_patient_requires_medication, a_and_e.num_patient_requires_bed], color="orange")
+    plt.title("Number of Patients in Different Stages of the Process")
+    plt.xlabel("Stages")
+    plt.ylabel("Number of Patients")
+    plt.grid(axis="y")
+    plt.show()
+
+    # Length of stay for patients 
+    plt.boxplot(a_and_e.patient_LOS, vert=False, patch_artist=True, boxprops=dict(facecolor = "purple"))
+    plt.title("Length of Stay for Patients occupied in bed")
+    plt.xlabel("Length of stay (minutes)")
+    plt.grid()
+    plt.show()
