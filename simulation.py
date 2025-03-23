@@ -498,20 +498,23 @@ if st.button ("Run Simulation"):
 
     #This graph is for bed occupancy over time 
     fig, ax = plt.subplots()
-    ax.set_xlabel("Simulation Time in minutes")
+    ax.scatter(times, bed_count, marker= "x", color = "red")
+    ax.set_xlabel("Simulation Time (minutes)")
     ax.set_ylabel("Occupied Beds")
     ax.set_title("Bed Occupancy Over Time")
-
-    st.plt.scatter(times, bed_count, marker="x", color="red")
-    st.plt.xlabel("Simulation Time in minutes")
-    st.plt.ylabel("Occupied Beds")
-    st.plt.title("Bed Occupancy Over Time")
-    st.plt.grid()
-    st.plt.xlim(0,simulation_run_time)
-    st.plt.ylim(0,a_and_e.bed.capacity)
-    st.pyplot
+    ax.grid()
+    ax.set_xlim(0,simulation_run_time + 100)
+    ax.set_ylim(0,a_and_e.bed.capacity)
+    st.pyplot(fig)
 
     #This graph is for the time pateints spent in the AnE
+    fig1, ax = plt.subplots()
+    ax.boxplot(a_and_e.patient_spent_time, vert=False, patch_artist = True, boxprops=dict(facecolor="red"), flierprops=dict(marker="D", color = "blue", markersize = 8))
+    ax.set_title("Time Pateints Spent in A&E")
+    ax.set_xlabel("Time Patient Spent in A&E (minutes)")
+    ax.grid()
+    st.pyplot(fig1)
+
     plt.boxplot(a_and_e.patient_spent_time, vert=False, patch_artist = True, boxprops=dict(facecolor="red"), flierprops=dict(marker="D", color= "blue", markersize = 8))
     plt.title("Time Patients Spent in A&E")
     plt.xlabel("Time Patient Spent in A&E (minutes)")
