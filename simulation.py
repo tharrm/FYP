@@ -2,7 +2,7 @@ import simpy as sp
 import random
 import numpy as np
 import matplotlib.pyplot as plt
-import pandas as pd 
+import pandas as pd  # Not used at the moment 
 from datetime import datetime, timedelta
 import seaborn as sns 
 import streamlit as st
@@ -461,6 +461,7 @@ if st.button ("Run Simulation"):
     #This to test if the  last patient has been processed fully 
     #print(f"Last patient {a_and_e.patientCount} left at {a_and_e.sim_format_time(a_and_e.last_patient_time)}")
    
+    st.success("Simulation Completed")
    # Display the results
     st.subheader("Simulation Results")
     st.write(f"Total patients seen: {a_and_e.patientCount}")
@@ -509,53 +510,49 @@ if st.button ("Run Simulation"):
 
     #This graph is for the time pateints spent in the AnE
     fig1, ax = plt.subplots()
-    ax.boxplot(a_and_e.patient_spent_time, vert=False, patch_artist = True, boxprops=dict(facecolor="red"), flierprops=dict(marker="D", color = "blue", markersize = 8))
+    ax.boxplot(a_and_e.patient_spent_time, vert=False, patch_artist = True, boxprops=dict(facecolor="red"))#, flierprops=dict(marker="D", color = "blue", markersize = 8))
     ax.set_title("Time Pateints Spent in A&E")
     ax.set_xlabel("Time Patient Spent in A&E (minutes)")
     ax.grid()
     st.pyplot(fig1)
 
-    plt.boxplot(a_and_e.patient_spent_time, vert=False, patch_artist = True, boxprops=dict(facecolor="red"), flierprops=dict(marker="D", color= "blue", markersize = 8))
-    plt.title("Time Patients Spent in A&E")
-    plt.xlabel("Time Patient Spent in A&E (minutes)")
-    plt.grid()
-    plt.show()
-
+    #This graph is for the time patients spent in the AnE
+    fig2, ax = plt.subplots()
     sns.violinplot(a_and_e.patient_spent_time, color = "red", inner = "quartile", cut = 0)
-    plt.title("Time Patients Spent in A&E")
-    plt.xlabel("Time Patient Spent in A&E (minutes)")
-    plt.ylim(0, max(a_and_e.patient_spent_time) + 10)
-    plt.show()
+    ax.set_title("Time Patients Spent in A&E")
+    ax.set_xlabel("Time Patient Spent in A&E (minutes)")
+    ax.set_ylim(0, max(a_and_e.patient_spent_time) + 100)
+    st.pyplot(fig2)
 
     #Histogram for patient spent time 
+    fig3, ax = plt.subplots()
     number_of_bins = int(np.sqrt(len(a_and_e.patient_spent_time)))
-    plt.hist(a_and_e.patient_spent_time, bins=number_of_bins, color="red", edgecolor="black")
-    plt.title("Time Patients Spent in A&E")
-    plt.xlabel("Time Patient Spent in A&E (minutes)")
-    plt.ylabel("Frequency")
-    plt.grid(axis = "y")
-    plt.show()
+    ax.hist(a_and_e.patient_spent_time, bins=number_of_bins, color="red", edgecolor="black")
+    ax.set_title("Time Patients Spent in A&E")
+    ax.set_xlabel("Time Patient Spent in A&E (minutes)")
+    ax.set_ylabel("Frequency")
+    ax.grid(axis = "y")
+    st.pyplot(fig3)
 
-
-    number_of_bins1 = int(np.sqrt(len(a_and_e.patient_who_waited)))
     #This graph is for the average waiting time for patients
+    fig4, ax = plt.subplots()
+    number_of_bins1 = int(np.sqrt(len(a_and_e.patient_who_waited)))
+    ax.hist(a_and_e.patient_who_waited, bins=number_of_bins1, color="blue", edgecolor="black")
+    ax.set_title("Wait Time for Patients")
+    ax.set_xlabel("Wait Time (minutes)")
+    ax.set_ylabel("Frequency")
+    ax.grid()
+    ax.set_xlim(0, max(a_and_e.patient_who_waited)+ 100)
+    st.pyplot(fig4)
 
-    plt.hist(a_and_e.patient_who_waited, bins=number_of_bins1, color="blue", edgecolor="black")
-    plt.title("Wait Time for Patients")
-    plt.xlabel("Wait Time (minutes)")
-    plt.ylabel("Frequency")
-    plt.grid()
-    plt.xlim(0, max(a_and_e.patient_who_waited)+ 40)
-    plt.show()
 
-
-
-    plt.boxplot(a_and_e.patient_who_waited , vert=False, patch_artist=True, boxprops=dict(facecolor="blue"))
-    plt.title("Wait Time for Patients")
-    plt.xlabel("Wait Time (minutes)")
-    plt.xlim(0, max(a_and_e.patient_who_waited)+ 40)
-    plt.grid()
-    plt.show()
+    fig5, ax = plt.subplots()
+    ax.boxplot(a_and_e.patient_who_waited , vert=False, patch_artist=True, boxprops=dict(facecolor="blue"))
+    ax.set_title("Wait Time for Patients")
+    ax.set_xlabel("Wait Time (minutes)")
+    ax.set_xlim(0, max(a_and_e.patient_who_waited)+ 40)
+    ax.grid()
+    st.pyplot(fig5)
 
     # Average wait times for the resources 
     average_resource_wait_time = [ np.mean(a_and_e.track_waiting_time_for_clerk),
@@ -564,12 +561,17 @@ if st.button ("Run Simulation"):
                                 np.mean(a_and_e.track_waiting_time_for_bed)
                                 ]
     resource_names = ["Clerk", "Nurse", "Doctor", "Bed"]
-    plt.bar(resource_names, average_resource_wait_time, color = "green" )
-    plt.title("Average Wait Time for Resoruces")
-    plt.xlabel("Resources")
-    plt.ylabel("Average Wait Time Minutes")
-    plt.grid(axis="y")
-    plt.show()
+    fig6, ax = plt.subplots()
+    ax.bar(resource_names, average_resource_wait_time, color = "green" )
+    ax.set_title("Average Wait Time for Resoruces")
+    ax.set_xlabel("Resources")
+    ax.set_ylabel("Average Wait Time Minutes")
+    max_y_time = max(average_resource_wait_time)
+    ax.set_ylim(0, max_y_time + 10)
+    ax.set_yticks(range(0, int(max_y_time)+ 50, 100)) # Goes up by every 50 minutes the ticks 
+
+    ax.grid(axis="y")
+    st.pyplot(fig6)
 
     #Total wait time for the resources
     resource_wait_time = [ sum(a_and_e.track_waiting_time_for_clerk),
@@ -577,24 +579,28 @@ if st.button ("Run Simulation"):
                         sum(a_and_e.track_waiting_time_for_doctor),
                         sum(a_and_e.track_waiting_time_for_bed)
                     ]   
-
-    plt.bar(resource_names, resource_wait_time, color = "green" )
-    plt.title(" Wait Time for Resources")
-    plt.xlabel("Resources")
-    plt.ylabel("Wait Time (Minutes)")
-    plt.grid(axis="y")
-    plt.show()    
+    max_y_time_axis = max(resource_wait_time)
+    fig7, ax = plt.subplots()
+    ax.bar(resource_names, resource_wait_time, color = "green" )
+    ax.set_title(" Wait Time for Resources")
+    ax.set_xlabel("Resources")
+    ax.set_ylabel("Wait Time (Minutes)")
+    ax.set_ylim(0, max_y_time_axis + 100) 
+    ax.set_yticks(range(0, int(max_y_time_axis)+100, 200))
+    ax.grid(axis="y")
+    st.pyplot(fig7)    
 
     #Triage patients bar chart
     max_y = (a_and_e.patientCount// 10 + 1) * 10 # Rounds up to the nearest 10
     triage_categories = ["Immediate", "Very Urgent", "Urgent", "Standard", "Non-Urgent"]
-    plt.bar(triage_categories, [a_and_e.num_patient_immediate, a_and_e.num_patient_very_urgent, a_and_e.num_patient_urgent, a_and_e.num_patient_standard, a_and_e.num_patient_non_urgent], color="purple")
-    plt.title("Number of Patients in Triage Categories")
-    plt.ylabel("Number of Patients")
-    plt.xlabel("Triage Categories")
-    plt.grid(axis='y')
-    plt.yticks(range(0, max_y+ 1,10)) #Added +1 as rangee excludes the last number, the y scales goes up by 10
-    plt.show()
+    fig8, ax = plt.subplots() 
+    ax.bar(triage_categories, [a_and_e.num_patient_immediate, a_and_e.num_patient_very_urgent, a_and_e.num_patient_urgent, a_and_e.num_patient_standard, a_and_e.num_patient_non_urgent], color="purple")
+    ax.set_title("Number of Patients in Triage Categories")
+    ax.set_ylabel("Number of Patients")
+    ax.set_xlabel("Triage Categories")
+    ax.grid(axis='y')
+    ax.set_yticks(range(0, max_y+ 1,50)) #Added +1 as rangee excludes the last number, the y scales goes up by 10
+    st.pyplot(fig8)
 
     #Duration for the stages of the patient flow
     average_time_for_stages = [np.mean(a_and_e.track_time_admission),
@@ -605,37 +611,42 @@ if st.button ("Run Simulation"):
                             np.mean(a_and_e.track_time_for_follow_up),
                             np.mean(a_and_e.track_time_for_discharge)]
     stage_names = ["Admission", "Risk Assessment", "Doctor Consultation", "Tests", "Medication", "Follow Up", "Discharge"]
-    plt.bar(stage_names, average_time_for_stages, color="orange")
-    plt.title("Average Time for Stages of Patient Flow")
-    plt.xlabel("Stages")
-    plt.ylabel("Average Time (minutes)")
-    plt.grid(axis="y")
-    plt.show()
     
+    fig9, ax = plt.subplots()
+    ax.bar(stage_names, average_time_for_stages, color="orange")
+    ax.set_title("Average Time for Stages of Patient Flow")
+    ax.set_xlabel("Stages")
+    ax.set_ylabel("Average Time (minutes)")
+    ax.grid(axis="y")
+    st.pyplot(fig9)
+
     #Resource utilisation
     resource_utilisation = [a_and_e.doctor.count / a_and_e.doctor.capacity,
                             a_and_e.nurse.count / a_and_e.nurse.capacity,
                             a_and_e.bed.count / a_and_e.bed.capacity,
                             a_and_e.clerk.count / a_and_e.clerk.capacity]
-    plt.bar(resource_names, resource_utilisation, color = "purple")
-    plt.title("Resource Utilisation")
-    plt.xlabel("Resource Type")
-    plt.ylabel("Utilisation Rate")
-    plt.grid(axis="y")
-    plt.show()
+    fig10, ax = plt.subplots()
+    ax.bar(resource_names, resource_utilisation, color = "purple")
+    ax.set_title("Resource Utilisation")
+    ax.set_xlabel("Resource Type")
+    ax.set_ylabel("Utilisation Rate")
+    ax.grid(axis="y")
+    st.pyplot(fig10)
 
     #Number of patients in different stages of the process
     stage_names = ["Discharged", "Requires Tests", "Requires Medication", "Requires Bed"]
-    plt.bar(stage_names, [a_and_e.num_patient_discharged, a_and_e.num_patient_requires_tests, a_and_e.num_patient_requires_medication, a_and_e.num_patient_requires_bed], color="orange")
-    plt.title("Number of Patients in Different Stages of the Process")
-    plt.xlabel("Stages")
-    plt.ylabel("Number of Patients")
-    plt.grid(axis="y")
-    plt.show()
+    fig11, ax = plt.subplots()
+    ax.bar(stage_names, [a_and_e.num_patient_discharged, a_and_e.num_patient_requires_tests, a_and_e.num_patient_requires_medication, a_and_e.num_patient_requires_bed], color="orange")
+    ax.set_title("Number of Patients in Different Stages of the Process")
+    ax.set_xlabel("Stages")
+    ax.set_ylabel("Number of Patients")
+    ax.grid(axis="y")
+    st.pyplot(fig11)
 
     # Length of stay for patients 
-    plt.boxplot(a_and_e.patient_LOS, vert=False, patch_artist=True, boxprops=dict(facecolor = "purple"))
-    plt.title("Length of Stay for Patients occupied in bed")
-    plt.xlabel("Length of stay (minutes)")
-    plt.grid()
-    plt.show()
+    fig12, ax = plt.subplots()
+    ax.boxplot(a_and_e.patient_LOS, vert=False, patch_artist=True, boxprops=dict(facecolor = "purple"))
+    ax.set_title("Length of Stay for Patients occupied in bed")
+    ax.set_xlabel("Length of stay (minutes)")
+    ax.grid()
+    st.pyplot(fig12)
