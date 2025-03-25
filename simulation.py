@@ -429,7 +429,8 @@ class AnE:
             output.write(f"Patient {patient_ID}'s Doctor released at {self.sim_format_time(self.env.now)}"+ '\n')
 st.set_page_config(page_title="A&E Simulation", layout="wide")
 
-st.title("A&E Simulation")
+#st.title("A&E Simulation")
+st.markdown("<h1 style = 'text-align: center; color: white;'>A&E Simulation</h1>", unsafe_allow_html=True)
 #st.write("Testing")
 
 with st.sidebar:
@@ -440,11 +441,16 @@ with st.sidebar:
     num_beds = st.slider("Number of Beds", 1, 20, 5)
     mean_interarrival_time = st.slider("Mean Ar rival Time", 1, 10,3 )
     simulation_run_time= st.number_input("Simulation Run Time in minutes", 1, 1440, 1)    
-   
+    
     #Creates the simulation environmnment (A&E)
     env = sp.Environment()
 
 if st.button ("Run Simulation"):
+
+    #This clears the contents of the patient log file from previous runs
+    with open("patient_log.txt", "w") as output:
+        output.write('')
+
     # Create the A&E department with resources
     a_and_e = AnE(env, num_doctors=10, num_nurses=10, num_beds=5, num_clerk=3)
     mean_interarrival_time=3 # This lets user 
@@ -465,6 +471,7 @@ if st.button ("Run Simulation"):
     #print(f"Last patient {a_and_e.patientCount} left at {a_and_e.sim_format_time(a_and_e.last_patient_time)}")
 
     st.success(" ✅ Simulation Completed")
+    simulation_completed = True
    # Display the results
     
     with st.spinner("Gathering Results"):
@@ -503,8 +510,33 @@ if st.button ("Run Simulation"):
 
         hours1= int(overall_average_time // 60)
         minutes1= int(overall_average_time % 60)
+        
+        with col1:
+            st.metric(label= " Overall Average Wait Time" , value= (f"{hours1} hours and {minutes1} minutes"))
 
-        st.metric(label= " Overall Average Wait Time" , value= (f"{hours1} hours and {minutes1} minutes"))
+        
+        with col2:
+            st.subheader("Patient Log")
+            # if os.path.exists("patient_log.txt"):
+            #     with open("patient_log.txt", "r") as patient_log:
+            #         log_data = patient_log.read()
+            
+            #     with st.container():
+            #         st.code(log_data)
+            # else:
+            #     st.write("No patient log to display")
+
+            try:
+                with open("patient_log.txt", "r", encoding="utf-8") as patient_log:
+                    log_data = patient_log.read()
+                
+                st.download_button("Download Patient Log", data = log_data, file_name = "patient_log.txt", mime="text/plain ")
+            
+
+            except FileNotFoundError:
+                st.write("No patient log to display")
+                
+
 
         st.subheader("Visualisations")
 
