@@ -447,6 +447,9 @@ with st.sidebar:
 
 if st.button ("Run Simulation"):
 
+    if "patient_log_data" in st.session_state:
+        del st.session_state.patient_log_data
+
     #This clears the contents of the patient log file from previous runs
     with open("patient_log.txt", "w") as output:
         output.write('')
@@ -480,7 +483,7 @@ if st.button ("Run Simulation"):
         
         with col1:
             st.metric(label = "Total Patients Seen", value = a_and_e.patientCount)
-        st.write(f"Total patients seen: {a_and_e.patientCount}")
+        #st.write(f"Total patients seen: {a_and_e.patientCount}")
         
 
         ######################################################
@@ -514,28 +517,29 @@ if st.button ("Run Simulation"):
         with col1:
             st.metric(label= " Overall Average Wait Time" , value= (f"{hours1} hours and {minutes1} minutes"))
 
-        
+
         with col2:
             st.subheader("Patient Log")
-            # if os.path.exists("patient_log.txt"):
-            #     with open("patient_log.txt", "r") as patient_log:
-            #         log_data = patient_log.read()
-            
-            #     with st.container():
-            #         st.code(log_data)
-            # else:
-            #     st.write("No patient log to display")
-
             try:
-                with open("patient_log.txt", "r", encoding="utf-8") as patient_log:
-                    log_data = patient_log.read()
-                
-                st.download_button("Download Patient Log", data = log_data, file_name = "patient_log.txt", mime="text/plain ")
-            
+                with open("patient_log.txt", "r", encoding="utf-8") as file:
+                    log_data = file.read()
+                    st.session_state.patient_log_data = log_data  # Store in session state
 
             except FileNotFoundError:
-                st.write("No patient log to display")
-                
+                st.session_state.patient_log_data = None  # Handle missing file
+
+            # Display the updated log
+            if st.session_state.patient_log_data:
+
+                with st.container(height = 300):
+                    log_entries = st.session_state.patient_log_data.split("\n")  # Ensure each log is separate
+                    formatted_text = "<br>".join(log_entries)  # Join them with HTML line breaks
+                    st.markdown(formatted_text, unsafe_allow_html=True)
+
+                st.download_button(label="Download Patient Log", data=st.session_state.patient_log_data.encode("utf-8"), file_name="patient_log.txt", mime="text/plain")
+            else:
+                st.warning(" No patient log available.")
+
 
 
         st.subheader("Visualisations")
