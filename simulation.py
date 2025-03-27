@@ -13,7 +13,8 @@ class AnE:
     def __init__(self, env, num_doctors, num_nurses, num_beds, num_clerk,
                  num_immediate, num_very_urgent, num_urgent, num_standard, num_non_urgent,
                  admission_duration, risk_assessment_duration, doctor_consultation_duration, test_duration, medication_duration, follow_up_duration, length_of_stay,
-                 probability_discharge, probability_tests, probability_medication
+                 probability_discharge, probability_tests, probability_medication,
+                 start_time
                  ):
         self.env = env
         #Resource Allocation
@@ -56,7 +57,7 @@ class AnE:
         #self.priority = 0
 
 
-        self.start_time = datetime(2025,3,15,8,0)
+        self.start_time = start_time
        
         self.track_bed_usage = [] # This tracks occupied bed over time 
         self.patient_LOS=[] # Length of stay for the patient if they are admitted to a bed
@@ -101,7 +102,7 @@ class AnE:
 
 
     def sim_format_time(self,time):
-         current_time = self.start_time + timedelta(minutes=time)
+         current_time = (datetime.combine(datetime.today(), self.start_time) + timedelta(minutes=time)).time()
          return current_time.strftime("%H:%M") # This formats the time as hour:minute
     
 
@@ -525,7 +526,7 @@ with st.sidebar:
 
     with st.expander(label = "Simulation Configuration", expanded = False):
         simulation_run_time= st.number_input("🕛Simulation Run Time in minutes", 1, 1440, 100)
-        start_time = st.time_input("Start Time", datetime(2025,3,15,8,0))
+        start_time = st.time_input("Start Time", datetime(2025, 3, 15, 8, 0).time())
 
 
 
@@ -554,7 +555,8 @@ if run_button_pressed:
         a_and_e = AnE(env, num_doctors, num_nurses, num_beds, num_clerks, 
                       num_immediate, num_very_urgent, num_urgent, num_standard, num_non_urgent,
                       admission_duration, risk_assessment_duration, doctor_consultation_duration, test_duration, medication_duration, follow_up_duration, length_of_stay,
-                      probablility_discharge, probability_tests, probablity_medication
+                      probablility_discharge, probability_tests, probablity_medication,
+                      start_time
                                             
                       )
         env.process(a_and_e.patient_generator(mean_interarrival_time,simulation_run_time))
