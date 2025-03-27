@@ -10,12 +10,43 @@ import streamlit as st
 #Creates the simulation environment 
 class AnE:
     
-    def __init__(self, env, num_doctors, num_nurses, num_beds, num_clerk):
+    def __init__(self, env, num_doctors, num_nurses, num_beds, num_clerk,
+                 num_immediate, num_very_urgent, num_urgent, num_standard, num_non_urgent,
+                 admission_duration, risk_assessment_duration, doctor_consultation_duration, test_duration, medication_duration, follow_up_duration, length_of_stay,
+                 probability_discharge, probability_tests, probability_medication
+                 ):
         self.env = env
+        #Resource Allocation
         self.doctor = sp.PriorityResource(env, num_doctors)
         self.nurse = sp.PriorityResource(env, num_nurses)
         self.bed = sp.Resource(env, num_beds)
         self.clerk = sp.Resource(env, num_clerk) 
+
+        #This is for the triage calculation
+        self.num_immediate = num_immediate
+        self.num_very_urgent = num_very_urgent
+        self.num_urgent = num_urgent
+        self.num_standard = num_standard
+        self.num_non_urgent = num_non_urgent
+       
+       #Event Durations
+        self.admission_duration = admission_duration
+        self.risk_assesment_duration = risk_assessment_duration
+        self.doctor_consultation_duration = doctor_consultation_duration
+        self.test_duration = test_duration
+        self.medication_duration = medication_duration
+        self.follow_up_duration = follow_up_duration
+        self.length_of_stay = length_of_stay
+
+        # Probablity of discharge, tests and medications
+        self.probability_discharge = probability_discharge
+        self.probability_tests = probability_tests
+        self.probability_medication = probability_medication
+       
+       
+       
+       
+       
         #self.patient_id=0
         self.patientCount = 0 
         self.active_patients = set()
@@ -152,7 +183,8 @@ class AnE:
             output.write(f"Patient {patient_ID} was assigned a Clerk at {self.sim_format_time(self.env.now)}"+ '\n')
 
          #Stimulate the admission process
-         yield self.env.timeout(random.randint(1,5))
+         #yield self.env.timeout(random.randint(1,5))
+         yield self.env.timeout(self.admission_duration)
          finish_time = self.env.now
          duration = finish_time - arrival_time
          self.track_time_admission.append(duration)
@@ -204,7 +236,7 @@ class AnE:
 
 
             #Simulate the risk assesment process time
-            yield self.env.timeout(random.randint(1,5))
+            yield self.env.timeout(self.risk_assessment_duration)
             finish_time = self.env.now
             duration = finish_time - arrival_time
             self.track_time_risk_assessment.append(duration)
@@ -229,7 +261,7 @@ class AnE:
         
         with open("patient_log.txt", "a") as output:
             output.write(f"Patient {patient_ID} was assigned a Doctor assigned at {self.sim_format_time(self.env.now)}"+ '\n')
-        yield self.env.timeout(random.randint(1,5))
+        yield self.env.timeout(self.doctor_consultation_duration)
         finish_time = self.env.now
         duration = finish_time - arrival_time
         self.track_time_doctor_consultation.append(duration)
@@ -265,7 +297,7 @@ class AnE:
         
         #Stimulate the length of stay (LOS) in the bed
         los = random.randint(30,120)
-        yield self.env.timeout(los)
+        yield self.env.timeout(self.length_of_stay)
         self.update_last_patient_time()
         with open("patient_log.txt", "a") as output:
             output.write(f"Patient {patient_ID} has left the bed at {self.sim_format_time(self.env.now)}"+ '\n')
@@ -300,15 +332,32 @@ class AnE:
                 output.write(f"Patient {patient_ID} was assigned to a Doctor at {self.sim_format_time(self.env.now)}" + '\n')
         
             #Stimulate the doctor consultation process 
-            yield self.env.timeout(random.randint(1,5))
+            #yield self.env.timeout(random.randint(1,5))
+            yield self.env.timeout(self.doctor_consultation_duration)
             with open("patient_log.txt", "a") as output:
                 output.write(f"Patient {patient_ID}'s Doctor Consultation was completed at {self.sim_format_time(self.env.now)}"+ '\n')
             finish_time = self.env.now
             duration = finish_time - arrival_time
             self.track_time_doctor_consultation.append(duration)
-            decision =random.uniform(0,1)
             
-            if decision <0.5:
+            total = probability_discharge + probability_tests + probablity_medication
+            
+            if total ==0:
+                probability_discharge = 1/3
+                probability_tests = 1/3
+                probablity_medication = 1/3
+
+            
+            if total != 1:
+                probability_discharge /= total
+                probablity_target /= total
+                probablity_medication /= total
+            
+            
+            #decision =random.uniform(0,1)
+            decision = random.choices(["Discharge", "Tests", "Medication"], weights = [probability_discharge, probability_tests, probablity_medication][0])
+            
+            if decision == "Discharge":
                 self.track_time_for_discharge.append(duration)
                 self.update_last_patient_time()
                 with open("patient_log.txt", "a") as output:
@@ -320,7 +369,7 @@ class AnE:
                 self.doctor.release(req)
                 with open("patient_log.txt", "a") as output:
                     output.write(f"Patient {patient_ID}'s Doctor released at {self.sim_format_time(self.env.now)}"+ '\n')
-            elif decision<0.9:
+            elif decision == "Tests":
                self.num_patient_requires_tests += 1
                with open("patient_log.txt", "a") as output:
                 output.write(f"Patient {patient_ID} needs to do tests"+ '\n')
@@ -354,7 +403,8 @@ class AnE:
 
      with open("patient_log.txt", "a") as output:
         output.write(f"Patient {patient_ID} was assigned to a Nurse at {self.sim_format_time(self.env.now)}"+ '\n')
-     yield self.env.timeout(random.randint(1,5))
+     #yield self.env.timeout(random.randint(1,5))
+     yield self.env.timeout(self.test_duration)
      
      finish_time = self.env.now
      duration = finish_time - arrival_time
@@ -382,7 +432,8 @@ class AnE:
             self.track_waiting_time_for_nurse.append(wait_time)
         with open("patient_log.txt", "a") as output:
             output.write(f"Patient {patient_ID} was assigned to a Nurse at {self.sim_format_time(self.env.now)}"+ '\n')
-        yield self.env.timeout(random.randint(1,5))
+        #yield self.env.timeout(random.randint(1,5))
+        yield self.env.timeout(self.medication_duration)
         with open("patient_log.txt", "a") as output:
             output.write(f"Pateint {patient_ID} finished medication at {self.sim_format_time(self.env.now)}" + '\n')
         
@@ -411,8 +462,8 @@ class AnE:
             self.track_waiting_time_for_doctor.append(wait_time)
         with open("patient_log.txt", "a") as output:
             output.write(f"Patient {patient_ID} was assigned to a Doctor for a follow up at {self.sim_format_time(self.env.now)}"+ '\n')
-        yield self.env.timeout(random.randint(1,5))
-
+        #yield self.env.timeout(random.randint(1,5))
+        yield self.env.timeout(self.follow_up_duration)
         finish_time = self.env.now
         duration = finish_time - arrival_time
         self.track_time_for_follow_up.append(duration)
@@ -448,11 +499,11 @@ with st.sidebar:
         simulation_run_time= st.number_input("🕛Simulation Run Time in minutes", 1, 1440, 100)    
     
     with st.expander(label = "Triage Allocation", expanded = False):
-        num_immediate = st.number_input("🔴Number of Immediate Patients", 0, 100, 1)
-        num_very_urgent = st.number_input("🟠Number of Very Urgent Patients", 0, 100,1)
-        num_urgent = st.number_input("🟡Number of Urgent Patients", 0, 100, 1)
-        num_standard = st.number_input("🟢Number of Standard Patients", 0,100,1)
-        num_non_urgent = st.number_input("🔵Number of Non-Urgent Patients", 0, 100, 1)
+        num_immediate = st.number_input("🔴 % of Immediate Patients", 0, 100, 1)
+        num_very_urgent = st.number_input(" % of Very Urgent Patients", 0, 100,1)
+        num_urgent = st.number_input("🟡 % of Urgent Patients", 0, 100, 1)
+        num_standard = st.number_input("🟢 % of Standard Patients", 0,100,1)
+        num_non_urgent = st.number_input("🔵 % of Non-Urgent Patients", 0, 100, 1)
     
     with st.expander(label = "Patient Flow", expanded= False):
         admission_duration = st.slider("Admission Duration", 1, 10, 5)
@@ -487,8 +538,12 @@ if run_button_pressed:
         env = sp.Environment()
 
         # Create the A&E department with resources
-        a_and_e = AnE(env, num_doctors=10, num_nurses=10, num_beds=5, num_clerk=3)
-        mean_interarrival_time=3 # This lets user 
+        a_and_e = AnE(env, num_doctors, num_nurses, num_beds, num_clerks, 
+                      num_immediate, num_very_urgent, num_urgent, num_standard, num_non_urgent,
+                      admission_duration, risk_assessment_duration, doctor_consultation_duration, test_duration, medication_duration, follow_up_duration, length_of_stay,
+                      probablility_discharge, probability_tests, probablity_medication
+                                            
+                      )
         env.process(a_and_e.patient_generator(mean_interarrival_time,simulation_run_time))
         with st.spinner("Running Simulation"):
         
