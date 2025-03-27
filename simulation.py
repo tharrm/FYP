@@ -199,11 +199,11 @@ class AnE:
     
     def triage_manchester(self):
         patient_urgency= {
-                        "Red (Immediate)": (35,0), # 5% chance of being immediate with 0 being the highest prirority
-                        "Orange (Very Urgent)": (10,1), # 10% chance of being very urgent
-                        "Yellow (Urgent)": (5,2), #35% chance of being urgent
-                        "Green (Standard)": (30,3), #30% chance of being standard
-                        "Blue (Non-Urgent)": (20,4) #20% chance of being non-urgent
+                        "Red (Immediate)": (self.num_immediate,0), # 5% chance of being immediate with 0 being the highest prirority
+                        "Orange (Very Urgent)": (self.num_very_urgent,1), # 10% chance of being very urgent
+                        "Yellow (Urgent)": (self.num_urgent,2), #35% chance of being urgent
+                        "Green (Standard)": (self.num_standard,3), #30% chance of being standard
+                        "Blue (Non-Urgent)": (self.num_non_urgent,4) #20% chance of being non-urgent
                     }
         triage_calculator= random.choices(list(patient_urgency.keys()), weights= [value[0] for value in patient_urgency.values()])[0] #Randomly selects a traige based on the weights and then selects the first element from the list
         priority = patient_urgency[triage_calculator][1] #Selects the priority of the selected triage
@@ -236,7 +236,7 @@ class AnE:
 
 
             #Simulate the risk assesment process time
-            yield self.env.timeout(self.risk_assessment_duration)
+            yield self.env.timeout(self.risk_assesment_duration)
             finish_time = self.env.now
             duration = finish_time - arrival_time
             self.track_time_risk_assessment.append(duration)
@@ -340,22 +340,22 @@ class AnE:
             duration = finish_time - arrival_time
             self.track_time_doctor_consultation.append(duration)
             
-            total = probability_discharge + probability_tests + probablity_medication
+            total = self.probability_discharge + self.probability_tests + self.probability_medication
             
             if total ==0:
-                probability_discharge = 1/3
-                probability_tests = 1/3
-                probablity_medication = 1/3
+                self.probability_discharge = 1/3
+                self.probability_tests = 1/3
+                self.probability_medication = 1/3
 
             
             if total != 1:
-                probability_discharge /= total
-                probablity_target /= total
-                probablity_medication /= total
+                self.probability_discharge /= total
+                self.probablity_target /= total
+                self.probability_medication /= total
             
             
             #decision =random.uniform(0,1)
-            decision = random.choices(["Discharge", "Tests", "Medication"], weights = [probability_discharge, probability_tests, probablity_medication][0])
+            decision = random.choices(["Discharge", "Tests", "Medication"], weights = [self.probability_discharge, self.probability_tests, self.probability_medication])[0]
             
             if decision == "Discharge":
                 self.track_time_for_discharge.append(duration)
@@ -491,12 +491,11 @@ with st.sidebar:
     st.header("⚙️Simulation Configuration")
 
     with st.expander(label="Resources Allocation", expanded=False):
+        st.write("Configure the number of resources in the A&E department")
         num_clerks = st.slider(" 👩‍💼Number of Clerks", 1, 10, 3)
         num_nurses = st.slider("👩‍⚕️Number of Nurses", 1, 20, 10)
         num_doctors = st.slider("👨‍⚕️Number of Doctors", 1, 20, 10)
         num_beds = st.slider("🛏️Number of Beds", 1, 20, 5)
-        mean_interarrival_time = st.slider("🚶‍♀️‍➡️Mean Arrival Time", 1, 10,3 )
-        simulation_run_time= st.number_input("🕛Simulation Run Time in minutes", 1, 1440, 100)    
     
     with st.expander(label = "Triage Allocation", expanded = False):
         num_immediate = st.number_input("🔴 % of Immediate Patients", 0, 100, 1)
@@ -509,7 +508,7 @@ with st.sidebar:
         admission_duration = st.slider("Admission Duration", 1, 10, 5)
         risk_assessment_duration = st.slider("Risk Assesmet Duration", 1, 10, 5)
         doctor_consultation_duration = st.slider("Doctor Consultation Duration", 1, 10, 5)
-        test_duration= st.slider(" Test Duration", 1, 10, 5)
+        test_duration= st.slider("Test Duration", 1, 10, 5)
         medication_duration = st.slider("Medication Duration", 1, 10, 5)
         follow_up_duration = st.slider("Follow Up Duration", 1, 10, 5)
         length_of_stay = st.slider("Length of Stay", 1, 10, 5)
@@ -518,6 +517,20 @@ with st.sidebar:
         probability_tests = st.slider("Probability of Tests", 0.0, 1.0, 0.9)
         probablity_medication = st.slider("Probability of Medication", 0.0, 1.0,)
         
+    
+    with st.expander(label = " Patient Generator", expanded = False):
+        mean_interarrival_time = st.slider("🚶‍♀️‍➡️Mean Arrival Time", 1, 10,3 )
+
+
+
+    with st.expander(label = "Simulation Configuration", expanded = False):
+        simulation_run_time= st.number_input("🕛Simulation Run Time in minutes", 1, 1440, 100)
+        start_time = st.time_input("Start Time", datetime(2025,3,15,8,0))
+
+
+
+
+
     run_button_pressed = False # Initial Value      
     if st.button("▶️ Run Simulation"):
        run_button_pressed = True
