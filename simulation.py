@@ -114,7 +114,7 @@ class AnE:
               self.last_patient_time = max(self.env.now, self.last_patient_time)
     
     #patient is the process
-    def patient_generator(self, mean_interarrival_time, finish_time):
+    def patient_generator(self, mean_interarrival_time, finish_time,average_rate_patients_per_interval):
         patient_ID = 0
         while True:
                 interarrival_time= np.random.exponential(mean_interarrival_time)
@@ -122,7 +122,7 @@ class AnE:
                 
                 if self.env.now > finish_time:
                     continue 
-                number_of_patients_arrival = max(1,np.random.poisson(1.5))
+                number_of_patients_arrival = max(1,np.random.poisson(average_rate_patients_per_interval))  # the poisson takens in the average rate of patients arriving per interval time
                 for _ in range(number_of_patients_arrival):
                     self.patientCount +=1 
                     patient_ID+=1
@@ -521,6 +521,7 @@ with st.sidebar:
     
     with st.expander(label = " Patient Generator", expanded = False):
         mean_interarrival_time = st.slider("🚶‍♀️‍➡️Mean Arrival Time", 1, 10,3 )
+        average_rate_patients_per_interval = st.slider(" 🚶‍♂️‍➡️Average Rate of Patients per Interval", 1, 50, 10)
 
 
 
@@ -559,7 +560,7 @@ if run_button_pressed:
                       start_time
                                             
                       )
-        env.process(a_and_e.patient_generator(mean_interarrival_time,simulation_run_time))
+        env.process(a_and_e.patient_generator(mean_interarrival_time,simulation_run_time,average_rate_patients_per_interval))
         with st.spinner("Running Simulation"):
         
             env.run(simulation_run_time) #This runs for how long minutes the user wants
