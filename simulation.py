@@ -121,15 +121,18 @@ class AnE:
                 yield self.env.timeout(interarrival_time) 
                 
                 if self.env.now > finish_time:
-                    continue 
-                number_of_patients_arrival = max(1,np.random.poisson(average_rate_patients_per_interval))  # the poisson takens in the average rate of patients arriving per interval time
-                for _ in range(number_of_patients_arrival):
-                    self.patientCount +=1 
-                    patient_ID+=1
-                    self.active_patients.add(patient_ID)
-                    with open("patient_log.txt", "a") as output:
-                        output.write(f"Patient {patient_ID} arrived at {self.sim_format_time(self.env.now)}" + '\n')
-                    self.env.process(self.patient_flow(patient_ID))
+                    break 
+                number_of_patients_arrival = np.random.poisson(average_rate_patients_per_interval)  # the poisson takens in the average rate of patients arriving per interval time
+                #for _ in range(number_of_patients_arrival):
+                self.patientCount +=1 
+                patient_ID+=1
+                self.active_patients.add(patient_ID)
+                    
+                with open("patient_log.txt", "a") as output:
+                    output.write(f"Patient {patient_ID} arrived at {self.sim_format_time(self.env.now)}" + '\n')
+                    
+                #Start patient flow process
+                self.env.process(self.patient_flow(patient_ID))
                 
      #The stages of what the patient goes through
     def patient_flow(self, patient_ID):
@@ -607,9 +610,13 @@ if run_button_pressed:
                 else:
                     average_wait_time = 0 
 
-                hours = int(average_wait_time // 60)
-                minutes = int(average_wait_time % 60)
-                st.metric(label= "The average for patients who had to had wait time is ", value = (f"{hours} hours and {minutes} minutes"))
+                if len(a_and_e.patient_who_waited) > 0:
+                    average_wait_time = sum(a_and_e.patient_who_waited) / len(a_and_e.patient_who_waited)
+                    hours = int(average_wait_time // 60)
+                    minutes = int(average_wait_time % 60)
+                    st.metric(label= "The average for patients who had to wait time is ", value = (f"{hours} hours and {minutes} minutes"))
+                else:
+                    st.metric(label= "The average for patients who had to wait time is ", value = "No patients waited")
 
             #This calculates the overall average wait time even with pateints who did not wait 
             overall_average_time = sum(a_and_e.patient_total_wait_time) / len (a_and_e.patient_total_wait_time)
