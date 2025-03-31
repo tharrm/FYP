@@ -40,9 +40,9 @@ class AnE:
         self.length_of_stay = length_of_stay
 
         # Probablity of discharge, tests and medications
-        self.probability_discharge = probability_discharge
-        self.probability_tests = probability_tests
-        self.probability_medication = probability_medication
+        self.percentage_discharge = probability_discharge
+        self.percentage_tests = probability_tests
+        self.percentage_medication = probability_medication
        
        
        
@@ -114,7 +114,7 @@ class AnE:
               self.last_patient_time = max(self.env.now, self.last_patient_time)
     
     #patient is the process
-    def patient_generator(self, mean_interarrival_time, finish_time,average_rate_patients_per_interval):
+    def patient_generator(self, mean_interarrival_time, finish_time):
         patient_ID = 0
         while True:
                 interarrival_time= np.random.exponential(mean_interarrival_time)
@@ -122,7 +122,7 @@ class AnE:
                 
                 if self.env.now > finish_time:
                     break 
-                number_of_patients_arrival = np.random.poisson(average_rate_patients_per_interval)  # the poisson takens in the average rate of patients arriving per interval time
+                #number_of_patients_arrival = np.random.poisson(average_rate_patients_per_interval)  # the poisson takens in the average rate of patients arriving per interval time
                 #for _ in range(number_of_patients_arrival):
                 self.patientCount +=1 
                 patient_ID+=1
@@ -344,22 +344,22 @@ class AnE:
             duration = finish_time - arrival_time
             self.track_time_doctor_consultation.append(duration)
             
-            total = self.probability_discharge + self.probability_tests + self.probability_medication
+            total = self.percentage_discharge + self.percentage_tests + self.percentage_medication
             
             if total ==0:
-                self.probability_discharge = 1/3
-                self.probability_tests = 1/3
-                self.probability_medication = 1/3
+                self.percentage_discharge = 100/3
+                self.percentage_tests = 100/3
+                self.percentage_medication = 100/3
 
             
-            if total != 1:
-                self.probability_discharge /= total
-                self.probablity_target /= total
-                self.probability_medication /= total
+            if total != 100:
+                self.percentage_discharge = (self.percentage_discharge / total) * 100 
+                self.percentage_tests = (self.percentage_tests / total) * 100
+                self.percentage_medication = (self.percentage_medication / total) * 100
             
             
             #decision =random.uniform(0,1)
-            decision = random.choices(["Discharge", "Tests", "Medication"], weights = [self.probability_discharge, self.probability_tests, self.probability_medication])[0]
+            decision = random.choices(["Discharge", "Tests", "Medication"], weights = [self.percentage_discharge, self.percentage_tests, self.percentage_medication])[0]
             
             if decision == "Discharge":
                 self.track_time_for_discharge.append(duration)
@@ -517,14 +517,14 @@ with st.sidebar:
         follow_up_duration = st.slider("Follow Up Duration", 1, 10, 5)
         length_of_stay = st.slider("Length of Stay", 1, 10, 5)
 
-        probablility_discharge = st.slider("Probability of Discharge", 0.0, 1.0, 0.5)
-        probability_tests = st.slider("Probability of Tests", 0.0, 1.0, 0.9)
-        probablity_medication = st.slider("Probability of Medication", 0.0, 1.0,)
+        probablility_discharge = st.slider("Percentage of Discharge", 0, 100, 1)
+        probability_tests = st.slider("Percantage of Tests", 0, 100, 1)
+        probablity_medication = st.slider("Percentage of Medication",0, 100, 1)
         
     
     with st.expander(label = " Patient Generator", expanded = False):
         mean_interarrival_time = st.slider("🚶‍♀️‍➡️Mean Arrival Time", 1, 10,3 )
-        average_rate_patients_per_interval = st.slider(" 🚶‍♂️‍➡️Average Rate of Patients per Interval", 1, 50, 10)
+        #average_rate_patients_per_interval = st.slider(" 🚶‍♂️‍➡️Average Rate of Patients per Interval", 1, 50, 10)
 
 
 
@@ -563,7 +563,7 @@ if run_button_pressed:
                       start_time
                                             
                       )
-        env.process(a_and_e.patient_generator(mean_interarrival_time,simulation_run_time,average_rate_patients_per_interval))
+        env.process(a_and_e.patient_generator(mean_interarrival_time,simulation_run_time))
         with st.spinner("Running Simulation"):
         
             env.run(simulation_run_time) #This runs for how long minutes the user wants
@@ -605,13 +605,24 @@ if run_button_pressed:
             #print(a_and_e.patient_total_wait_time) Testing 
 
             with col2:
-                if len(a_and_e.patient_who_waited) == 0:
+                if len(a_and_e.patient_who_waited) > 0:
                     average_wait_time = sum(a_and_e.patient_who_waited) / len(a_and_e.patient_who_waited)
                 else:
                     average_wait_time = 0 
 
-                if len(a_and_e.patient_who_waited) > 0:
-                    average_wait_time = sum(a_and_e.patient_who_waited) / len(a_and_e.patient_who_waited)
+                # Calculate resource utilization
+                total_simulation_time = simulation_run_time
+                resource_utilisation = {
+                    "Clerk": sum(req.time for req in a_and_e.clerk.users) / (total_simulation_time * a_and_e.clerk.capacity),
+                    "Nurse": sum(req.time for req in a_and_e.nurse.users) / (total_simulation_time * a_and_e.nurse.capacity),
+                    "Doctor": sum(req.time for req in a_and_e.doctor.users) / (total_simulation_time * a_and_e.doctor.capacity),
+                    "Bed": sum(req.time for req in a_and_e.bed.users) / (total_simulation_time * a_and_e.bed.capacity),
+                }
+                st.write("Resource Utilisation:")
+                for resource, utilisation in resource_utilisation.items():
+                    st.write(f"{resource}: {utilisation:.2%}")
+
+                if  average_wait_time != 0:
                     hours = int(average_wait_time // 60)
                     minutes = int(average_wait_time % 60)
                     st.metric(label= "The average for patients who had to wait time is ", value = (f"{hours} hours and {minutes} minutes"))
