@@ -97,6 +97,9 @@ class AnE:
         self.num_patient_standard = 0
         self.num_patient_non_urgent = 0
 
+        #Total simulation run time
+        self.total_simulation_time = 0 
+
         
 
 
@@ -111,7 +114,7 @@ class AnE:
         return f"{int(minutes) //60}h {int(minutes % 60)}m "
 
     def update_last_patient_time(self):
-              self.last_patient_time = max(self.env.now, self.last_patient_time)
+        self.last_patient_time = max(self.env.now, self.last_patient_time)
     
     #patient is the process
     def patient_generator(self, mean_interarrival_time, finish_time):
@@ -480,6 +483,7 @@ class AnE:
             output.write(f"Patient {patient_ID} has left the A&E at {self.sim_format_time(self.env.now)}"+ '\n') 
         
         self.doctor.release(req)
+
         with open("patient_log.txt", "a") as output:
             output.write(f"Patient {patient_ID}'s Doctor released at {self.sim_format_time(self.env.now)}"+ '\n')
 
@@ -609,18 +613,6 @@ if run_button_pressed:
                     average_wait_time = sum(a_and_e.patient_who_waited) / len(a_and_e.patient_who_waited)
                 else:
                     average_wait_time = 0 
-
-                # Calculate resource utilization
-                total_simulation_time = simulation_run_time
-                resource_utilisation = {
-                    "Clerk": sum(req.time for req in a_and_e.clerk.users) / (total_simulation_time * a_and_e.clerk.capacity),
-                    "Nurse": sum(req.time for req in a_and_e.nurse.users) / (total_simulation_time * a_and_e.nurse.capacity),
-                    "Doctor": sum(req.time for req in a_and_e.doctor.users) / (total_simulation_time * a_and_e.doctor.capacity),
-                    "Bed": sum(req.time for req in a_and_e.bed.users) / (total_simulation_time * a_and_e.bed.capacity),
-                }
-                st.write("Resource Utilisation:")
-                for resource, utilisation in resource_utilisation.items():
-                    st.write(f"{resource}: {utilisation:.2%}")
 
                 if  average_wait_time != 0:
                     hours = int(average_wait_time // 60)
@@ -840,18 +832,33 @@ if run_button_pressed:
                     st.pyplot(fig11)
 
             with st.expander("Resource Utilisation", expanded = True):
-                #Resource utilisation
-                resource_utilisation = [a_and_e.doctor.count / a_and_e.doctor.capacity,
-                                        a_and_e.nurse.count / a_and_e.nurse.capacity,
-                                        a_and_e.bed.count / a_and_e.bed.capacity,
-                                        a_and_e.clerk.count / a_and_e.clerk.capacity]
-                fig10, ax = plt.subplots(figsize=(10,5))
-                ax.bar(resource_names, resource_utilisation, color = "purple")
-                ax.set_title("Resource Utilisation")
-                ax.set_xlabel("Resource Type")
-                ax.set_ylabel("Utilisation Rate")
-                ax.grid(axis="y")
-                st.pyplot(fig10)
+                 # Calculate resource utilization
+                total_simulation_time = a_and_e.last_patient_time
+                # Calculate the total time each resource was used
+            
+                            # Calculate the total time each resource was utilized
+                resource_utilisation = {
+                    "Clerk": (a_and_e.clerk.time_busy / total_simulation_time) if hasattr(a_and_e.clerk, 'time_busy') else 0,
+                    "Nurse": (a_and_e.nurse.time_busy / total_simulation_time) if hasattr(a_and_e.nurse, 'time_busy') else 0,
+                    "Doctor": (a_and_e.doctor.time_busy / total_simulation_time) if hasattr(a_and_e.doctor, 'time_busy') else 0,
+                    "Bed": (a_and_e.bed.time_busy / total_simulation_time) if hasattr(a_and_e.bed, 'time_busy') else 0,
+                }
+                for resource, utilisation in resource_utilisation.items():
+                    st.write(f"{resource}: {utilisation:.2%}")
+                
+
+                # #Resource utilisation
+                # resource_utilisation = [a_and_e.doctor.count / a_and_e.doctor.capacity,
+                #                         a_and_e.nurse.count / a_and_e.nurse.capacity,
+                #                         a_and_e.bed.count / a_and_e.bed.capacity,
+                #                         a_and_e.clerk.count / a_and_e.clerk.capacity]
+                # fig10, ax = plt.subplots(figsize=(10,5))
+                # ax.bar(resource_names, resource_utilisation, color = "purple")
+                # ax.set_title("Resource Utilisation")
+                # ax.set_xlabel("Resource Type")
+                # ax.set_ylabel("Utilisation Rate")
+                # ax.grid(axis="y")
+                # st.pyplot(fig10)
 
     
         
