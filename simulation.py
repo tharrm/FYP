@@ -504,6 +504,18 @@ class AnE:
         self.track_bed_utilisation.append((self.env.now, len(self.bed.queue), self.bed.count))
         self.track_doctor_utilisation.append((self.env.now, len(self.doctor.queue), self.doctor.count))
 
+    def caculate_resource_utilisation(self, resource_track, resource_capacity, last_patient_time):
+        total_usage_time = 0
+        for i in range(len(resource_track) - 1):
+            time_interval = resource_track[i + 1][0] - resource_track[i][0]  # Time difference
+            usage = resource_track[i][2]  
+            total_usage_time += usage * time_interval  
+
+        utilisation_percentage = (total_usage_time / (last_patient_time * resource_capacity)) * 100
+        
+        # Ensure utilization is at most 100%
+        return min(utilisation_percentage,100)  
+    
 # FROM HERE CODE IS FOR DISPLAYING THE SIMULATION 
 
 st.set_page_config(page_title="A&E Simulation🏥", layout="wide")
@@ -538,9 +550,9 @@ with st.sidebar:
         follow_up_duration = st.slider("Follow Up Duration", 1, 10, 5)
         length_of_stay = st.slider("Length of Stay", 1, 10, 5)
 
-        probablility_discharge = st.slider("Percentage of Discharge", 0, 100, 1)
-        probability_tests = st.slider("Percantage of Tests", 0, 100, 1)
-        probablity_medication = st.slider("Percentage of Medication",0, 100, 1)
+        percentage_discharge = st.slider("Percentage of Discharge", 0, 100, 1)
+        percentage_tests = st.slider("Percantage of Tests", 0, 100, 1)
+        percentage_medication = st.slider("Percentage of Medication",0, 100, 1)
         
     
     with st.expander(label = " Patient Generator", expanded = False):
@@ -580,7 +592,7 @@ if run_button_pressed:
         a_and_e = AnE(env, num_doctors, num_nurses, num_beds, num_clerks, 
                       num_immediate, num_very_urgent, num_urgent, num_standard, num_non_urgent,
                       admission_duration, risk_assessment_duration, doctor_consultation_duration, test_duration, medication_duration, follow_up_duration, length_of_stay,
-                      probablility_discharge, probability_tests, probablity_medication,
+                      percentage_discharge, percentage_tests, percentage_medication,
                       start_time
                                             
                       )
@@ -710,13 +722,17 @@ if run_button_pressed:
                     ax.grid()
                     st.pyplot(fig1)
                 with col2:
-                    #This graph is for the time patients spent in the AnE
-                    fig2, ax = plt.subplots(figsize=(10,5))
-                    sns.violinplot(a_and_e.patient_spent_time, color = "red", inner = "quartile", cut = 0)
-                    ax.set_title("Time Patients Spent in A&E")
-                    ax.set_xlabel("Time Patient Spent in A&E (minutes)")
-                    ax.set_ylim(0, max(a_and_e.patient_spent_time) + 100)
-                    st.pyplot(fig2)
+                    if len(a_and_e.patient_spent_time) > 0:
+
+                        #This graph is for the time patients spent in the AnE
+                        fig2, ax = plt.subplots(figsize=(10,5))
+                        sns.violinplot(a_and_e.patient_spent_time, color = "red")
+                        ax.set_title("Time Patients Spent in A&E")
+                        ax.set_xlabel("Time Patient Spent in A&E (minutes)")
+                        ax.set_ylim(0, max(a_and_e.patient_spent_time) + 100)
+                        st.pyplot(fig2)
+                    else:
+                        st.write("No patient spent time in A&E")
 
             #Histogram for patient spent time 
                 with col3:
@@ -774,13 +790,10 @@ if run_button_pressed:
                     if(len(average_resource_wait_time)> 0):
                         fig6, ax = plt.subplots(figsize=(10,5))
                         ax.bar(resource_names, average_resource_wait_time, color = "green" )
-                        ax.set_title("Average Wait Time for Resoruces")
+                        ax.set_title("Average Wait Time for Resources")
                         ax.set_xlabel("Resources")
-                        ax.set_ylabel("Average Wait Time Minutes")
-                        max_y_time = max(average_resource_wait_time)
-                        #ax.set_ylim(0, max_y_time + 10)
-                        #ax.set_yticks(range(0, int(max_y_time)+ 50, 100)) # Goes up by every 50 minutes the ticks 
-
+                        ax.set_ylabel("Average Wait Time (Minutes)")
+                        ax.set_ylim(0, max(average_resource_wait_time) + 5 )
                         ax.grid(axis="y")
                         st.pyplot(fig6)
                     else:
@@ -857,39 +870,42 @@ if run_button_pressed:
                     st.pyplot(fig11)
 
             with st.expander("Resource Utilisation", expanded = True):
+                clerk_utilization = a_and_e.caculate_resource_utilisation(
+                a_and_e.track_clerk_utilisation, num_clerks, simulation_run_time)
+
+                nurse_utilization = a_and_e.caculate_resource_utilisation(
+                    a_and_e.track_nurse_utilisation, num_nurses, simulation_run_time)
+
+                bed_utilization = a_and_e.caculate_resource_utilisation(
+                    a_and_e.track_bed_utilisation, num_beds, simulation_run_time)
+
+                doctor_utilization = a_and_e.caculate_resource_utilisation(
+                    a_and_e.track_doctor_utilisation, num_doctors, simulation_run_time)
+                    
+                    
                 col1, col2 = st.columns(2)
 
-                # Extracts data for the resources each
+
+                with col1:
+                    st.metric(label="Clerk Utilization", value=f"{clerk_utilization:.2f}%")
+                    st.metric(label="Nurse Utilization", value=f"{nurse_utilization:.2f}%")
+
+                with col2:
+                    st.metric(label="Bed Utilization", value=f"{bed_utilization:.2f}%")
+                    st.metric(label="Doctor Utilization", value=f"{doctor_utilization:.2f}%")
+
+
+
+
+
+
+
+                    # Extracts data for the resources each
                 times_clerk, queue_clerk, usage_clerk = zip(*a_and_e.track_clerk_utilisation)
                 times_nurse, queue_nurse, usage_nurse = zip(*a_and_e.track_nurse_utilisation)
                 times_bed, queue_bed, usage_bed = zip(*a_and_e.track_bed_utilisation)
                 times_doctor, queue_doctor, usage_doctor = zip(*a_and_e.track_doctor_utilisation)
 
-                # #Plot resource utilisation over time
-                # fig10, ax = plt.subplots(figsize=(10,5))
-                
-                # #Plot for the clerks
-                # ax.plot(times_clerk, usage_clerk, label="Clerk Usage")
-                # ax.plot(times_clerk, queue_clerk, label = "Clerk Queue") 
-
-                # #Plot for nurses
-                # ax.plot(times_nurse, usage_nurse, label="Nurse Usage")  
-                # ax.plot(times_nurse, queue_nurse, label = "Nurse Queue")
-
-                # #Plot for doctors
-                # ax.plot(times_doctor, usage_doctor, label="Doctor Usage")
-                # ax.plot(times_doctor, queue_doctor, label = "Doctor Queue")
-
-                # # Plot for beds
-                # ax.plot(times_bed, usage_bed, label="Bed Usage")
-                # ax.plot(times_bed, queue_bed, label = "Bed Queue")
-                
-                # ax.set_title("Resource Utilisation Over Time")
-                # ax.set_xlabel(" Simulation Time (minutes)")
-                # ax.set_ylabel("Number of Resources")
-                # ax.legend()
-                # ax.grid()
-                # st.pyplot(fig10)
 
                 with col1:
                     fig10, ax = plt.subplots(figsize=(10, 5))
