@@ -45,9 +45,6 @@ class AnE:
         self.percentage_medication = probability_medication
        
        
-       
-       
-       
         #self.patient_id=0
         self.patientCount = 0 
         self.active_patients = set()
@@ -100,6 +97,13 @@ class AnE:
         #Total simulation run time
         self.total_simulation_time = 0 
 
+        # Resources Utilisation tracking
+        self.track_clerk_utilisation = []
+        self.track_nurse_utilisation = []
+        self.track_doctor_utilisation = []
+        self.track_bed_utilisation = []
+        
+
         
 
 
@@ -119,6 +123,7 @@ class AnE:
     #patient is the process
     def patient_generator(self, mean_interarrival_time, finish_time):
         patient_ID = 0
+        self.update_bed_occupancy()
         while True:
                 interarrival_time= np.random.exponential(mean_interarrival_time)
                 yield self.env.timeout(interarrival_time) 
@@ -486,6 +491,18 @@ class AnE:
 
         with open("patient_log.txt", "a") as output:
             output.write(f"Patient {patient_ID}'s Doctor released at {self.sim_format_time(self.env.now)}"+ '\n')
+    
+    def resource_utilisation_tracker(self):
+        while True:
+            self.update_resource_utilisation()
+            yield self.env.timeout(1)
+
+
+    def update_resource_utilisation(self):
+        self.track_clerk_utilisation.append((self.env.now, len(self.clerk.queue), self.clerk.count))
+        self.track_nurse_utilisation.append((self.env.now, len(self.nurse.queue), self.nurse.count))
+        self.track_bed_utilisation.append((self.env.now, len(self.bed.queue), self.bed.count))
+        self.track_doctor_utilisation.append((self.env.now, len(self.doctor.queue), self.doctor.count))
 
 # FROM HERE CODE IS FOR DISPLAYING THE SIMULATION 
 
@@ -568,6 +585,7 @@ if run_button_pressed:
                                             
                       )
         env.process(a_and_e.patient_generator(mean_interarrival_time,simulation_run_time))
+        env.process(a_and_e.resource_utilisation_tracker())
         with st.spinner("Running Simulation"):
         
             env.run(simulation_run_time) #This runs for how long minutes the user wants
@@ -662,13 +680,13 @@ if run_button_pressed:
                     times,bed_count = zip(*a_and_e.track_bed_usage) # This  unpacks into two lists time and bed count 
                     #This graph is for bed occupancy over time 
                     fig, ax = plt.subplots(figsize=(10,5))
-                    ax.scatter(times, bed_count, marker= "x", color = "red")
+                    ax.plot(times, bed_count,linestyle="--", color = "purple")
                     ax.set_xlabel("Simulation Time (minutes)")
                     ax.set_ylabel("Occupied Beds")
                     ax.set_title("Bed Occupancy Over Time")
                     ax.grid()
-                    ax.set_xlim(0,simulation_run_time + 100)
-                    ax.set_ylim(0,a_and_e.bed.capacity)
+                    ax.set_xlim(0,a_and_e.last_patient_time + 10)
+                    ax.set_yticks(range(0, a_and_e.bed.capacity + 2, 1)) # Goes up by every 1 bed the ticks
                     st.pyplot(fig)
 
             # Length of stay for patients 
@@ -716,25 +734,29 @@ if run_button_pressed:
                 col1, col2 = st.columns(2)
                 
                 with col1:
-                    fig4, ax = plt.subplots(figsize=(10,5))
-                    number_of_bins1 = int(np.sqrt(len(a_and_e.patient_who_waited)))
-                    ax.hist(a_and_e.patient_who_waited, bins=number_of_bins1, color="blue", edgecolor="black")
-                    ax.set_title("Wait Time for Patients")
-                    ax.set_xlabel("Wait Time (minutes)")
-                    ax.set_ylabel("Frequency")
-                    ax.grid()
-                    ax.set_xlim(0, max(a_and_e.patient_who_waited)+ 100)
-                    st.pyplot(fig4)
+                    if len(a_and_e.patient_who_waited) > 0:
+                        fig4, ax = plt.subplots(figsize=(10,5))
+                        number_of_bins1 = int(np.sqrt(len(a_and_e.patient_who_waited)))
+                        ax.hist(a_and_e.patient_who_waited, bins=number_of_bins1, color="blue", edgecolor="black")
+                        ax.set_title("Wait Time for Patients")
+                        ax.set_xlabel("Wait Time (minutes)")
+                        ax.set_ylabel("Frequency")
+                        ax.grid()
+                        ax.set_xlim(0, max(a_and_e.patient_who_waited)+ 100)
+                        st.pyplot(fig4)
+                    else:
+                        st.write("No patient wait times.")
 
                 with col2:
+                    if len(a_and_e.patient_who_waited) > 0:
 
-                    fig5, ax = plt.subplots(figsize=(10,5))
-                    ax.boxplot(a_and_e.patient_who_waited , vert=False, patch_artist=True, boxprops=dict(facecolor="blue"))
-                    ax.set_title("Wait Time for Patients")
-                    ax.set_xlabel("Wait Time (minutes)")
-                    ax.set_xlim(0, max(a_and_e.patient_who_waited)+ 40)
-                    ax.grid()
-                    st.pyplot(fig5)
+                        fig5, ax = plt.subplots(figsize=(10,5))
+                        ax.boxplot(a_and_e.patient_who_waited , vert=False, patch_artist=True, boxprops=dict(facecolor="blue"))
+                        ax.set_title("Wait Time for Patients")
+                        ax.set_xlabel("Wait Time (minutes)")
+                        ax.set_xlim(0, max(a_and_e.patient_who_waited)+ 40)
+                        ax.grid()
+                        st.pyplot(fig5)
 
             # Average wait times for the resources 
             
@@ -743,24 +765,27 @@ if run_button_pressed:
                 col1, col2 = st.columns(2)
                 with col1:
                         
-                    average_resource_wait_time = [ np.mean(a_and_e.track_waiting_time_for_clerk),
-                                                np.mean(a_and_e.track_waiting_time_for_nurse),
-                                                np.mean(a_and_e.track_waiting_time_for_doctor),
-                                                np.mean(a_and_e.track_waiting_time_for_bed)
+                    average_resource_wait_time = [ np.mean(a_and_e.track_waiting_time_for_clerk) if a_and_e.track_waiting_time_for_clerk else 0,
+                                                np.mean(a_and_e.track_waiting_time_for_nurse) if a_and_e.track_waiting_time_for_nurse else 0,
+                                                np.mean(a_and_e.track_waiting_time_for_doctor) if a_and_e.track_waiting_time_for_doctor else 0,
+                                                np.mean(a_and_e.track_waiting_time_for_bed) if a_and_e.track_waiting_time_for_bed else 0
                                                 ]
                     resource_names = ["Clerk", "Nurse", "Doctor", "Bed"]
-                    fig6, ax = plt.subplots(figsize=(10,5))
-                    ax.bar(resource_names, average_resource_wait_time, color = "green" )
-                    ax.set_title("Average Wait Time for Resoruces")
-                    ax.set_xlabel("Resources")
-                    ax.set_ylabel("Average Wait Time Minutes")
-                    max_y_time = max(average_resource_wait_time)
-                    ax.set_ylim(0, max_y_time + 10)
-                    ax.set_yticks(range(0, int(max_y_time)+ 50, 100)) # Goes up by every 50 minutes the ticks 
+                    if(len(average_resource_wait_time)> 0):
+                        fig6, ax = plt.subplots(figsize=(10,5))
+                        ax.bar(resource_names, average_resource_wait_time, color = "green" )
+                        ax.set_title("Average Wait Time for Resoruces")
+                        ax.set_xlabel("Resources")
+                        ax.set_ylabel("Average Wait Time Minutes")
+                        max_y_time = max(average_resource_wait_time)
+                        #ax.set_ylim(0, max_y_time + 10)
+                        #ax.set_yticks(range(0, int(max_y_time)+ 50, 100)) # Goes up by every 50 minutes the ticks 
 
-                    ax.grid(axis="y")
-                    st.pyplot(fig6)
-            
+                        ax.grid(axis="y")
+                        st.pyplot(fig6)
+                    else:
+                        st.write("No wait times for resources.")
+                
                 #Total wait time for the resources
                 with col2:
                     resource_wait_time = [ sum(a_and_e.track_waiting_time_for_clerk),
@@ -774,8 +799,8 @@ if run_button_pressed:
                     ax.set_title(" Wait Time for Resources")
                     ax.set_xlabel("Resources")
                     ax.set_ylabel("Wait Time (Minutes)")
-                    ax.set_ylim(0, max_y_time_axis + 100) 
-                    ax.set_yticks(range(0, int(max_y_time_axis)+100, 200))
+                    #ax.set_ylim(0, max_y_time_axis + 100) 
+                    #ax.set_yticks(range(0, int(max_y_time_axis)+100, 200))
                     ax.grid(axis="y")
                     st.pyplot(fig7)    
 
@@ -832,33 +857,113 @@ if run_button_pressed:
                     st.pyplot(fig11)
 
             with st.expander("Resource Utilisation", expanded = True):
-                 # Calculate resource utilization
-                total_simulation_time = a_and_e.last_patient_time
-                # Calculate the total time each resource was used
-            
-                            # Calculate the total time each resource was utilized
-                resource_utilisation = {
-                    "Clerk": (a_and_e.clerk.time_busy / total_simulation_time) if hasattr(a_and_e.clerk, 'time_busy') else 0,
-                    "Nurse": (a_and_e.nurse.time_busy / total_simulation_time) if hasattr(a_and_e.nurse, 'time_busy') else 0,
-                    "Doctor": (a_and_e.doctor.time_busy / total_simulation_time) if hasattr(a_and_e.doctor, 'time_busy') else 0,
-                    "Bed": (a_and_e.bed.time_busy / total_simulation_time) if hasattr(a_and_e.bed, 'time_busy') else 0,
-                }
-                for resource, utilisation in resource_utilisation.items():
-                    st.write(f"{resource}: {utilisation:.2%}")
-                
+                col1, col2 = st.columns(2)
 
-                # #Resource utilisation
-                # resource_utilisation = [a_and_e.doctor.count / a_and_e.doctor.capacity,
-                #                         a_and_e.nurse.count / a_and_e.nurse.capacity,
-                #                         a_and_e.bed.count / a_and_e.bed.capacity,
-                #                         a_and_e.clerk.count / a_and_e.clerk.capacity]
+                # Extracts data for the resources each
+                times_clerk, queue_clerk, usage_clerk = zip(*a_and_e.track_clerk_utilisation)
+                times_nurse, queue_nurse, usage_nurse = zip(*a_and_e.track_nurse_utilisation)
+                times_bed, queue_bed, usage_bed = zip(*a_and_e.track_bed_utilisation)
+                times_doctor, queue_doctor, usage_doctor = zip(*a_and_e.track_doctor_utilisation)
+
+                # #Plot resource utilisation over time
                 # fig10, ax = plt.subplots(figsize=(10,5))
-                # ax.bar(resource_names, resource_utilisation, color = "purple")
-                # ax.set_title("Resource Utilisation")
-                # ax.set_xlabel("Resource Type")
-                # ax.set_ylabel("Utilisation Rate")
-                # ax.grid(axis="y")
+                
+                # #Plot for the clerks
+                # ax.plot(times_clerk, usage_clerk, label="Clerk Usage")
+                # ax.plot(times_clerk, queue_clerk, label = "Clerk Queue") 
+
+                # #Plot for nurses
+                # ax.plot(times_nurse, usage_nurse, label="Nurse Usage")  
+                # ax.plot(times_nurse, queue_nurse, label = "Nurse Queue")
+
+                # #Plot for doctors
+                # ax.plot(times_doctor, usage_doctor, label="Doctor Usage")
+                # ax.plot(times_doctor, queue_doctor, label = "Doctor Queue")
+
+                # # Plot for beds
+                # ax.plot(times_bed, usage_bed, label="Bed Usage")
+                # ax.plot(times_bed, queue_bed, label = "Bed Queue")
+                
+                # ax.set_title("Resource Utilisation Over Time")
+                # ax.set_xlabel(" Simulation Time (minutes)")
+                # ax.set_ylabel("Number of Resources")
+                # ax.legend()
+                # ax.grid()
                 # st.pyplot(fig10)
+
+                with col1:
+                    fig10, ax = plt.subplots(figsize=(10, 5))
+                    ax.plot(times_clerk, usage_clerk, label="Clerk Usage", color="blue")
+                    ax.plot(times_clerk, queue_clerk, label="Clerk Queue", color="red")
+                    ax.set_title("Clerk Resource Utilization Over Time")
+                    ax.set_xlabel("Simulation Time (minutes)")
+                    ax.set_ylabel("Number of Clerks")
+                    
+                    # Dynamically adjust y-axis ticks based on data range
+                    max_y = max(max(queue_clerk), max(usage_clerk)) + 1
+                    ax.set_yticks(range(0, max_y, max(1, max_y // 10)))  # Divide into 10 intervals
+                    ax.set_ylim(0, max_y)
+                    
+                    ax.legend()
+                    ax.grid()
+                    st.pyplot(fig10)
+
+                with col2:
+                    fig11, ax = plt.subplots(figsize=(10,5))
+                    #Plot for nurses
+                    ax.plot(times_nurse, usage_nurse, label="Nurse Usage")  
+                    ax.plot(times_nurse, queue_nurse, label = "Nurse Queue",  color="red")
+                    ax.set_title(" Nurse Resource Utilisation Over Time")
+                    ax.set_xlabel(" Simulation Time (minutes)")
+                    ax.set_ylabel("Number of Nurses")
+                    
+                    
+                    # Dynamically adjust y-axis ticks based on data range
+                    max_y = max(max(queue_nurse), max(usage_nurse)) + 1
+                    ax.set_yticks(range(0, max_y, max(1, max_y // 10)))  # Divide into 10 intervals
+                    ax.set_ylim(0, max_y)
+                    
+                    
+                    ax.legend()
+                    ax.grid()
+                    st.pyplot(fig11)
+
+                with col1:
+                    fig12, ax = plt.subplots(figsize=(10,5))
+                    #Plot for doctors
+                    ax.plot(times_doctor, usage_doctor, label="Doctor Usage")
+                    ax.plot(times_doctor, queue_doctor, label = "Doctor Queue",  color="red")                
+                    ax.set_title(" Doctor Resource Utilisation Over Time")
+                    ax.set_xlabel(" Simulation Time (minutes)")
+                    ax.set_ylabel("Number of Resources")
+                    
+                    # Dynamically adjust y-axis ticks based on data range
+                    max_y = max(max(queue_doctor), max(usage_doctor)) + 1
+                    ax.set_yticks(range(0, max_y, max(1, max_y // 10)))  # Divide into 10 intervals
+                    ax.set_ylim(0, max_y)
+                    
+                    
+                    ax.legend()
+                    ax.grid()
+                    st.pyplot(fig12)
+
+                with col2:
+                    fig13, ax = plt.subplots(figsize=(10,5))
+                    # Plot for beds
+                    ax.plot(times_bed, usage_bed, label="Bed Usage")
+                    ax.plot(times_bed, queue_bed, label = "Bed Queue",  color="red")
+                    ax.set_title(" Bed Resource Utilisation Over Time")
+                    ax.set_xlabel(" Simulation Time (minutes)")
+                    ax.set_xlim(0, simulation_run_time + 100)
+                    ax.set_ylabel("Number of Beds")
+                    # Dynamically adjust y-axis ticks based on data range
+                    max_y = max(max(queue_bed), max(usage_bed)) + 1
+                    ax.set_yticks(range(0, max_y, max(1, max_y // 10)))  # Divide into 10 intervals
+                    ax.set_ylim(0, max_y)
+
+                    ax.legend()
+                    ax.grid()
+                    st.pyplot(fig13)
 
     
         
