@@ -525,45 +525,94 @@ st.markdown("<h1 style = 'text-align: center; color: white;'>A&E Simulation🏥<
 #st.write("Testing")
 
 with st.sidebar:
-    st.header("⚙️Simulation Configuration")
+    st.markdown("⚙️ <span style = 'font-size: 25px;'>Simulation Configuration</span>", unsafe_allow_html=True)
 
     with st.expander(label="Resources Allocation", expanded=False):
-        st.write("Configure the number of resources in the A&E department")
-        num_clerks = st.slider(" 👩‍💼Number of Clerks", 1, 10, 3)
-        num_nurses = st.slider("👩‍⚕️Number of Nurses", 1, 20, 10)
-        num_doctors = st.slider("👨‍⚕️Number of Doctors", 1, 20, 10)
-        num_beds = st.slider("🛏️Number of Beds", 1, 20, 5)
+        st.markdown("<span style = 'font-size: 20px;'> Configure the number of resources in the A&E department </span>", unsafe_allow_html=True)
+        
+        st.markdown("<p style='font-size:20px; font-weight:bold;'> 👩‍💼Number of Clerks:</p>", unsafe_allow_html= True)
+        num_clerks = st.slider("", 1, 10, 3)
+        st.markdown("<p style='font-size:20px; font-weight:bold;'>👩‍⚕️Number of Nurses:</p>", unsafe_allow_html= True)
+        num_nurses = st.slider("", 1, 20, 10)
+        st.markdown("<p style='font-size:20px; font-weight:bold;'>👨‍⚕️Number of Doctors:</p>", unsafe_allow_html= True)
+        num_doctors = st.slider(" ", 1, 20, 10)
+        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🛏️Number of Beds:</p>", unsafe_allow_html= True)
+        num_beds = st.slider("  ", 1, 20, 5)
     
     with st.expander(label = "Triage Allocation", expanded = False):
-        num_immediate = st.number_input("🔴 % of Immediate Patients", 0, 100, 1)
-        num_very_urgent = st.number_input(" % of Very Urgent Patients", 0, 100,1)
-        num_urgent = st.number_input("🟡 % of Urgent Patients", 0, 100, 1)
-        num_standard = st.number_input("🟢 % of Standard Patients", 0,100,1)
-        num_non_urgent = st.number_input("🔵 % of Non-Urgent Patients", 0, 100, 1)
+        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🔴 % of Immediate Patients:</p>", unsafe_allow_html= True)
+        num_immediate = st.number_input( "🔴",0, 100, 1)
+        
+        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🟠 % of Very Urgent Patients:</p>", unsafe_allow_html= True)
+        num_very_urgent = st.number_input("🟠", 0, 100,1)
+        
+        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🟡 % of Urgent Patients:</p>", unsafe_allow_html= True)
+        num_urgent = st.number_input( "🟡", 0, 100, 1)
+        
+        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🟢 % of Standard Patients:</p>", unsafe_allow_html= True)
+        num_standard = st.number_input("🟢",0,100,1)
+        
+        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🔵 % of Non-Urgent Patients:</p>", unsafe_allow_html= True)
+        num_non_urgent = st.number_input("🔵",0, 100, 1)
+
+        	
+         # Validate that the sum of percentages equals 100
+        total_percentages = num_immediate + num_very_urgent + num_urgent + num_standard + num_non_urgent
+        if total_percentages != 100:
+            st.warning(f"The total percentage of triage categories is {total_percentages}%. Please ensure it equals 100%.")
+
     
     with st.expander(label = "Patient Flow", expanded= False):
-        admission_duration = st.slider("Admission Duration", 1, 10, 5)
-        risk_assessment_duration = st.slider("Risk Assesmet Duration", 1, 10, 5)
-        doctor_consultation_duration = st.slider("Doctor Consultation Duration", 1, 10, 5)
-        test_duration= st.slider("Test Duration", 1, 10, 5)
-        medication_duration = st.slider("Medication Duration", 1, 10, 5)
-        follow_up_duration = st.slider("Follow Up Duration", 1, 10, 5)
-        length_of_stay = st.slider("Length of Stay", 1, 10, 5)
+        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🔁Admission Duration:</p>", unsafe_allow_html= True)
+        admission_duration = st.slider("", 1, 10, 5)
+       
+        st.markdown("<p style='font-size:20px; font-weight:bold;'> ⚠️Risk Assesment Duration:</p>", unsafe_allow_html= True)
 
-        percentage_discharge = st.slider("Percentage of Discharge", 0, 100, 1)
-        percentage_tests = st.slider("Percantage of Tests", 0, 100, 1)
-        percentage_medication = st.slider("Percentage of Medication",0, 100, 1)
+        risk_assessment_duration = st.slider(" ", 1, 10, 5)
+        
+        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🩺Doctor Consultation:</p>", unsafe_allow_html= True)
+        doctor_consultation_duration = st.slider("                          ", 1, 10, 5)
+        
+        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🧪Test Duration:</p>", unsafe_allow_html= True)
+        test_duration= st.slider("  ", 1, 10, 5)
+        st.markdown("<p style='font-size:20px; font-weight:bold;'> 💊 Medication Duration</p>", unsafe_allow_html= True)
+        medication_duration = st.slider("                    ", 1, 10, 5)
+        
+        st.markdown("<p style='font-size:20px; font-weight:bold;'> 👩‍💼Doctor Follow Up Duration:</p>", unsafe_allow_html= True)
+        follow_up_duration = st.slider("    ", 1, 10, 5)
+        
+        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🏥Length of Stay:</p>", unsafe_allow_html= True)
+        length_of_stay = st.slider("     ", 1, 10, 5)
+
+        st.markdown("<p style='font-size:20px; font-weight:bold;'>📤 Percentage of Discharg:e</p>", unsafe_allow_html= True)
+        percentage_discharge = st.slider("      ", 0, 100, 1)
+       
+        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🧬 Percentage of Tests:</p>", unsafe_allow_html= True)
+        percentage_tests = st.slider("           ", 0, 100, 1)
+       
+        st.markdown("<p style='font-size:20px; font-weight:bold;'> 💉Percentage of Medication:</p>", unsafe_allow_html= True)
+        percentage_medication = st.slider("             ",0, 100, 1)
+
+        # Validate that the sum of percentages equals 100 
+        total_percentage = percentage_discharge + percentage_tests + percentage_medication
+        if total_percentage != 100:
+            st.warning(f"The total percentage of patient flow categories is {total_percentage}%. Please ensure it equals 100%.")
         
     
     with st.expander(label = " Patient Generator", expanded = False):
-        mean_interarrival_time = st.slider("🚶‍♀️‍➡️Mean Arrival Time", 1, 10,3 )
+        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🚶‍♀️‍➡️Mean Arrival Time:</p>", unsafe_allow_html= True)
+        mean_interarrival_time = st.slider("                                                                         ", 1, 10,3 )
         #average_rate_patients_per_interval = st.slider(" 🚶‍♂️‍➡️Average Rate of Patients per Interval", 1, 50, 10)
 
 
 
     with st.expander(label = "Simulation Configuration", expanded = False):
-        simulation_run_time= st.number_input("🕛Simulation Run Time in minutes", 1, 1440, 100)
-        start_time = st.time_input("Start Time", datetime(2025, 3, 15, 8, 0).time())
+        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🕛Simulation Run Time in minutes</p>", unsafe_allow_html= True)
+
+        simulation_run_time= st.number_input("                                          ", 1, 1440, 100)
+        
+        st.markdown("<p style='font-size:20px; font-weight:bold;'>⏳ Start Time:</p>", unsafe_allow_html= True)
+        start_time = st.time_input("                                                               ", datetime(2025, 3, 15, 8, 0).time())
 
 
 
@@ -571,13 +620,19 @@ with st.sidebar:
 
     run_button_pressed = False # Initial Value      
     if st.button("▶️ Run Simulation"):
-       run_button_pressed = True
+       if (total_percentage + total_percentages !=200):
+           if total_percentages != 100:
+                st.error("Please check the triage percentages. They need to add up to 100%")
+           if total_percentage !=100:
+               st.error("Please check the patient flow percentages. They need to add up to 100%")
+
+       else:
+           run_button_pressed = True
 
 with st.expander(label = "About", expanded = False):
     st.write("Need To Writte")
    
 if run_button_pressed:
-
         if "patient_log_data" in st.session_state:
             del st.session_state.patient_log_data
 
@@ -637,7 +692,7 @@ if run_button_pressed:
             #####################################################
             #This calculates the average waiting time for patients who had to wait
             #print(a_and_e.patient_total_wait_time) Testing 
-
+            st.write(a_and_e.last_patient_time)
             with col2:
                 if len(a_and_e.patient_who_waited) > 0:
                     average_wait_time = sum(a_and_e.patient_who_waited) / len(a_and_e.patient_who_waited)
@@ -687,19 +742,22 @@ if run_button_pressed:
 
             st.subheader(" 📊Visualisations")
 
-            with st.expander("Bed Occupancy Over Time",expanded=True):
+            with st.expander("Bed Occupancy Over Time", expanded=True):
+                if a_and_e.track_bed_usage:
                     #print(a_and_e.track_bed_usage) Testing 
-                    times,bed_count = zip(*a_and_e.track_bed_usage) # This  unpacks into two lists time and bed count 
+                    times, bed_count = zip(*a_and_e.track_bed_usage)  # This unpacks into two lists time and bed count 
                     #This graph is for bed occupancy over time 
-                    fig, ax = plt.subplots(figsize=(10,5))
-                    ax.plot(times, bed_count,linestyle="--", color = "purple")
+                    fig, ax = plt.subplots(figsize=(10, 5))
+                    ax.plot(times, bed_count, linestyle="--", color="purple")
                     ax.set_xlabel("Simulation Time (minutes)")
                     ax.set_ylabel("Occupied Beds")
                     ax.set_title("Bed Occupancy Over Time")
                     ax.grid()
-                    ax.set_xlim(0,a_and_e.last_patient_time + 10)
-                    ax.set_yticks(range(0, a_and_e.bed.capacity + 2, 1)) # Goes up by every 1 bed the ticks
+                    ax.set_xlim(0, a_and_e.last_patient_time + 10)
+                    ax.set_yticks(range(0, a_and_e.bed.capacity + 2, 1))  # Goes up by every 1 bed the ticks
                     st.pyplot(fig)
+                else:
+                    st.warning("No bed occupancy data available.")
 
             # Length of stay for patients 
             with st.expander("Length of Stay for Patients Occupued in Bed", expanded=True):
@@ -831,7 +889,7 @@ if run_button_pressed:
                 ax.set_ylabel("Number of Patients")
                 ax.set_xlabel("Triage Categories")
                 ax.grid(axis='y')
-                ax.set_yticks(range(0, max_y+ 1,50)) #Added +1 as rangee excludes the last number, the y scales goes up by 10
+                #ax.set_yticks(range(0, max_y+ 1,50)) #Added +1 as rangee excludes the last number, the y scales goes up by 10
                 st.pyplot(fig8)
 
             #Duration for the stages of the patient flow
@@ -970,7 +1028,6 @@ if run_button_pressed:
                     ax.plot(times_bed, queue_bed, label = "Bed Queue",  color="red")
                     ax.set_title(" Bed Resource Utilisation Over Time")
                     ax.set_xlabel(" Simulation Time (minutes)")
-                    ax.set_xlim(0, simulation_run_time + 100)
                     ax.set_ylabel("Number of Beds")
                     # Dynamically adjust y-axis ticks based on data range
                     max_y = max(max(queue_bed), max(usage_bed)) + 1
