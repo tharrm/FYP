@@ -2,10 +2,13 @@ import simpy as sp
 import random
 import numpy as np
 import matplotlib.pyplot as plt
-import pandas as pd  # Not used at the moment 
 from datetime import datetime, timedelta
 import seaborn as sns 
 import streamlit as st
+
+import plotly.express as px
+import plotly.graph_objects as go
+
 
 #Creates the simulation environment 
 class AnE:
@@ -521,7 +524,7 @@ class AnE:
 st.set_page_config(page_title="A&E Simulation🏥", layout="wide")
 
 #st.title("A&E Simulation")
-st.markdown("<h1 style = 'text-align: center; color: white;'>A&E Simulation🏥</h1>", unsafe_allow_html=True)
+st.markdown("<p style =  'font-size:55px; font-weight:bold; text-align: center;'>A&E Simulation🏥</p>", unsafe_allow_html=True)
 #st.write("Testing")
 
 with st.sidebar:
@@ -630,7 +633,9 @@ with st.sidebar:
            run_button_pressed = True
 
 with st.expander(label = "About", expanded = False):
-    st.write("Need To Writte")
+    st.subheader("About the A&E Simulation", anchor = False, divider = "black")
+    st.write("This Simulation is designed to model and analyse pateint flow, resource utilisation and eff within an Accident & Emergency deparment.")
+    
    
 if run_button_pressed:
         if "patient_log_data" in st.session_state:
@@ -673,7 +678,7 @@ if run_button_pressed:
     # Display the results
         
         with st.spinner("Gathering Results"):
-            st.subheader("Simulation Results")
+            st.header("Simulation Results", anchor = False, divider = "green")
             col1, col2 = st.columns(2)
             
             with col1:
@@ -717,7 +722,7 @@ if run_button_pressed:
 
 
             with col2:
-                st.subheader("Patient Log")
+                st.subheader("Patient Log", anchor = False, divider = True)
                 try:
                     with open("patient_log.txt", "r", encoding="utf-8") as file:
                         log_data = file.read()
@@ -740,97 +745,85 @@ if run_button_pressed:
 
 
 
-            st.subheader(" 📊Visualisations")
+            st.subheader(" 📊Visualisations", anchor= False, divider= "red")
 
             with st.expander("Bed Occupancy Over Time", expanded=True):
                 if a_and_e.track_bed_usage:
                     #print(a_and_e.track_bed_usage) Testing 
                     times, bed_count = zip(*a_and_e.track_bed_usage)  # This unpacks into two lists time and bed count 
                     #This graph is for bed occupancy over time 
-                    fig, ax = plt.subplots(figsize=(10, 5))
-                    ax.plot(times, bed_count, linestyle="--", color="purple")
-                    ax.set_xlabel("Simulation Time (minutes)")
-                    ax.set_ylabel("Occupied Beds")
-                    ax.set_title("Bed Occupancy Over Time")
-                    ax.grid()
-                    ax.set_xlim(0, a_and_e.last_patient_time + 10)
-                    ax.set_yticks(range(0, a_and_e.bed.capacity + 2, 1))  # Goes up by every 1 bed the ticks
-                    st.pyplot(fig)
+                    fig1 = px.line(x=times, y=bed_count, labels={"x": "Simulation Time (minutes)", "y": "Occupied Beds"}, title = "Bed Occupancy Over Time", line_shape= "linear")
+                    fig1.update_traces(line = dict(color = "purple"))
+                    st.plotly_chart(fig1)
                 else:
-                    st.warning("No bed occupancy data available.")
+                    st.write("No data")
 
+           
             # Length of stay for patients 
             with st.expander("Length of Stay for Patients Occupued in Bed", expanded=True):
-                    fig12, ax = plt.subplots(figsize=(10,5))
-                    ax.boxplot(a_and_e.patient_LOS, vert=False, patch_artist=True, boxprops=dict(facecolor = "purple"))
-                    ax.set_title("Length of Stay for Patients occupied in bed")
-                    ax.set_xlabel("Length of stay (minutes)")
-                    ax.grid()
-                    st.pyplot(fig12)
+                    fig2 = px.box(x=a_and_e.patient_LOS,title="Length of Stay for Patients ", labels={"x": "Length of Stay (minutes)"})                    
+                    st.plotly_chart(fig2)
+                  
+                  
+                  
 
             #This graph is for the time pateints spent in the AnE
             with st.expander("Time Patients Spent in A&E", expanded=True):
                 col1, col2, col3 = st.columns(3)
 
                 with col1:
-                    fig1, ax = plt.subplots(figsize=(10,5))
-                    ax.boxplot(a_and_e.patient_spent_time, vert=False, patch_artist = True, boxprops=dict(facecolor="red"))#, flierprops=dict(marker="D", color = "blue", markersize = 8))
-                    ax.set_title("Time Pateints Spent in A&E")
-                    ax.set_xlabel("Time Patient Spent in A&E (minutes)")
-                    ax.grid()
-                    st.pyplot(fig1)
+                    if len(a_and_e.patient_spent_time) > 0:
+                        fig3 = px.box(x=a_and_e.patient_spent_time, title = " Time Patients Spent in A&E", labels = {"x": "Minutes"})
+                        st.plotly_chart(fig3)
+                    else:
+                        st.write("No Patients spent time in A&E")
+                    
+
                 with col2:
                     if len(a_and_e.patient_spent_time) > 0:
 
                         #This graph is for the time patients spent in the AnE
-                        fig2, ax = plt.subplots(figsize=(10,5))
-                        sns.violinplot(a_and_e.patient_spent_time, color = "red")
-                        ax.set_title("Time Patients Spent in A&E")
-                        ax.set_xlabel("Time Patient Spent in A&E (minutes)")
-                        ax.set_ylim(0, max(a_and_e.patient_spent_time) + 100)
-                        st.pyplot(fig2)
-                    else:
+                        fig4= px.violin(y=a_and_e.patient_spent_time, title = "Time Patients Spent in A&E", labels = {"y": "Minutes"})
+                        fig4.update_traces(marker=dict(color = "red"))
+                        fig4.update_traces(box_visible=True, meanline_visible=True)
+                        st.plotly_chart(fig4)
+                    else:    
                         st.write("No patient spent time in A&E")
 
             #Histogram for patient spent time 
                 with col3:
-                    fig3, ax = plt.subplots(figsize=(10,5))
-                    number_of_bins = int(np.sqrt(len(a_and_e.patient_spent_time)))
-                    ax.hist(a_and_e.patient_spent_time, bins=number_of_bins, color="red", edgecolor="black")
-                    ax.set_title("Time Patients Spent in A&E")
-                    ax.set_xlabel("Time Patient Spent in A&E (minutes)")
-                    ax.set_ylabel("Frequency")
-                    ax.grid(axis = "y")
-                    st.pyplot(fig3)
+                    fig5 = px.histogram(x= a_and_e.patient_spent_time, nbins=int( np.sqrt(len(a_and_e.patient_spent_time))),title = "Time Pateints Spent in A&E", labels = {"x": "Minutes", "y": "Frequency"})
+                    fig5.update_traces(marker=dict(color = "#FFA07A",line=dict(color="black", width=1)))
+                    st.plotly_chart(fig5)
+              
+              
 
             #This graph is for the average waiting time for patients
             with st.expander("Patient Wait Time", expanded = True):
                 col1, col2 = st.columns(2)
                 
                 with col1:
+
                     if len(a_and_e.patient_who_waited) > 0:
-                        fig4, ax = plt.subplots(figsize=(10,5))
-                        number_of_bins1 = int(np.sqrt(len(a_and_e.patient_who_waited)))
-                        ax.hist(a_and_e.patient_who_waited, bins=number_of_bins1, color="blue", edgecolor="black")
-                        ax.set_title("Wait Time for Patients")
-                        ax.set_xlabel("Wait Time (minutes)")
-                        ax.set_ylabel("Frequency")
-                        ax.grid()
-                        ax.set_xlim(0, max(a_and_e.patient_who_waited)+ 100)
-                        st.pyplot(fig4)
+                       fig5 = px.histogram(
+                           x=a_and_e.patient_spent_time,
+                           nbins=int(np.sqrt(len(a_and_e.patient_who_waited))),
+                           title="Wait Time for Patients",
+                           labels={"x": "Minutes", "y": "Frequency"}
+                       )
+                       fig5.update_traces(marker=dict(color="#FDB7EA", line=dict(color="black", width=1)))
+                       st.plotly_chart(fig5)
                     else:
                         st.write("No patient wait times.")
 
                 with col2:
                     if len(a_and_e.patient_who_waited) > 0:
 
-                        fig5, ax = plt.subplots(figsize=(10,5))
-                        ax.boxplot(a_and_e.patient_who_waited , vert=False, patch_artist=True, boxprops=dict(facecolor="blue"))
-                        ax.set_title("Wait Time for Patients")
-                        ax.set_xlabel("Wait Time (minutes)")
-                        ax.set_xlim(0, max(a_and_e.patient_who_waited)+ 40)
-                        ax.grid()
-                        st.pyplot(fig5)
+                        fig6 = px.box(x = a_and_e.patient_who_waited, title = "Wait Time for Patients", labels = {"x": "Wait Time (minutes)"})
+                        st.plotly_chart(fig6)
+
+                    else:
+                        st.write("No Patient wait times.")
 
             # Average wait times for the resources 
             
@@ -846,14 +839,9 @@ if run_button_pressed:
                                                 ]
                     resource_names = ["Clerk", "Nurse", "Doctor", "Bed"]
                     if(len(average_resource_wait_time)> 0):
-                        fig6, ax = plt.subplots(figsize=(10,5))
-                        ax.bar(resource_names, average_resource_wait_time, color = "green" )
-                        ax.set_title("Average Wait Time for Resources")
-                        ax.set_xlabel("Resources")
-                        ax.set_ylabel("Average Wait Time (Minutes)")
-                        ax.set_ylim(0, max(average_resource_wait_time) + 5 )
-                        ax.grid(axis="y")
-                        st.pyplot(fig6)
+                        fig7 = px.bar(x = resource_names, y = average_resource_wait_time, title = "Average Wait Time for Resources", labels = {"x": "Resources", "y": "Average Wait Time (Minutes)"})
+                        fig7.update_traces(marker=dict(color = "#DAF7A6"))
+                        st.plotly_chart(fig7)
                     else:
                         st.write("No wait times for resources.")
                 
@@ -864,33 +852,23 @@ if run_button_pressed:
                                         sum(a_and_e.track_waiting_time_for_doctor),
                                         sum(a_and_e.track_waiting_time_for_bed)
                                     ]   
-                    max_y_time_axis = max(resource_wait_time)
-                    fig7, ax = plt.subplots(figsize=(10,5))
-                    ax.bar(resource_names, resource_wait_time, color = "green" )
-                    ax.set_title(" Wait Time for Resources")
-                    ax.set_xlabel("Resources")
-                    ax.set_ylabel("Wait Time (Minutes)")
-                    #ax.set_ylim(0, max_y_time_axis + 100) 
-                    #ax.set_yticks(range(0, int(max_y_time_axis)+100, 200))
-                    ax.grid(axis="y")
-                    st.pyplot(fig7)    
+                    if len(resource_wait_time) > 0: 
+                        fig8 = px.bar( x = resource_names, y = resource_wait_time, title = " Total Wait Time for Resources", labels = {"x": "Resources", "y": "Wait Time (Minutes)"}) 
+                        fig8.update_traces(marker=dict(color = "#DAF7A6"))
+                        st.plotly_chart(fig8)
+                    else:
+                        st.write("No Wait Time for Resources")
 
             #Triage patients bar chart
             with st.expander("Triage Categories", expanded = True):
 
-                max_y = (a_and_e.patientCount// 10 + 1) * 10 # Rounds up to the nearest 10
                 triage_categories = ["Immediate", "Very Urgent", "Urgent", "Standard", "Non-Urgent"]
-                fig8, ax = plt.subplots(figsize=(10,5)) 
+                triage_values = [a_and_e.num_patient_immediate, a_and_e.num_patient_very_urgent, a_and_e.num_patient_urgent, a_and_e.num_patient_standard, a_and_e.num_patient_non_urgent]
+                fig9 = px.bar(x = triage_categories,  y = triage_values, title = " Number of Patients in Triage Caregories", labels = {"x": " Triage Categories", "y": "Number of Patients"})
+                fig9.update_traces(marker=dict(color=["#FF6666", "#FFCC66", "#FFFF66", "#66FF66", "#66CCFF"]))
+                st.plotly_chart(fig9)
             
             
-            
-                ax.bar(triage_categories, [a_and_e.num_patient_immediate, a_and_e.num_patient_very_urgent, a_and_e.num_patient_urgent, a_and_e.num_patient_standard, a_and_e.num_patient_non_urgent], color="purple")
-                ax.set_title("Number of Patients in Triage Categories")
-                ax.set_ylabel("Number of Patients")
-                ax.set_xlabel("Triage Categories")
-                ax.grid(axis='y')
-                #ax.set_yticks(range(0, max_y+ 1,50)) #Added +1 as rangee excludes the last number, the y scales goes up by 10
-                st.pyplot(fig8)
 
             #Duration for the stages of the patient flow
             with st.expander("Patient Flows", expanded = True):
@@ -906,26 +884,22 @@ if run_button_pressed:
                                             np.mean(a_and_e.track_time_for_discharge)]
                     stage_names = ["Admission", "Risk Assessment", "Doctor Consultation", "Tests", "Medication", "Follow Up", "Discharge"]
                     
-                    fig9, ax = plt.subplots(figsize=(13,5))
-                    ax.bar(stage_names, average_time_for_stages, color="orange")
-                    ax.set_title("Average Time for Stages of Patient Flow")
-                    ax.set_xlabel("Stages")
-                    ax.set_ylabel("Average Time (minutes)")
-                    ax.grid(axis="y")
-                    st.pyplot(fig9)
+                    fig10  = px.bar( x = stage_names, y = average_time_for_stages, title = "Average Time for Stages in different stages (patient flow)", labels = {"x": "Stages", "y": "Average Time (minutes)"})
+                    st.plotly_chart(fig10)
+
+
                 
                 with col2:
 
 
                     #Number of patients in different stages of the process
                     stage_names = ["Discharged", "Requires Tests", "Requires Medication", "Requires Bed"]
-                    fig11, ax = plt.subplots(figsize=(10,5))
-                    ax.bar(stage_names, [a_and_e.num_patient_discharged, a_and_e.num_patient_requires_tests, a_and_e.num_patient_requires_medication, a_and_e.num_patient_requires_bed], color="orange")
-                    ax.set_title("Number of Patients in Different Stages of the Process")
-                    ax.set_xlabel("Stages")
-                    ax.set_ylabel("Number of Patients")
-                    ax.grid(axis="y")
-                    st.pyplot(fig11)
+                    stage_count = [a_and_e.num_patient_discharged, a_and_e.num_patient_requires_tests, a_and_e.num_patient_requires_medication, a_and_e.num_patient_requires_bed]
+                    fig11 = px.bar(x = stage_names, y =stage_count, title = "Number of Patients in Different Stages of the Process", labels = {"x": "Stages", "y": "Number of Patients"})
+                    st.plotly_chart(fig11)
+                    
+                    
+        
 
             with st.expander("Resource Utilisation", expanded = True):
                 clerk_utilization = a_and_e.caculate_resource_utilisation(
@@ -945,17 +919,12 @@ if run_button_pressed:
 
 
                 with col1:
-                    st.metric(label="Clerk Utilization", value=f"{clerk_utilization:.2f}%")
-                    st.metric(label="Nurse Utilization", value=f"{nurse_utilization:.2f}%")
+                    st.metric(label="Clerk Utilisation", value=f"{clerk_utilization:.2f}%")
+                    st.metric(label="Nurse Utilisation", value=f"{nurse_utilization:.2f}%")
 
                 with col2:
-                    st.metric(label="Bed Utilization", value=f"{bed_utilization:.2f}%")
-                    st.metric(label="Doctor Utilization", value=f"{doctor_utilization:.2f}%")
-
-
-
-
-
+                    st.metric(label="Bed Utilisation", value=f"{bed_utilization:.2f}%")
+                    st.metric(label="Doctor Utilisation", value=f"{doctor_utilization:.2f}%")
 
 
                     # Extracts data for the resources each
@@ -964,79 +933,30 @@ if run_button_pressed:
                 times_bed, queue_bed, usage_bed = zip(*a_and_e.track_bed_utilisation)
                 times_doctor, queue_doctor, usage_doctor = zip(*a_and_e.track_doctor_utilisation)
 
-
                 with col1:
-                    fig10, ax = plt.subplots(figsize=(10, 5))
-                    ax.plot(times_clerk, usage_clerk, label="Clerk Usage", color="blue")
-                    ax.plot(times_clerk, queue_clerk, label="Clerk Queue", color="red")
-                    ax.set_title("Clerk Resource Utilization Over Time")
-                    ax.set_xlabel("Simulation Time (minutes)")
-                    ax.set_ylabel("Number of Clerks")
-                    
-                    # Dynamically adjust y-axis ticks based on data range
-                    max_y = max(max(queue_clerk), max(usage_clerk)) + 1
-                    ax.set_yticks(range(0, max_y, max(1, max_y // 10)))  # Divide into 10 intervals
-                    ax.set_ylim(0, max_y)
-                    
-                    ax.legend()
-                    ax.grid()
-                    st.pyplot(fig10)
+                    fig12 = go.Figure()
+                    fig12.add_trace(go.Scatter(x=times_clerk, y=usage_clerk, mode="lines", name="Clerk Usage"))
+                    fig12.add_trace(go.Scatter(x=times_clerk, y=queue_clerk, mode="lines", name="Clerk Queue", line=dict(color="red")))
+                    fig12.update_layout(title="Clerk Resource Utilisation Over Time", xaxis_title="Simulation Time (minutes)", yaxis_title="Number of Clerks")
+                    st.plotly_chart(fig12)
 
                 with col2:
-                    fig11, ax = plt.subplots(figsize=(10,5))
-                    #Plot for nurses
-                    ax.plot(times_nurse, usage_nurse, label="Nurse Usage")  
-                    ax.plot(times_nurse, queue_nurse, label = "Nurse Queue",  color="red")
-                    ax.set_title(" Nurse Resource Utilisation Over Time")
-                    ax.set_xlabel(" Simulation Time (minutes)")
-                    ax.set_ylabel("Number of Nurses")
-                    
-                    
-                    # Dynamically adjust y-axis ticks based on data range
-                    max_y = max(max(queue_nurse), max(usage_nurse)) + 1
-                    ax.set_yticks(range(0, max_y, max(1, max_y // 10)))  # Divide into 10 intervals
-                    ax.set_ylim(0, max_y)
-                    
-                    
-                    ax.legend()
-                    ax.grid()
-                    st.pyplot(fig11)
+                    fig13 = go.Figure()
+                    fig13.add_trace(go.Scatter(x=times_nurse, y=usage_nurse, mode="lines", name="Nurse Usage"))
+                    fig13.add_trace(go.Scatter(x=times_nurse, y=queue_nurse, mode="lines", name="Nurse Queue", line=dict(color="red")))
+                    fig13.update_layout(title="Nurse Resource Utilisation Over Time", xaxis_title="Simulation Time (minutes)", yaxis_title="Number of Nurses")
+                    st.plotly_chart(fig13)
 
                 with col1:
-                    fig12, ax = plt.subplots(figsize=(10,5))
-                    #Plot for doctors
-                    ax.plot(times_doctor, usage_doctor, label="Doctor Usage")
-                    ax.plot(times_doctor, queue_doctor, label = "Doctor Queue",  color="red")                
-                    ax.set_title(" Doctor Resource Utilisation Over Time")
-                    ax.set_xlabel(" Simulation Time (minutes)")
-                    ax.set_ylabel("Number of Resources")
-                    
-                    # Dynamically adjust y-axis ticks based on data range
-                    max_y = max(max(queue_doctor), max(usage_doctor)) + 1
-                    ax.set_yticks(range(0, max_y, max(1, max_y // 10)))  # Divide into 10 intervals
-                    ax.set_ylim(0, max_y)
-                    
-                    
-                    ax.legend()
-                    ax.grid()
-                    st.pyplot(fig12)
+                    fig14 = go.Figure()
+                    fig14.add_trace(go.Scatter(x=times_doctor, y=usage_doctor, mode="lines", name="Doctor Usage"))
+                    fig14.add_trace(go.Scatter(x=times_doctor, y=queue_doctor, mode="lines", name="Doctor Queue", line=dict(color="red")))
+                    fig14.update_layout(title="Doctor Resource Utilisation Over Time", xaxis_title="Simulation Time (minutes)", yaxis_title="Number of Doctors")
+                    st.plotly_chart(fig14)
 
                 with col2:
-                    fig13, ax = plt.subplots(figsize=(10,5))
-                    # Plot for beds
-                    ax.plot(times_bed, usage_bed, label="Bed Usage")
-                    ax.plot(times_bed, queue_bed, label = "Bed Queue",  color="red")
-                    ax.set_title(" Bed Resource Utilisation Over Time")
-                    ax.set_xlabel(" Simulation Time (minutes)")
-                    ax.set_ylabel("Number of Beds")
-                    # Dynamically adjust y-axis ticks based on data range
-                    max_y = max(max(queue_bed), max(usage_bed)) + 1
-                    ax.set_yticks(range(0, max_y, max(1, max_y // 10)))  # Divide into 10 intervals
-                    ax.set_ylim(0, max_y)
-
-                    ax.legend()
-                    ax.grid()
-                    st.pyplot(fig13)
-
-    
-        
+                    fig15 = go.Figure()
+                    fig15.add_trace(go.Scatter(x=times_bed, y=usage_bed, mode="lines", name="Bed Usage"))
+                    fig15.add_trace(go.Scatter(x=times_bed, y=queue_bed, mode="lines", name="Bed Queue", line=dict(color="red")))
+                    fig15.update_layout(title="Bed Resource Utilisation Over Time", xaxis_title="Simulation Time (minutes)", yaxis_title="Number of Beds")
+                    st.plotly_chart(fig15)
