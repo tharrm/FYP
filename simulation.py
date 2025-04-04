@@ -791,21 +791,146 @@ if run_button_pressed:
 
             st.subheader(" 📊Visualisations", anchor= False, divider= "red")
 
-            with st.expander("Bed Occupancy Over Time", expanded=True):
-                if a_and_e.track_bed_usage:
-                    #print(a_and_e.track_bed_usage) Testing 
-                    times, bed_count = zip(*a_and_e.track_bed_usage)  # This unpacks into two lists time and bed count 
-                    #This graph is for bed occupancy over time 
-                    fig1 = px.line(x=times, y=bed_count, labels={"x": "Simulation Time (minutes)", "y": "Occupied Beds"}, title = "Bed Occupancy Over Time", line_shape= "linear")
-                    fig1.update_traces(line = dict(color = "purple"))
-                    st.plotly_chart(fig1)
-                else:
-                    st.write("No data")
+            with st.expander(label = " ℹ️ Visualation Guide Info", expanded = False):
+                st.markdown("<p style='font-size:22px; font-weight:bold;'>1. Resource Utilisation (%)</p>", unsafe_allow_html = True)
+                st.write("The percentage stats shows the overall resource utilisation efficiency through out the simulation. ")
+                st.write("These graphs illustrate the efficency of the resources (clerks, nurses, doctors and beds) utilised throughout the simulation. High utilisation percentages refelct substantial demand, which may result in increase in patient waiting times. Where as low utilisation percentages indicate that the resources are underutilised, which may suggest that theres a surplus of resources.")
+
+                st.markdown("<p style='font-size:22px; font-weight:bold;'>2. Length of Stay for Patients Occupied in Bed</p>", unsafe_allow_html = True)
+                st.write("The box plot displays the distribution of patient bed stays. This can help identify outliers and asses the efficiency of patient flow.")
+
+                st.markdown("<p style='font-size:22px; font-weight:bold;'>3. Time Patients Spent in A&E</p>", unsafe_allow_html = True)
+                st.write("These graphs visualises how long patients typically stay in A&E. This can potentially highlight bottlenecks in the A&E")
+
+                st.markdown("<p style='font-size:22px; font-weight:bold;'>4. Patient Wait Time</p>", unsafe_allow_html = True)
+                st.write("The histogram and box plot show the distribution of patient wait times before receiving care. Longer wait times indicates bottlenecks in the system.")
+
+                st.markdown("<p style='font-size:22px; font-weight:bold;'>5. Resource Wait Times</p>", unsafe_allow_html = True)
+                st.write("This bar chart displays the average waiting times for different resources (clerks, nurses, doctors and beds). It indentify which resource is causing the most delays.This then can higlight the need to re-allocate resources to optimise patient flow.")
+
+
+                st.markdown("<p style='font-size:22px; font-weight:bold;'>6. Triage Categories </p>", unsafe_allow_html = True)
+                st.write("The bar chart shows the number of patients in different triage categories.")
+
+
+                st.markdown("<p style='font-size:22px; font-weight:bold;'>7. Patient Flows</p>", unsafe_allow_html = True)
+                st.write("These graphs shows the average time and how long patients spent in each stages of the A&E process.")
+
+
+                st.markdown("<p style='font-size:22px; font-weight:bold;'>8. Resource Utilisation and Queue Over Time</p>", unsafe_allow_html = True)
+                st.write("These graphs shows the resources utilisation and queue over time. The y-axis represents both the number of resources in use and the the number of patients waiting in queue for that resource. The red line shows how many patients are waiting. The blue line indicates how many resources are actively being used over time. If the red line is above the blue line, it highlights that there is a high demand as its exceeding the capacity of the resources. It signals that resources need to be scaled up in order to meet the demand more effectively.")
+
+               
+
+                
+
+
+            with st.expander("Resources Utilisation (%)", expanded=True):
+                st.subheader("Overall Resource Utilisation (%)", anchor = False, divider = "gray")
+
+                #This calculates the resource utilisation for every resource
+                clerks_utilisation = a_and_e.caculate_resource_utilisation(a_and_e.track_clerk_utilisation, num_clerks, simulation_run_time)
+
+                nurses_utilisation = a_and_e.caculate_resource_utilisation(a_and_e.track_nurse_utilisation, num_nurses, simulation_run_time)
+
+                beds_utilisation = a_and_e.caculate_resource_utilisation(a_and_e.track_bed_utilisation, num_beds, simulation_run_time)
+
+                doctors_utilisation = a_and_e.caculate_resource_utilisation(a_and_e.track_doctor_utilisation, num_doctors, simulation_run_time)
+                    
+                    
+                col1, col2 = st.columns(2)
+
+                with col1:
+                    st.metric(label="Clerk Utilisation", value=f"{clerks_utilisation:.2f}%")
+                    st.metric(label="Nurse Utilisation", value=f"{nurses_utilisation:.2f}%")
+
+                with col2:
+                    st.metric(label="Bed Utilisation", value=f"{beds_utilisation:.2f}%")
+                    st.metric(label="Doctor Utilisation", value=f"{doctors_utilisation:.2f}%")
+                
+                
+                
+                st.subheader("Resource Utilisation (%) Over Time", anchor = False, divider = "gray")
+
+                col1, col2 = st.columns(2)
+
+                with col1:
+
+                    if a_and_e.track_bed_utilisation:
+                        #print(a_and_e.track_bed_usage) Testing 
+                        times, queue_bed,bed_count = zip(*a_and_e.track_bed_utilisation)  # This unpacks into two lists time and bed count 
+                        
+                
+                        bed_utilisation = []
+                        for count in bed_count:
+                            bed_utilisation.append((count / num_beds) * 100)
+
+
+                        #This graph is for bed occupancy over time 
+                        fig1 = px.line(x=times, y=bed_utilisation, labels={"x": "Simulation Time (minutes)", "y": "Utilisation (%)"}, title = "Bed Utilisation (%) Over Time", line_shape= "linear")
+                        fig1.update_traces(line = dict(color = "purple"))
+                        st.plotly_chart(fig1)
+                    else:
+                        st.write("No data as beds were not used")
+                with col2:
+
+                    if a_and_e.track_clerk_utilisation:
+                        clerk_times, queue_clerk, clerk_count = zip(*a_and_e.track_clerk_utilisation)
+
+                        clerk_utilisation = []
+                        for count in clerk_count:
+                            clerk_utilisation.append((count / num_clerks) * 100)
+                            
+                        #Display Graph for clerk utilisation
+
+                        fig17 = px.line(x=clerk_times, y=clerk_utilisation, labels={"x": "Simulation Time (minutes)", "y": "Utilisation (&)"}, title = "Clerk Utilisation (%) Over Time", line_shape = "linear")
+                        fig17.update_traces(line = dict(color = "blue"))
+                        st.plotly_chart(fig17)
+                    else:
+                        st.write("No data as clerks were not used")
+                
+                with col1: 
+                    if a_and_e.track_doctor_utilisation:
+                        doctor_times, queue_doctor, doctor_count = zip(*a_and_e.track_doctor_utilisation)
+
+
+                        doctor_utilisation = []
+                        for count in doctor_count:
+                            doctor_utilisation.append((count / num_doctors) * 100)
+                        
+                        fig18 = px.line(x=doctor_times, y=doctor_utilisation, labels={"x": "Simulation Time (minutes)", "y": "Utilisation (&)"}, title = "Doctor Utilisation (%) Over Time", line_shape = "linear")
+                        fig18.update_traces(line = dict(color = "green"))
+                        st.plotly_chart(fig18)
+                    else:
+                        st.write("No data as doctors were not used")
+                
+                with col2: 
+                    if a_and_e.track_nurse_utilisation:
+                        nurse_times, queue_nurse, nurse_count = zip(*a_and_e.track_nurse_utilisation)
+
+
+                        nurse_utilisation = []
+                        for count in nurse_count:
+                            nurse_utilisation.append((count / a_and_e.nurse.capacity) * 100)
+                        
+                        fig19 = px.line(x=nurse_times, y=nurse_utilisation, labels={"x": "Simulation Time (minutes)", "y": "Utilisation (%)"}, title = "Nurse Utilisation (%) Over Time", line_shape = "linear")
+                        fig19.update_traces(line = dict(color = "red"))
+                        st.plotly_chart(fig19)
+
+
+
+                    
+                    
+                    # #This graph is for bed occupancy over time 
+                    # fig21 = px.line(x=times, y=bed_count, labels={"x": "Simulation Time (minutes)", "y": "Occupied Beds"}, title = "Bed Occupancy Over Time", line_shape= "linear")
+                    # fig21.update_traces(line = dict(color = "purple"))
+                    # st.plotly_chart(fig21)
+              
 
            
             # Length of stay for patients 
             with st.expander("Length of Stay for Patients Occupued in Bed", expanded=True):
-                    fig2 = px.box(x=a_and_e.patient_LOS,title="Length of Stay for Patients ", labels={"x": "Length of Stay (minutes)"})                    
+                    fig2 = px.box(x=a_and_e.patient_LOS,title="Length of Stay for Patients (Minutes) ", labels={"x": "Length of Stay (minutes)"})                    
                     st.plotly_chart(fig2)
                   
                   
@@ -817,7 +942,7 @@ if run_button_pressed:
 
                 with col1:
                     if len(a_and_e.patient_spent_time) > 0:
-                        fig3 = px.box(x=a_and_e.patient_spent_time, title = " Time Patients Spent in A&E", labels = {"x": "Minutes"})
+                        fig3 = px.box(x=a_and_e.patient_spent_time, title = " Time Patients Spent in A&E (Minutes)", labels = {"x": "Minutes"})
                         st.plotly_chart(fig3)
                     else:
                         st.write("No Patients spent time in A&E")
@@ -827,7 +952,7 @@ if run_button_pressed:
                     if len(a_and_e.patient_spent_time) > 0:
 
                         #This graph is for the time patients spent in the AnE
-                        fig4= px.violin(y=a_and_e.patient_spent_time, title = "Time Patients Spent in A&E", labels = {"y": "Minutes"})
+                        fig4= px.violin(y=a_and_e.patient_spent_time, title = "Time Patients Spent in A&E (Minutes)", labels = {"y": "Minutes"})
                         fig4.update_traces(marker=dict(color = "red"))
                         fig4.update_traces(box_visible=True, meanline_visible=True)
                         st.plotly_chart(fig4)
@@ -836,7 +961,7 @@ if run_button_pressed:
 
             #Histogram for patient spent time 
                 with col3:
-                    fig5 = px.histogram(x= a_and_e.patient_spent_time, nbins=int( np.sqrt(len(a_and_e.patient_spent_time))),title = "Time Patients Spent in A&E", labels = {"x": "Minutes", "y": "Frequency"})
+                    fig5 = px.histogram(x= a_and_e.patient_spent_time, nbins=int( np.sqrt(len(a_and_e.patient_spent_time))),title = "Distribution of Patient Time Spent in A&E (Minutes)", labels = {"x": "Minutes", "y": "Frequency"})
                     fig5.update_traces(marker=dict(color = "#FFA07A",line=dict(color="black", width=1)))
                     st.plotly_chart(fig5)
               
@@ -849,21 +974,21 @@ if run_button_pressed:
                 with col1:
 
                     if len(a_and_e.patient_who_waited) > 0:
-                       fig5 = px.histogram(
+                       figs = px.histogram(
                            x=a_and_e.patient_spent_time,
                            nbins=int(np.sqrt(len(a_and_e.patient_who_waited))),
-                           title="Wait Time for Patients",
+                           title="Patient Waiting Time Distribution (Minutes)",
                            labels={"x": "Minutes", "y": "Frequency"}
                        )
-                       fig5.update_traces(marker=dict(color="#FDB7EA", line=dict(color="black", width=1)))
-                       st.plotly_chart(fig5)
+                       figs.update_traces(marker=dict(color="#FDB7EA", line=dict(color="black", width=1)))
+                       st.plotly_chart(figs)
                     else:
                         st.write("No patient wait times.")
 
                 with col2:
                     if len(a_and_e.patient_who_waited) > 0:
 
-                        fig6 = px.box(x = a_and_e.patient_who_waited, title = "Wait Time for Patients", labels = {"x": "Wait Time (minutes)"})
+                        fig6 = px.box(x = a_and_e.patient_who_waited, title = "Wait Time for Patients (Minutes)", labels = {"x": "Wait Time (minutes)"})
                         st.plotly_chart(fig6)
 
                     else:
@@ -883,7 +1008,7 @@ if run_button_pressed:
                                                 ]
                     resource_names = ["Clerk", "Nurse", "Doctor", "Bed"]
                     if(len(average_resource_wait_time)> 0):
-                        fig7 = px.bar(x = resource_names, y = average_resource_wait_time, title = "Average Wait Time for Resources", labels = {"x": "Resources", "y": "Average Wait Time (Minutes)"})
+                        fig7 = px.bar(x = resource_names, y = average_resource_wait_time, title = "Average Wait Time by Resource (Minutes)", labels = {"x": "Resources", "y": "Average Wait Time (Minutes)"})
                         fig7.update_traces(marker=dict(color = "#DAF7A6"))
                         st.plotly_chart(fig7)
                     else:
@@ -897,7 +1022,7 @@ if run_button_pressed:
                                         sum(a_and_e.track_waiting_time_for_bed)
                                     ]   
                     if len(resource_wait_time) > 0: 
-                        fig8 = px.bar( x = resource_names, y = resource_wait_time, title = " Total Wait Time for Resources", labels = {"x": "Resources", "y": "Wait Time (Minutes)"}) 
+                        fig8 = px.bar( x = resource_names, y = resource_wait_time, title = " Cummulative Resource Waiting Time (Minutes)", labels = {"x": "Resources", "y": "Wait Time (Minutes)"}) 
                         fig8.update_traces(marker=dict(color = "#DAF7A6"))
                         st.plotly_chart(fig8)
                     else:
@@ -908,7 +1033,7 @@ if run_button_pressed:
 
                 triage_categories = ["Immediate", "Very Urgent", "Urgent", "Standard", "Non-Urgent"]
                 triage_values = [a_and_e.num_patient_immediate, a_and_e.num_patient_very_urgent, a_and_e.num_patient_urgent, a_and_e.num_patient_standard, a_and_e.num_patient_non_urgent]
-                fig9 = px.bar(x = triage_categories,  y = triage_values, title = " Number of Patients in Triage Caregories", labels = {"x": " Triage Categories", "y": "Number of Patients"})
+                fig9 = px.bar(x = triage_categories,  y = triage_values, title = " Triage Category Distribution", labels = {"x": " Triage Categories", "y": "Number of Patients"})
                 fig9.update_traces(marker=dict(color=["#FF6666", "#FFCC66", "#FFFF66", "#66FF66", "#66CCFF"]))
                 st.plotly_chart(fig9)
             
@@ -928,7 +1053,7 @@ if run_button_pressed:
                                             np.mean(a_and_e.track_time_for_discharge)]
                     stage_names = ["Admission", "Risk Assessment", "Doctor Consultation", "Tests", "Medication", "Follow Up", "Discharge"]
                     
-                    fig10  = px.bar( x = stage_names, y = average_time_for_stages, title = "Average Time for Stages in different stages (patient flow)", labels = {"x": "Stages", "y": "Average Time (minutes)"})
+                    fig10  = px.bar( x = stage_names, y = average_time_for_stages, title = "Average Time for Patient Journey Through A&E (Minutes per Stage)  ", labels = {"x": "Stages", "y": "Average Time (minutes)"})
                     st.plotly_chart(fig10)
 
 
@@ -939,36 +1064,14 @@ if run_button_pressed:
                     #Number of patients in different stages of the process
                     stage_names = ["Discharged", "Requires Tests", "Requires Medication", "Requires Bed"]
                     stage_count = [a_and_e.num_patient_discharged, a_and_e.num_patient_requires_tests, a_and_e.num_patient_requires_medication, a_and_e.num_patient_requires_bed]
-                    fig11 = px.bar(x = stage_names, y =stage_count, title = "Number of Patients in Different Stages of the Process", labels = {"x": "Stages", "y": "Number of Patients"})
+                    fig11 = px.bar(x = stage_names, y =stage_count, title = "Number of Patients in Different Stages of the A&E", labels = {"x": "Stages", "y": "Number of Patients"})
                     st.plotly_chart(fig11)
                     
                     
         
 
-            with st.expander("Resource Utilisation", expanded = True):
-                clerk_utilization = a_and_e.caculate_resource_utilisation(
-                a_and_e.track_clerk_utilisation, num_clerks, simulation_run_time)
-
-                nurse_utilization = a_and_e.caculate_resource_utilisation(
-                    a_and_e.track_nurse_utilisation, num_nurses, simulation_run_time)
-
-                bed_utilization = a_and_e.caculate_resource_utilisation(
-                    a_and_e.track_bed_utilisation, num_beds, simulation_run_time)
-
-                doctor_utilization = a_and_e.caculate_resource_utilisation(
-                    a_and_e.track_doctor_utilisation, num_doctors, simulation_run_time)
-                    
-                    
+            with st.expander("Resource Utilisation and Queue Over Time", expanded = True):
                 col1, col2 = st.columns(2)
-
-
-                with col1:
-                    st.metric(label="Clerk Utilisation", value=f"{clerk_utilization:.2f}%")
-                    st.metric(label="Nurse Utilisation", value=f"{nurse_utilization:.2f}%")
-
-                with col2:
-                    st.metric(label="Bed Utilisation", value=f"{bed_utilization:.2f}%")
-                    st.metric(label="Doctor Utilisation", value=f"{doctor_utilization:.2f}%")
 
 
                     # Extracts data for the resources each
@@ -981,26 +1084,26 @@ if run_button_pressed:
                     fig12 = go.Figure()
                     fig12.add_trace(go.Scatter(x=times_clerk, y=usage_clerk, mode="lines", name="Clerk Usage"))
                     fig12.add_trace(go.Scatter(x=times_clerk, y=queue_clerk, mode="lines", name="Clerk Queue", line=dict(color="red")))
-                    fig12.update_layout(title="Clerk Resource Utilisation Over Time", xaxis_title="Simulation Time (minutes)", yaxis_title="Number of Clerks")
+                    fig12.update_layout(title="Clerk Resource Utilisation and Queue Over Time ", xaxis_title="Simulation Time (minutes)", yaxis_title="Number of Clerks/Number of Patients in Queue")
                     st.plotly_chart(fig12)
 
                 with col2:
                     fig13 = go.Figure()
                     fig13.add_trace(go.Scatter(x=times_nurse, y=usage_nurse, mode="lines", name="Nurse Usage"))
                     fig13.add_trace(go.Scatter(x=times_nurse, y=queue_nurse, mode="lines", name="Nurse Queue", line=dict(color="red")))
-                    fig13.update_layout(title="Nurse Resource Utilisation Over Time", xaxis_title="Simulation Time (minutes)", yaxis_title="Number of Nurses")
+                    fig13.update_layout(title="Nurse Resource Utilisation and Queue Over Time ", xaxis_title="Simulation Time (minutes)", yaxis_title="Number of Nurses/Number of Patients in Queue")
                     st.plotly_chart(fig13)
 
                 with col1:
                     fig14 = go.Figure()
                     fig14.add_trace(go.Scatter(x=times_doctor, y=usage_doctor, mode="lines", name="Doctor Usage"))
                     fig14.add_trace(go.Scatter(x=times_doctor, y=queue_doctor, mode="lines", name="Doctor Queue", line=dict(color="red")))
-                    fig14.update_layout(title="Doctor Resource Utilisation Over Time", xaxis_title="Simulation Time (minutes)", yaxis_title="Number of Doctors")
+                    fig14.update_layout(title="Doctor Resource Utilisation and Queue Over Time", xaxis_title="Simulation Time (minutes)", yaxis_title="Number of Doctors/Number of Patients in Queue")
                     st.plotly_chart(fig14)
 
                 with col2:
                     fig15 = go.Figure()
                     fig15.add_trace(go.Scatter(x=times_bed, y=usage_bed, mode="lines", name="Bed Usage"))
                     fig15.add_trace(go.Scatter(x=times_bed, y=queue_bed, mode="lines", name="Bed Queue", line=dict(color="red")))
-                    fig15.update_layout(title="Bed Resource Utilisation Over Time", xaxis_title="Simulation Time (minutes)", yaxis_title="Number of Beds")
+                    fig15.update_layout(title="Bed Resource Utilisation and Queue Over Time ", xaxis_title="Simulation Time (minutes)", yaxis_title="Number of Beds/Number of Patients in Queue")
                     st.plotly_chart(fig15)
