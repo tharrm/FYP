@@ -66,7 +66,7 @@ class AnE:
 
 
         self.patient_who_waited = [] #List all the wait times for patients who waited
-        self.patient_total_wait_time = [] # Total wait times for all the pateints
+        self.patient_total_wait_time = [] # Total wait times for all the patients
         
         #This tracks the waiting time for the resources
         self.track_waiting_time_for_clerk = []
@@ -450,7 +450,7 @@ class AnE:
         #yield self.env.timeout(random.randint(1,5))
         yield self.env.timeout(self.medication_duration)
         with open("patient_log.txt", "a") as output:
-            output.write(f"Pateint {patient_ID} finished medication at {self.sim_format_time(self.env.now)}" + '\n')
+            output.write(f"Patient {patient_ID} finished medication at {self.sim_format_time(self.env.now)}" + '\n')
         
         finish_time = self.env.now
         duration = finish_time - arrival_time
@@ -633,10 +633,53 @@ with st.sidebar:
            run_button_pressed = True
 
 with st.expander(label = "About", expanded = False):
-    st.subheader("About the A&E Simulation", anchor = False, divider = "black")
-    st.write("This Simulation is designed to model and analyse pateint flow, resource utilisation and eff within an Accident & Emergency deparment.")
-    
+    st.subheader("About the A&E Simulation", anchor = False)
+    st.write("This Simulation is a descrete event simulation that is designed  through a python framework called Simpy, to model and analyse patient flow, resource utilisation and effieceny within an Accident & Emergency deparment.")
+    st.write("The simulation enables you to configure key hospital parameters located at the left side-panel under **⚙️ Simulation Configuration**. It includes resource allocation of staffing levels,  triage allocation, and process durations ( e.g., how long  risk assesment addmission takes) and the timings. These are here to observe  how these paramters affect patient flow and assist you on your decision based on the analysis provided by the simulation results.")
+    st.subheader("Simulation Configuration Explained", anchor = False)
    
+    st.markdown("<p style='font-size:22px; font-weight:bold;'> 1. Resource Allocation</p>", unsafe_allow_html = True)
+    st.write("This section allows you to configure the number of healthcare proffesionals and beds available. These are known as **Resources** in the simulation. Resources are the entities that are used to process patients. Proper resource management is crucial for patient flow and reducing waiting times.")
+    st.write(" - **👩‍💼 Number of Clerks**:  Clerks handles patient registration and administrative tasks" )
+    st.write(" - **👩‍⚕️ Number of Nurses**: Nurses conducts initatial assesments and triage patients")
+    st.write(" - **👨‍⚕️ Number of Doctors**: Doctors provides consultations and treatments.")
+    st.write(" - **🛏️ Number of Beds**:  Beds are used to accomodate patients who require furthur treatment or observation ")
+    
+    st.markdown("<p style='font-size:22px; font-weight:bold;'> 2. Triage Allocation</p>", unsafe_allow_html = True)
+    st.write("Patients are categorised based on their urgency and severity of their condition. This is known as Triage. The triage system used in this simulation is the **Manchester Triage**, which classifies patients into five categoires which affects the order in which they recieve treatment. The triage needs to add up to **100%**.")
+    st.write(" - **🔴 Immediate Patients (%)**: Life-threatning conditions")
+    st.write(" - **🟠 Very Urgent Patients(%)**: Sever but non-life threatening")
+    st.write(" - **🟡 Urgent Patients (%)**: Moderate conditions requring prompt care ")
+    st.write(" - **🟢 Standard Patients (%)**:  Less critical but need attention")
+    st.write(" - **🔵 Non-Urgent Patients (%)**: Low-risk cases")
+
+    st.markdown("<p style='font-size:22px; font-weight:bold;'> 3. Patient Flow</p>", unsafe_allow_html = True)
+    st.write("- **🔁Admission Duration**: Time taken by the clerk to register a patient")
+    st.write("- **⚠️ Risk Assesment Duration**: Time taken by nurses to assess and triage a patient")
+    st.write("- **🩺 Doctor Consultation Duration**: Time taken by doctor to peform a consultation to a patient")
+    st.write("- **🧪 Test Duration**: Time required for lab tests")
+    st.write("- **💊 Medication Duration**: Time required for the medication process")
+    st.write("- **👩‍💼 Doctor Follow Up Duration**: A follow up consultation conducted by a doctor after a treatment ")
+    st.write("- **🏥 Length of Stay**: Time spent in bed")
+    st.write("The likelyhood of a patient to be discharged, require tests or medication. The percentages need to add up to **100%**.")
+    st.write("- **📤 Percentage of Discharge:**: Patients who leave A&E without anymore check-ups")
+    st.write("- **🧬 Percentage of Tests**: Patients requiring diagnostic tests")
+    st.write("- **💉 Percentage of Medication**: Patients needing medication for treatment")
+
+    st.markdown("<p style='font-size:22px; font-weight:bold;'> 4. Patient Generator</p>", unsafe_allow_html = True)
+    st.write("This section allows you to control how frequently new patients arrive at the A&E department. The **Mean Arrival Time** is the average time between patient arrivals. A lower value means more frequent arrivals, while a higher value means less frequent arrivals. This was done through exponential to make it random as possible." )
+    st.write( " - **🚶‍♀️‍➡️Mean Arrival Time**:  How much patient arrives")
+    st
+    
+    
+    st.markdown("<p style='font-size:22px; font-weight:bold;'> 5. Time Configuration</p>", unsafe_allow_html = True)
+    st.write("- **🕛Simulation Run Time in Minutes**: The total duration of the simulation in minutes. But note the simulation time might exceed when all patients have been processed")
+    st.write("- **⏳Start Time**: The time of the day the simulation begins")
+
+    st.markdown("<p style='font-size:22px; font-weight:bold;'> Once all are entered press the run simulation button to start the simulation</p>", unsafe_allow_html = True)
+
+
+
 if run_button_pressed:
         if "patient_log_data" in st.session_state:
             del st.session_state.patient_log_data
@@ -711,7 +754,7 @@ if run_button_pressed:
                 else:
                     st.metric(label= "The average for patients who had to wait time is ", value = "No patients waited")
 
-            #This calculates the overall average wait time even with pateints who did not wait 
+            #This calculates the overall average wait time even with patients who did not wait 
             overall_average_time = sum(a_and_e.patient_total_wait_time) / len (a_and_e.patient_total_wait_time)
 
             hours1= int(overall_average_time // 60)
@@ -767,7 +810,7 @@ if run_button_pressed:
                   
                   
 
-            #This graph is for the time pateints spent in the AnE
+            #This graph is for the time patients spent in the AnE
             with st.expander("Time Patients Spent in A&E", expanded=True):
                 col1, col2, col3 = st.columns(3)
 
@@ -792,7 +835,7 @@ if run_button_pressed:
 
             #Histogram for patient spent time 
                 with col3:
-                    fig5 = px.histogram(x= a_and_e.patient_spent_time, nbins=int( np.sqrt(len(a_and_e.patient_spent_time))),title = "Time Pateints Spent in A&E", labels = {"x": "Minutes", "y": "Frequency"})
+                    fig5 = px.histogram(x= a_and_e.patient_spent_time, nbins=int( np.sqrt(len(a_and_e.patient_spent_time))),title = "Time Patients Spent in A&E", labels = {"x": "Minutes", "y": "Frequency"})
                     fig5.update_traces(marker=dict(color = "#FFA07A",line=dict(color="black", width=1)))
                     st.plotly_chart(fig5)
               
