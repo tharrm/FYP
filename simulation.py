@@ -573,7 +573,7 @@ with st.sidebar:
 
         risk_assessment_duration = st.slider(" ", 1, 10, 5)
         
-        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🩺Doctor Consultation:</p>", unsafe_allow_html= True)
+        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🩺Doctor Consultation Duration:</p>", unsafe_allow_html= True)
         doctor_consultation_duration = st.slider("                          ", 1, 10, 5)
         
         st.markdown("<p style='font-size:20px; font-weight:bold;'> 🧪Test Duration:</p>", unsafe_allow_html= True)
@@ -587,7 +587,7 @@ with st.sidebar:
         st.markdown("<p style='font-size:20px; font-weight:bold;'> 🏥Length of Stay:</p>", unsafe_allow_html= True)
         length_of_stay = st.slider("     ", 1, 10, 5)
 
-        st.markdown("<p style='font-size:20px; font-weight:bold;'>📤 Percentage of Discharg:e</p>", unsafe_allow_html= True)
+        st.markdown("<p style='font-size:20px; font-weight:bold;'>📤 Percentage of Discharge:</p>", unsafe_allow_html= True)
         percentage_discharge = st.slider("      ", 0, 100, 1)
        
         st.markdown("<p style='font-size:20px; font-weight:bold;'> 🧬 Percentage of Tests:</p>", unsafe_allow_html= True)
@@ -599,7 +599,7 @@ with st.sidebar:
         # Validate that the sum of percentages equals 100 
         total_percentage = percentage_discharge + percentage_tests + percentage_medication
         if total_percentage != 100:
-            st.warning(f"The total percentage of patient flow categories is {total_percentage}%. Please ensure it equals 100%.")
+            st.warning(f"The total percentage of Patient Flow categories is {total_percentage}%. Please ensure it equals 100%.")
         
     
     with st.expander(label = " Patient Generator", expanded = False):
@@ -634,46 +634,47 @@ with st.sidebar:
 
 with st.expander(label = "About", expanded = False):
     st.subheader("About the A&E Simulation", anchor = False)
-    st.write("This Simulation is a descrete event simulation that is designed  through a python framework called Simpy, to model and analyse patient flow, resource utilisation and effieceny within an Accident & Emergency deparment.")
-    st.write("The simulation enables you to configure key hospital parameters located at the left side-panel under **⚙️ Simulation Configuration**. It includes resource allocation of staffing levels,  triage allocation, and process durations ( e.g., how long  risk assesment addmission takes) and the timings. These are here to observe  how these paramters affect patient flow and assist you on your decision based on the analysis provided by the simulation results.")
+    st.write("This web application presents you with a configurable Accident and Emergency (A&E) simulation. It generates results to help you and other users identify bottlenecks and assist in making well-informed decisions on ways to enhance overall efficiency. Patient flow refers to the movement process of patients through the A&E department, from when they arrive to when they are discharged. Bottlenecks, such as queues or waiting periods, may be identified with this system, and the overall efficiency of the system can be improved")
+    st.write("This simulation is a type of Discrete Event Simulation (DES) that allows us to make observations at certain points of time, where changes take place in the system - such as when a patient arrives; when they are seen by a doctor; or when they get discharged. This enables us to capture the dynamic nature of the system, analyse how various factors impact patient flow, and identify solutions to enhance it.")
+    st.write("The A&E Simulation is designed to be customisable through parametisation. This application is flexible as it enables you to experiment with different configurations, creating scenarios. From these scenarios, users can observe the impact on waiting times, resource usage, and other factors to help identify bottlenecks. To configure the parameters, it is located at the left side panel under ⚙️ Simulation Configuration.")
     st.subheader("Simulation Configuration Explained", anchor = False)
    
     st.markdown("<p style='font-size:22px; font-weight:bold;'> 1. Resource Allocation</p>", unsafe_allow_html = True)
-    st.write("This section allows you to configure the number of healthcare proffesionals and beds available. These are known as **Resources** in the simulation. Resources are the entities that are used to process patients. Proper resource management is crucial for patient flow and reducing waiting times.")
-    st.write(" - **👩‍💼 Number of Clerks**:  Clerks handles patient registration and administrative tasks" )
-    st.write(" - **👩‍⚕️ Number of Nurses**: Nurses conducts initatial assesments and triage patients")
-    st.write(" - **👨‍⚕️ Number of Doctors**: Doctors provides consultations and treatments.")
-    st.write(" - **🛏️ Number of Beds**:  Beds are used to accomodate patients who require furthur treatment or observation ")
+    st.write("This section allows you to configure the number of healthcare professionals and beds available. These are known as “resources” in the simulation, which are the entities that are used to process patients. In other words, they are resources since they are limited and shared among all patients. Proper resource management is crucial for patient flow and lowering wait times. If a resource is busy, Patients will have to wait and a queue will be formed.")
+    st.write(" - **👩‍💼 Number of Clerks**: Clerks handle patient registration and administrative tasks" )
+    st.write(" - **👩‍⚕️ Number of Nurses**: Nurses conduct initial assesments and triage patients")
+    st.write(" - **👨‍⚕️ Number of Doctors**: Doctors provide consultations and treatments.")
+    st.write(" - **🛏️ Number of Beds**: Beds are used to accomodate patients who requires further treatment or observation ")
     
     st.markdown("<p style='font-size:22px; font-weight:bold;'> 2. Triage Allocation</p>", unsafe_allow_html = True)
-    st.write("Patients are categorised based on their urgency and severity of their condition. This is known as Triage. The triage system used in this simulation is the **Manchester Triage**, which classifies patients into five categoires which affects the order in which they recieve treatment. The triage needs to add up to **100%**.")
+    st.write("Patients are categorised according to the urgency and severity of their condition, known as “triage”. The system applied in this simulation is the Manchester triage, which is widely used to classify patients into five colour-coded categories, resulting in an order in which patients receive treatment first. The triage model should sum up to 100%.")
     st.write(" - **🔴 Immediate Patients (%)**: Life-threatning conditions")
-    st.write(" - **🟠 Very Urgent Patients(%)**: Sever but non-life threatening")
+    st.write(" - **🟠 Very Urgent Patients(%)**: Severe but non-life threatening")
     st.write(" - **🟡 Urgent Patients (%)**: Moderate conditions requring prompt care ")
-    st.write(" - **🟢 Standard Patients (%)**:  Less critical but need attention")
+    st.write(" - **🟢 Standard Patients (%)**: Less critical but need attention")
     st.write(" - **🔵 Non-Urgent Patients (%)**: Low-risk cases")
 
     st.markdown("<p style='font-size:22px; font-weight:bold;'> 3. Patient Flow</p>", unsafe_allow_html = True)
     st.write("- **🔁Admission Duration**: Time taken by the clerk to register a patient")
     st.write("- **⚠️ Risk Assesment Duration**: Time taken by nurses to assess and triage a patient")
-    st.write("- **🩺 Doctor Consultation Duration**: Time taken by doctor to peform a consultation to a patient")
+    st.write("- **🩺 Doctor Consultation Duration**: Time taken by a doctor to peform a consultation to a patient")
     st.write("- **🧪 Test Duration**: Time required for lab tests")
     st.write("- **💊 Medication Duration**: Time required for the medication process")
     st.write("- **👩‍💼 Doctor Follow Up Duration**: A follow up consultation conducted by a doctor after a treatment ")
     st.write("- **🏥 Length of Stay**: Time spent in bed")
-    st.write("The likelyhood of a patient to be discharged, require tests or medication. The percentages need to add up to **100%**.")
+    st.write("The likelihood of a patient being discharged, requiring tests or medication. The percentages need to add up to 100%.")
     st.write("- **📤 Percentage of Discharge:**: Patients who leave A&E without anymore check-ups")
     st.write("- **🧬 Percentage of Tests**: Patients requiring diagnostic tests")
     st.write("- **💉 Percentage of Medication**: Patients needing medication for treatment")
 
     st.markdown("<p style='font-size:22px; font-weight:bold;'> 4. Patient Generator</p>", unsafe_allow_html = True)
-    st.write("This section allows you to control how frequently new patients arrive at the A&E department. The **Mean Arrival Time** is the average time between patient arrivals. A lower value means more frequent arrivals, while a higher value means less frequent arrivals. This was done through exponential to make it random as possible." )
+    st.write("This section lets you control how frequently new patients arrive at the A&E department. The mean arrival time is the average time between patient arrivals. A lower value would mean more frequent arrivals, while a higher value means less frequent. This was done exponentially, to make it as random as possible." )
     st.write( " - **🚶‍♀️‍➡️Mean Arrival Time**:  How much patient arrives")
-    st
+    
     
     
     st.markdown("<p style='font-size:22px; font-weight:bold;'> 5. Time Configuration</p>", unsafe_allow_html = True)
-    st.write("- **🕛Simulation Run Time in Minutes**: The total duration of the simulation in minutes. But note the simulation time might exceed when all patients have been processed")
+    st.write("- **🕛Simulation Run Time in Minutes**: The total simulation duration in minutes. But note that the simulation time might exceed to ensure all patients have been processed")
     st.write("- **⏳Start Time**: The time of the day the simulation begins")
 
     st.markdown("<p style='font-size:22px; font-weight:bold;'> Once all are entered press the run simulation button to start the simulation</p>", unsafe_allow_html = True)
