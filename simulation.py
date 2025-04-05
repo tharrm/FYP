@@ -579,7 +579,7 @@ with st.sidebar:
     
     with st.expander(label = "Triage Allocation", expanded = False):
         #st.markdown("<p style='font-size:20px; font-weight:bold;'> 🔴 % of Immediate Patients:</p>", unsafe_allow_html= True)
-        num_immediate = st.number_input( "🔴% of Immediate Patients ",0, 100, 1)
+        num_immediate = st.number_input( "🔴 % of Immediate Patients ",0, 100, 1)
         
         #st.markdown("<p style='font-size:20px; font-weight:bold;'> 🟠 % of Very Urgent Patients:</p>", unsafe_allow_html= True)
         num_very_urgent = st.number_input("🟠 % of Very Urgent Patients:", 0, 100,1)
@@ -588,10 +588,10 @@ with st.sidebar:
         num_urgent = st.number_input( "🟡 % of Urgent Patients", 0, 100, 1)
         
         #st.markdown("<p style='font-size:20px; font-weight:bold;'> 🟢 % of Standard Patients:</p>", unsafe_allow_html= True)
-        num_standard = st.number_input("🟢% of Standard Patients",0,100,1)
+        num_standard = st.number_input("🟢 % of Standard Patients",0,100,1)
         
         #st.markdown("<p style='font-size:20px; font-weight:bold;'> 🔵 % of Non-Urgent Patients:</p>", unsafe_allow_html= True)
-        num_non_urgent = st.number_input("🔵% of Non-Urgent Patients",0, 100, 1)
+        num_non_urgent = st.number_input("🔵 % of Non-Urgent Patients",0, 100, 1)
 
         	
          # Validate that the sum of percentages equals 100
@@ -644,18 +644,18 @@ with st.sidebar:
         
     
     with st.expander(label = " Patient Generator", expanded = False):
-        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🚶‍♀️‍➡️Mean Arrival Time:</p>", unsafe_allow_html= True)
+       # st.markdown("<p style='font-size:20px; font-weight:bold;'> 🚶‍♀️‍➡️Mean Arrival Time:</p>", unsafe_allow_html= True)
         mean_interarrival_time = st.slider("🚶‍♀️‍➡️Mean Arrival Time ", 1, 10,3 )
         #average_rate_patients_per_interval = st.slider(" 🚶‍♂️‍➡️Average Rate of Patients per Interval", 1, 50, 10)
 
 
 
     with st.expander(label = "Simulation Configuration", expanded = False):
-        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🕛Simulation Run Time in minutes</p>", unsafe_allow_html= True)
+        #st.markdown("<p style='font-size:20px; font-weight:bold;'> 🕛Simulation Run Time in minutes</p>", unsafe_allow_html= True)
 
         simulation_run_time= st.number_input("🕛Simulation Run Time in minutes", 1, 1440, 100)
         
-        st.markdown("<p style='font-size:20px; font-weight:bold;'>⏳ Start Time:</p>", unsafe_allow_html= True)
+      #  st.markdown("<p style='font-size:20px; font-weight:bold;'>⏳ Start Time:</p>", unsafe_allow_html= True)
         start_time = st.time_input("⏳ Start Time", datetime(2025, 3, 15, 8, 0).time())
 
 
