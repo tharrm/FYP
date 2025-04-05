@@ -384,10 +384,10 @@ class AnE:
             total = self.percentage_discharge + self.percentage_tests + self.percentage_medication + self.percentage_hospitilisation_surgery
             
             if total ==0:
-                self.percentage_discharge = 100/3
-                self.percentage_tests = 100/3
-                self.percentage_medication = 100/3
-                self.percentage_hospitilisation_surgery = 100/3
+                self.percentage_discharge = 100/4
+                self.percentage_tests = 100/4
+                self.percentage_medication = 100/4
+                self.percentage_hospitilisation_surgery = 100/4
 
             
             if total != 100:
