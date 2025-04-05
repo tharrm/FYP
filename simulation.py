@@ -306,7 +306,7 @@ class AnE:
 
         #Calculate times for both resources
         patient_wait_time = self.env.now - patient_waits
-        self.patient_totsl_wait_time.append(patient_wait_time)
+        self.patient_total_wait_time.append(patient_wait_time)
 
         if patient_wait_time > 0:
             self.patient_who_waited.append(patient_wait_time)
