@@ -557,7 +557,8 @@ class AnE:
 
 st.set_page_config(page_title="A&E Simulation🏥", layout="wide")
 
-st.title("A&E Simulation 🏥")
+#st.title("A&E Simulation 🏥")
+st.markdown("<p style =  'font-size:55px; font-weight:bold; text-align: center;'>A&E Simulation🏥</p>", unsafe_allow_html=True)
 #st.write("Testing")
 
 with st.sidebar:
