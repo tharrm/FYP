@@ -562,7 +562,7 @@ st.markdown("<p style =  'font-size:55px; font-weight:bold; text-align: center;'
 #st.write("Testing")
 
 with st.sidebar:
-    st.markdown("⚙️ <span style = 'font-size: 25px;'>Simulation Configuration</span>", unsafe_allow_html=True)
+    st.markdown("⚙️ <span style = 'font-size: 20px;'>Simulation Configuration</span>", unsafe_allow_html=True)
 
     with st.expander(label="Resources Allocation", expanded=False):
         #st.markdown("<span style = 'font-size: 20px;'> Configure the number of resources in the A&E department </span>", unsafe_allow_html=True)
