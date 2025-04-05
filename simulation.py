@@ -15,8 +15,8 @@ class AnE:
     
     def __init__(self, env, num_doctors, num_nurses, num_beds, num_clerk,
                  num_immediate, num_very_urgent, num_urgent, num_standard, num_non_urgent,
-                 admission_duration, risk_assessment_duration, doctor_consultation_duration, test_duration, medication_duration, follow_up_duration, length_of_stay,
-                 probability_discharge, probability_tests, probability_medication,
+                 admission_duration, risk_assessment_duration, doctor_consultation_duration, test_duration, medication_duration, follow_up_duration, length_of_stay, setup_time,
+                 probability_discharge, probability_tests, probability_medication, percentage_hospitilisation_surgery,
                  start_time
                  ):
         self.env = env
@@ -41,11 +41,13 @@ class AnE:
         self.medication_duration = medication_duration
         self.follow_up_duration = follow_up_duration
         self.length_of_stay = length_of_stay
+        self.setup_time = setup_time
 
         # Probablity of discharge, tests and medications
         self.percentage_discharge = probability_discharge
         self.percentage_tests = probability_tests
         self.percentage_medication = probability_medication
+        self.percentage_hospitilisation_surgery = percentage_hospitilisation_surgery 
        
        
         #self.patient_id=0
@@ -289,6 +291,8 @@ class AnE:
         self.track_bed_usage.append((self.env.now,self.occupied_beds))
 
 
+
+
     def patient_request_bed(self,patient_ID,priority):
         arrival_time= self.env.now 
         self.num_patient_requires_bed += 1
@@ -297,11 +301,37 @@ class AnE:
         req= self.bed.request()
         yield req # Waiit for a bed
         self.occupied_beds += 1
+
+        patient_wait_for_nurse = self.env.now 
+        req_nurse = self.nurse.request(priority=priority)
+        yield req_nurse
+
+        nurse_wait_time = self.env.now - patient_wait_for_nurse
+        self.patient_total_wait_time.append(nurse_wait_time)
+
+        if nurse_wait_time > 0:
+            self.patient_who_waited.append(nurse_wait_time)
+            self.track_waiting_time_for_nurse.append(nurse_wait_time)
+
+
+        with open("patient_log.txt", "a") as output:
+            output.write(f" Patient {patient_ID} bed set up commenced at {self.sim_format_time(self.env.now)}" + '\n')
+
+        yield self.env.timeout(self.setup_time)
+
+        with open("patient_log.txt", "a") as output:   
+            
+            output.write(f"Patient {patient_ID} bed set up completed at {self.sim_format_time(self.env.now)}"+ '\n')
+        
+        self.nurse.release(req_nurse )
+
         wait_time = self.env.now - arrival_time
         self.patient_total_wait_time.append(wait_time)
+        
         if wait_time > 0:
             self.patient_who_waited.append(wait_time)
             self.track_waiting_time_for_bed.append(wait_time)
+        
         with open("patient_log.txt", "a") as output:
             output.write(f"Patient {patient_ID} was  assigned to a bed at {self.sim_format_time(self.env.now)}"+ '\n')
         
@@ -311,22 +341,17 @@ class AnE:
         #self.track_bed_usage.append((self.env.now,occupied_beds))
         
         #Stimulate the length of stay (LOS) in the bed
-        los = random.randint(30,120)
         yield self.env.timeout(self.length_of_stay)
         self.update_last_patient_time()
         with open("patient_log.txt", "a") as output:
             output.write(f"Patient {patient_ID} has left the bed at {self.sim_format_time(self.env.now)}"+ '\n')
 
-        self.occupied_beds-= 1
+        self.occupied_beds -= 1
         self.bed.release(req)
         self.update_bed_occupancy()
 
-        
-        #This tracks when the user leaves the bed 
-        #occupied_beds = self.bed.capacity - len(self.bed.queue)
-        #self.track_bed_usage.append((self.env.now, occupied_beds))
-        self.update_bed_occupancy()
-
+        # Calculate the length of stay (LOS) for the patient
+        los = self.env.now - arrival_time
         self.patient_LOS.append(los)
 
 
@@ -355,22 +380,24 @@ class AnE:
             duration = finish_time - arrival_time
             self.track_time_doctor_consultation.append(duration)
             
-            total = self.percentage_discharge + self.percentage_tests + self.percentage_medication
+            total = self.percentage_discharge + self.percentage_tests + self.percentage_medication + self.percentage_hospitilisation_surgery
             
             if total ==0:
                 self.percentage_discharge = 100/3
                 self.percentage_tests = 100/3
                 self.percentage_medication = 100/3
+                self.percentage_hospitilisation_surgery = 100/3
 
             
             if total != 100:
                 self.percentage_discharge = (self.percentage_discharge / total) * 100 
                 self.percentage_tests = (self.percentage_tests / total) * 100
                 self.percentage_medication = (self.percentage_medication / total) * 100
+                self.percentage_hospitilisation_surgery = (self.percentage_hospitilisation_surgery / total) * 100
             
             
             #decision =random.uniform(0,1)
-            decision = random.choices(["Discharge", "Tests", "Medication"], weights = [self.percentage_discharge, self.percentage_tests, self.percentage_medication])[0]
+            decision = random.choices(["Discharge", "Tests", "Medication", "Hospitilisation/Surgery"], weights = [self.percentage_discharge, self.percentage_tests, self.percentage_medication, self.percentage_hospitilisation_surgery])[0]
             
             if decision == "Discharge":
                 self.track_time_for_discharge.append(duration)
@@ -394,7 +421,7 @@ class AnE:
                 output.write(f"Patient {patient_ID}'s Doctor released at {self.sim_format_time(self.env.now)}"+ '\n')
                yield self.env.process(self.patient_request_tests(patient_ID,priority))
               
-            else:
+            elif decision == "Medication":
               self.num_patient_requires_medication += 1
               with open("patient_log.txt", "a") as output:
                 output.write(f"Patient {patient_ID} needs to take medication"+ '\n')
@@ -403,6 +430,13 @@ class AnE:
               with open("patient_log.txt", "a") as output:
                 output.write(f"Patient {patient_ID}'s Doctor released at {self.sim_format_time(self.env.now)}"+ '\n')
               yield self.env.process(self.patient_request_medication(patient_ID,priority))
+            
+            else:
+                self.num_patient_requires_bed += 1
+                with open("patient_log.txt", "a") as output:
+                    output.write(f"Patient {patient_ID} needs to be admitted to for hospitilisation or surgery at {self.sim_format_time(self.env.now)}"+ '\n')
+                
+                yield self.env.process(self.patient_request_bed(patient_ID, priority))
          
      
     def patient_request_tests(self,patient_ID, priority):
@@ -587,6 +621,9 @@ with st.sidebar:
         st.markdown("<p style='font-size:20px; font-weight:bold;'> 🏥Length of Stay:</p>", unsafe_allow_html= True)
         length_of_stay = st.slider("     ", 1, 10, 5)
 
+        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🛏️Bed Set Up Time:</p>", unsafe_allow_html= True)
+        setup_time = st.slider("                                      ", 1, 10, 5)
+
         st.markdown("<p style='font-size:20px; font-weight:bold;'>📤 Percentage of Discharge:</p>", unsafe_allow_html= True)
         percentage_discharge = st.slider("      ", 0, 100, 1)
        
@@ -596,8 +633,11 @@ with st.sidebar:
         st.markdown("<p style='font-size:20px; font-weight:bold;'> 💉Percentage of Medication:</p>", unsafe_allow_html= True)
         percentage_medication = st.slider("             ",0, 100, 1)
 
+
+        st.markdown("<p style='font-size:20px; font-weight:bold;'> 💉Percentage of Hospitilisation/Surgery:</p>", unsafe_allow_html= True)
+        percentage_hospitilisation_surgery = st.slider("                                  ", 0, 100, 1)
         # Validate that the sum of percentages equals 100 
-        total_percentage = percentage_discharge + percentage_tests + percentage_medication
+        total_percentage = percentage_discharge + percentage_tests + percentage_medication + percentage_hospitilisation_surgery
         if total_percentage != 100:
             st.warning(f"The total percentage of Patient Flow categories is {total_percentage}%. Please ensure it equals 100%.")
         
@@ -666,6 +706,7 @@ with st.expander(label = "About", expanded = False):
     st.write("- **📤 Percentage of Discharge:**: Patients who leave A&E without anymore check-ups")
     st.write("- **🧬 Percentage of Tests**: Patients requiring diagnostic tests")
     st.write("- **💉 Percentage of Medication**: Patients needing medication for treatment")
+    st.write("- **🏥 Percentage of Hospitilisation/Surgery**: Patients not regarded as immeidate but require surgery or hospitlisation")
 
     st.markdown("<p style='font-size:22px; font-weight:bold;'> 4. Patient Generator</p>", unsafe_allow_html = True)
     st.write("This section lets you control how frequently new patients arrive at the A&E department. The mean arrival time is the average time between patient arrivals. A lower value would mean more frequent arrivals, while a higher value means less frequent. This was done exponentially, to make it as random as possible." )
@@ -695,8 +736,8 @@ if run_button_pressed:
         # Create the A&E department with resources
         a_and_e = AnE(env, num_doctors, num_nurses, num_beds, num_clerks, 
                       num_immediate, num_very_urgent, num_urgent, num_standard, num_non_urgent,
-                      admission_duration, risk_assessment_duration, doctor_consultation_duration, test_duration, medication_duration, follow_up_duration, length_of_stay,
-                      percentage_discharge, percentage_tests, percentage_medication,
+                      admission_duration, risk_assessment_duration, doctor_consultation_duration, test_duration, medication_duration, follow_up_duration, length_of_stay,setup_time,
+                      percentage_discharge, percentage_tests, percentage_medication, percentage_hospitilisation_surgery,
                       start_time
                                             
                       )
