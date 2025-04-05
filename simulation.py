@@ -565,32 +565,32 @@ with st.sidebar:
     st.markdown("⚙️ <span style = 'font-size: 25px;'>Simulation Configuration</span>", unsafe_allow_html=True)
 
     with st.expander(label="Resources Allocation", expanded=False):
-        st.markdown("<span style = 'font-size: 20px;'> Configure the number of resources in the A&E department </span>", unsafe_allow_html=True)
+        #st.markdown("<span style = 'font-size: 20px;'> Configure the number of resources in the A&E department </span>", unsafe_allow_html=True)
         
-        st.markdown("<p style='font-size:20px; font-weight:bold;'> 👩‍💼Number of Clerks:</p>", unsafe_allow_html= True)
-        num_clerks = st.slider("", 1, 10, 3)
-        st.markdown("<p style='font-size:20px; font-weight:bold;'>👩‍⚕️Number of Nurses:</p>", unsafe_allow_html= True)
-        num_nurses = st.slider("", 1, 20, 10)
-        st.markdown("<p style='font-size:20px; font-weight:bold;'>👨‍⚕️Number of Doctors:</p>", unsafe_allow_html= True)
-        num_doctors = st.slider(" ", 1, 20, 10)
-        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🛏️Number of Beds:</p>", unsafe_allow_html= True)
-        num_beds = st.slider("  ", 1, 20, 5)
+        #st.markdown("<p style='font-size:20px; font-weight:bold;'> 👩‍💼Number of Clerks:</p>", unsafe_allow_html= True)
+        num_clerks = st.slider("👩‍💼Number of Clerks", 1, 10, 3)
+        #st.markdown("<p style='font-size:20px; font-weight:bold;'>👩‍⚕️Number of Nurses:</p>", unsafe_allow_html= True)
+        num_nurses = st.slider("👩‍⚕️Number of Nurses", 1, 20, 10)
+        #st.markdown("<p style='font-size:20px; font-weight:bold;'>👨‍⚕️Number of Doctors:</p>", unsafe_allow_html= True)
+        num_doctors = st.slider("👨‍⚕️Number of Doctors ", 1, 20, 10)
+        #st.markdown("<p style='font-size:20px; font-weight:bold;'> 🛏️Number of Beds:</p>", unsafe_allow_html= True)
+        num_beds = st.slider("🛏️Number of Beds ", 1, 20, 5)
     
     with st.expander(label = "Triage Allocation", expanded = False):
-        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🔴 % of Immediate Patients:</p>", unsafe_allow_html= True)
-        num_immediate = st.number_input( "🔴",0, 100, 1)
+        #st.markdown("<p style='font-size:20px; font-weight:bold;'> 🔴 % of Immediate Patients:</p>", unsafe_allow_html= True)
+        num_immediate = st.number_input( "🔴% of Immediate Patients ",0, 100, 1)
         
-        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🟠 % of Very Urgent Patients:</p>", unsafe_allow_html= True)
-        num_very_urgent = st.number_input("🟠", 0, 100,1)
+        #st.markdown("<p style='font-size:20px; font-weight:bold;'> 🟠 % of Very Urgent Patients:</p>", unsafe_allow_html= True)
+        num_very_urgent = st.number_input("🟠 % of Very Urgent Patients:", 0, 100,1)
         
-        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🟡 % of Urgent Patients:</p>", unsafe_allow_html= True)
-        num_urgent = st.number_input( "🟡", 0, 100, 1)
+        #st.markdown("<p style='font-size:20px; font-weight:bold;'> 🟡 % of Urgent Patients:</p>", unsafe_allow_html= True)
+        num_urgent = st.number_input( "🟡 % of Urgent Patients", 0, 100, 1)
         
-        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🟢 % of Standard Patients:</p>", unsafe_allow_html= True)
-        num_standard = st.number_input("🟢",0,100,1)
+        #st.markdown("<p style='font-size:20px; font-weight:bold;'> 🟢 % of Standard Patients:</p>", unsafe_allow_html= True)
+        num_standard = st.number_input("🟢% of Standard Patients",0,100,1)
         
-        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🔵 % of Non-Urgent Patients:</p>", unsafe_allow_html= True)
-        num_non_urgent = st.number_input("🔵",0, 100, 1)
+        #st.markdown("<p style='font-size:20px; font-weight:bold;'> 🔵 % of Non-Urgent Patients:</p>", unsafe_allow_html= True)
+        num_non_urgent = st.number_input("🔵% of Non-Urgent Patients",0, 100, 1)
 
         	
          # Validate that the sum of percentages equals 100
@@ -600,42 +600,42 @@ with st.sidebar:
 
     
     with st.expander(label = "Patient Flow", expanded= False):
-        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🔁Admission Duration:</p>", unsafe_allow_html= True)
-        admission_duration = st.slider("", 1, 10, 5)
+        #st.markdown("<p style='font-size:20px; font-weight:bold;'> 🔁Admission Duration:</p>", unsafe_allow_html= True)
+        admission_duration = st.slider("🔁Admission Duration", 1, 10, 5)
        
-        st.markdown("<p style='font-size:20px; font-weight:bold;'> ⚠️Risk Assesment Duration:</p>", unsafe_allow_html= True)
+        #st.markdown("<p style='font-size:20px; font-weight:bold;'> ⚠️Risk Assesment Duration:</p>", unsafe_allow_html= True)
 
-        risk_assessment_duration = st.slider(" ", 1, 10, 5)
+        risk_assessment_duration = st.slider("⚠️Risk Assesment Duration ", 1, 10, 5)
         
-        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🩺Doctor Consultation Duration:</p>", unsafe_allow_html= True)
-        doctor_consultation_duration = st.slider("                          ", 1, 10, 5)
+        #st.markdown("<p style='font-size:20px; font-weight:bold;'> 🩺Doctor Consultation Duration:</p>", unsafe_allow_html= True)
+        doctor_consultation_duration = st.slider("🩺Doctor Consultation Duration ", 1, 10, 5)
         
-        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🧪Test Duration:</p>", unsafe_allow_html= True)
-        test_duration= st.slider("  ", 1, 10, 5)
-        st.markdown("<p style='font-size:20px; font-weight:bold;'> 💊 Medication Duration</p>", unsafe_allow_html= True)
-        medication_duration = st.slider("                    ", 1, 10, 5)
+        #st.markdown("<p style='font-size:20px; font-weight:bold;'> 🧪Test Duration:</p>", unsafe_allow_html= True)
+        test_duration= st.slider("🧪Test Duration ", 1, 10, 5)
+        #st.markdown("<p style='font-size:20px; font-weight:bold;'> 💊 Medication Duration</p>", unsafe_allow_html= True)
+        medication_duration = st.slider("💊 Medication Duration ", 1, 10, 5)
         
-        st.markdown("<p style='font-size:20px; font-weight:bold;'> 👩‍💼Doctor Follow Up Duration:</p>", unsafe_allow_html= True)
-        follow_up_duration = st.slider("    ", 1, 10, 5)
+        #st.markdown("<p style='font-size:20px; font-weight:bold;'> 👩‍💼Doctor Follow Up Duration:</p>", unsafe_allow_html= True)
+        follow_up_duration = st.slider("👩‍💼Doctor Follow Up Duration", 1, 10, 5)
         
-        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🏥Length of Stay:</p>", unsafe_allow_html= True)
-        length_of_stay = st.slider("     ", 1, 10, 5)
+        #st.markdown("<p style='font-size:20px; font-weight:bold;'> 🏥Length of Stay:</p>", unsafe_allow_html= True)
+        length_of_stay = st.slider("🏥Length of Stay", 1, 10, 5)
 
-        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🛏️Bed Set Up Time:</p>", unsafe_allow_html= True)
-        setup_time = st.slider("                                      ", 1, 10, 5)
+        #st.markdown("<p style='font-size:20px; font-weight:bold;'> 🛏️Bed Set Up Time:</p>", unsafe_allow_html= True)
+        setup_time = st.slider(" 🛏️Bed Set Up Time", 1, 10, 5)
 
-        st.markdown("<p style='font-size:20px; font-weight:bold;'>📤 Percentage of Discharge:</p>", unsafe_allow_html= True)
-        percentage_discharge = st.slider("      ", 0, 100, 1)
+        #st.markdown("<p style='font-size:20px; font-weight:bold;'>📤 Percentage of Discharge:</p>", unsafe_allow_html= True)
+        percentage_discharge = st.slider("📤 Percentage of Discharge      ", 0, 100, 1)
        
-        st.markdown("<p style='font-size:20px; font-weight:bold;'> 🧬 Percentage of Tests:</p>", unsafe_allow_html= True)
-        percentage_tests = st.slider("           ", 0, 100, 1)
+        #st.markdown("<p style='font-size:20px; font-weight:bold;'> 🧬 Percentage of Tests:</p>", unsafe_allow_html= True)
+        percentage_tests = st.slider(" 🧬 Percentage of Tests          ", 0, 100, 1)
        
-        st.markdown("<p style='font-size:20px; font-weight:bold;'> 💉Percentage of Medication:</p>", unsafe_allow_html= True)
-        percentage_medication = st.slider("             ",0, 100, 1)
+        #st.markdown("<p style='font-size:20px; font-weight:bold;'> 💉Percentage of Medication:</p>", unsafe_allow_html= True)
+        percentage_medication = st.slider(" 💉Percentage of Medication ",0, 100, 1)
 
 
-        st.markdown("<p style='font-size:20px; font-weight:bold;'> 💉Percentage of Hospitilisation/Surgery:</p>", unsafe_allow_html= True)
-        percentage_hospitilisation_surgery = st.slider("                                  ", 0, 100, 1)
+        #st.markdown("<p style='font-size:20px; font-weight:bold;'> 💉Percentage of Hospitilisation/Surgery:</p>", unsafe_allow_html= True)
+        percentage_hospitilisation_surgery = st.slider("💉Percentage of Hospitilisation/Surgery", 0, 100, 1)
         # Validate that the sum of percentages equals 100 
         total_percentage = percentage_discharge + percentage_tests + percentage_medication + percentage_hospitilisation_surgery
         if total_percentage != 100:
@@ -644,7 +644,7 @@ with st.sidebar:
     
     with st.expander(label = " Patient Generator", expanded = False):
         st.markdown("<p style='font-size:20px; font-weight:bold;'> 🚶‍♀️‍➡️Mean Arrival Time:</p>", unsafe_allow_html= True)
-        mean_interarrival_time = st.slider("                                                                         ", 1, 10,3 )
+        mean_interarrival_time = st.slider("🚶‍♀️‍➡️Mean Arrival Time ", 1, 10,3 )
         #average_rate_patients_per_interval = st.slider(" 🚶‍♂️‍➡️Average Rate of Patients per Interval", 1, 50, 10)
 
 
@@ -652,10 +652,10 @@ with st.sidebar:
     with st.expander(label = "Simulation Configuration", expanded = False):
         st.markdown("<p style='font-size:20px; font-weight:bold;'> 🕛Simulation Run Time in minutes</p>", unsafe_allow_html= True)
 
-        simulation_run_time= st.number_input("                                          ", 1, 1440, 100)
+        simulation_run_time= st.number_input("🕛Simulation Run Time in minutes", 1, 1440, 100)
         
         st.markdown("<p style='font-size:20px; font-weight:bold;'>⏳ Start Time:</p>", unsafe_allow_html= True)
-        start_time = st.time_input("                                                               ", datetime(2025, 3, 15, 8, 0).time())
+        start_time = st.time_input("⏳ Start Time", datetime(2025, 3, 15, 8, 0).time())
 
 
 
@@ -679,14 +679,14 @@ with st.expander(label = "About", expanded = False):
     st.write("The A&E Simulation is designed to be customisable through parametisation. This application is flexible as it enables you to experiment with different configurations, creating scenarios. From these scenarios, users can observe the impact on waiting times, resource usage, and other factors to help identify bottlenecks. To configure the parameters, it is located at the left side panel under **⚙️ Simulation Configuration**.")
     st.subheader("Simulation Configuration Explained", anchor = False)
    
-    st.markdown("<p style='font-size:22px; font-weight:bold;'> 1. Resource Allocation</p>", unsafe_allow_html = True)
+    st.markdown("<p style='font-size:15px; font-weight:bold;'> 1. Resource Allocation</p>", unsafe_allow_html = True)
     st.write("This section allows you to configure the number of healthcare professionals and beds available. These are known as “resources” in the simulation, which are the entities that are used to process patients. In other words, they are resources since they are limited and shared among all patients. Proper resource management is crucial for patient flow and lowering wait times. If a resource is busy, Patients will have to wait and a queue will be formed.")
     st.write(" - **👩‍💼 Number of Clerks**: Clerks handle patient registration and administrative tasks" )
     st.write(" - **👩‍⚕️ Number of Nurses**: Nurses conduct initial assesments and triage patients")
     st.write(" - **👨‍⚕️ Number of Doctors**: Doctors provide consultations and treatments.")
     st.write(" - **🛏️ Number of Beds**: Beds are used to accomodate patients who requires further treatment or observation ")
     
-    st.markdown("<p style='font-size:22px; font-weight:bold;'> 2. Triage Allocation</p>", unsafe_allow_html = True)
+    st.markdown("<p style='font-size:15px; font-weight:bold;'> 2. Triage Allocation</p>", unsafe_allow_html = True)
     st.write("Patients are categorised according to the urgency and severity of their condition, known as “triage”. The system applied in this simulation is the Manchester triage, which is widely used to classify patients into five colour-coded categories, resulting in an order in which patients receive treatment first. The triage model should sum up to 100%.")
     st.write(" - **🔴 Immediate Patients (%)**: Life-threatning conditions")
     st.write(" - **🟠 Very Urgent Patients(%)**: Severe but non-life threatening")
@@ -694,7 +694,7 @@ with st.expander(label = "About", expanded = False):
     st.write(" - **🟢 Standard Patients (%)**: Less critical but need attention")
     st.write(" - **🔵 Non-Urgent Patients (%)**: Low-risk cases")
 
-    st.markdown("<p style='font-size:22px; font-weight:bold;'> 3. Patient Flow</p>", unsafe_allow_html = True)
+    st.markdown("<p style='font-size:15px; font-weight:bold;'> 3. Patient Flow</p>", unsafe_allow_html = True)
     st.write("- **🔁Admission Duration**: Time taken by the clerk to register a patient")
     st.write("- **⚠️ Risk Assesment Duration**: Time taken by nurses to assess and triage a patient")
     st.write("- **🩺 Doctor Consultation Duration**: Time taken by a doctor to peform a consultation to a patient")
@@ -708,17 +708,17 @@ with st.expander(label = "About", expanded = False):
     st.write("- **💉 Percentage of Medication**: Patients needing medication for treatment")
     st.write("- **🏥 Percentage of Hospitilisation/Surgery**: Patients not regarded as immeidate but require surgery or hospitlisation")
 
-    st.markdown("<p style='font-size:22px; font-weight:bold;'> 4. Patient Generator</p>", unsafe_allow_html = True)
+    st.markdown("<p style='font-size:15px; font-weight:bold;'> 4. Patient Generator</p>", unsafe_allow_html = True)
     st.write("This section lets you control how frequently new patients arrive at the A&E department. The mean arrival time is the average time between patient arrivals. A lower value would mean more frequent arrivals, while a higher value means less frequent. This was done exponentially, to make it as random as possible." )
     st.write( " - **🚶‍♀️‍➡️Mean Arrival Time**:  How much patient arrives")
     
     
     
-    st.markdown("<p style='font-size:22px; font-weight:bold;'> 5. Time Configuration</p>", unsafe_allow_html = True)
+    st.markdown("<p style='font-size:15px; font-weight:bold;'> 5. Time Configuration</p>", unsafe_allow_html = True)
     st.write("- **🕛Simulation Run Time in Minutes**: The total simulation duration in minutes. But note that the simulation time might exceed to ensure all patients have been processed")
     st.write("- **⏳Start Time**: The time of the day the simulation begins")
 
-    st.markdown("<p style='font-size:22px; font-weight:bold;'> Once all are entered press the run simulation button to start the simulation</p>", unsafe_allow_html = True)
+    st.markdown("<p style='font-size:15px; font-weight:bold;'> Once all are entered press the run simulation button to start the simulation</p>", unsafe_allow_html = True)
 
 
 
@@ -833,32 +833,32 @@ if run_button_pressed:
             st.subheader(" 📊Visualisations", anchor= False, divider= "red")
 
             with st.expander(label = " ℹ️ Visualation Guide Info", expanded = False):
-                st.markdown("<p style='font-size:22px; font-weight:bold;'>1. Resource Utilisation (%)</p>", unsafe_allow_html = True)
+                st.markdown("<p style='font-size:15px; font-weight:bold;'>1. Resource Utilisation (%)</p>", unsafe_allow_html = True)
                 st.write("The percentage stats shows the overall resource utilisation efficiency through out the simulation. ")
                 st.write("These graphs illustrate the efficency of the resources (clerks, nurses, doctors and beds) utilised throughout the simulation. High utilisation percentages refelct substantial demand, which may result in increase in patient waiting times. Where as low utilisation percentages indicate that the resources are underutilised, which may suggest that theres a surplus of resources.")
 
-                st.markdown("<p style='font-size:22px; font-weight:bold;'>2. Length of Stay for Patients Occupied in Bed</p>", unsafe_allow_html = True)
+                st.markdown("<p style='font-size:15px; font-weight:bold;'>2. Length of Stay for Patients Occupied in Bed</p>", unsafe_allow_html = True)
                 st.write("The box plot displays the distribution of patient bed stays. This can help identify outliers and asses the efficiency of patient flow.")
 
-                st.markdown("<p style='font-size:22px; font-weight:bold;'>3. Time Patients Spent in A&E</p>", unsafe_allow_html = True)
+                st.markdown("<p style='font-size:15px; font-weight:bold;'>3. Time Patients Spent in A&E</p>", unsafe_allow_html = True)
                 st.write("These graphs visualises how long patients typically stay in A&E. This can potentially highlight bottlenecks in the A&E")
 
-                st.markdown("<p style='font-size:22px; font-weight:bold;'>4. Patient Wait Time</p>", unsafe_allow_html = True)
+                st.markdown("<p style='font-size:15px; font-weight:bold;'>4. Patient Wait Time</p>", unsafe_allow_html = True)
                 st.write("The histogram and box plot show the distribution of patient wait times before receiving care. Longer wait times indicates bottlenecks in the system.")
 
-                st.markdown("<p style='font-size:22px; font-weight:bold;'>5. Resource Wait Times</p>", unsafe_allow_html = True)
+                st.markdown("<p style='font-size:15px; font-weight:bold;'>5. Resource Wait Times</p>", unsafe_allow_html = True)
                 st.write("This bar chart displays the average waiting times for different resources (clerks, nurses, doctors and beds). It indentify which resource is causing the most delays.This then can higlight the need to re-allocate resources to optimise patient flow.")
 
 
-                st.markdown("<p style='font-size:22px; font-weight:bold;'>6. Triage Categories </p>", unsafe_allow_html = True)
+                st.markdown("<p style='font-size:15px; font-weight:bold;'>6. Triage Categories </p>", unsafe_allow_html = True)
                 st.write("The bar chart shows the number of patients in different triage categories.")
 
 
-                st.markdown("<p style='font-size:22px; font-weight:bold;'>7. Patient Flows</p>", unsafe_allow_html = True)
+                st.markdown("<p style='font-size:15px; font-weight:bold;'>7. Patient Flows</p>", unsafe_allow_html = True)
                 st.write("These graphs shows the average time and how long patients spent in each stages of the A&E process.")
 
 
-                st.markdown("<p style='font-size:22px; font-weight:bold;'>8. Resource Utilisation and Queue Over Time</p>", unsafe_allow_html = True)
+                st.markdown("<p style='font-size:15px; font-weight:bold;'>8. Resource Utilisation and Queue Over Time</p>", unsafe_allow_html = True)
                 st.write("These graphs shows the resources utilisation and queue over time. The y-axis represents both the number of resources in use and the the number of patients waiting in queue for that resource. The red line shows how many patients are waiting. The blue line indicates how many resources are actively being used over time. If the red line is above the blue line, it highlights that there is a high demand as its exceeding the capacity of the resources. It signals that resources need to be scaled up in order to meet the demand more effectively.")
 
                
