@@ -432,7 +432,7 @@ class AnE:
                 output.write(f"Patient {patient_ID}'s Doctor released at {self.sim_format_time(self.env.now)}"+ '\n')
               yield self.env.process(self.patient_request_medication(patient_ID,priority))
             
-            else:
+            elif decision == "Hospitilisation/Surgery":
                 self.num_patient_requires_bed += 1
                 with open("patient_log.txt", "a") as output:
                     output.write(f"Patient {patient_ID} needs to be admitted to for hospitilisation or surgery at {self.sim_format_time(self.env.now)}"+ '\n')
@@ -612,15 +612,15 @@ with st.sidebar:
         doctor_consultation_duration = st.slider("🩺Doctor Consultation Duration ", 1, 10, 5)
         
         #st.markdown("<p style='font-size:20px; font-weight:bold;'> 🧪Test Duration:</p>", unsafe_allow_html= True)
-        test_duration= st.slider("🧪Test Duration ", 1, 10, 5)
+        test_duration= st.slider("🧪Test Duration ", 1, 20, 5)
         #st.markdown("<p style='font-size:20px; font-weight:bold;'> 💊 Medication Duration</p>", unsafe_allow_html= True)
-        medication_duration = st.slider("💊 Medication Duration ", 1, 10, 5)
+        medication_duration = st.slider("💊 Medication Duration ", 1, 30, 5)
         
         #st.markdown("<p style='font-size:20px; font-weight:bold;'> 👩‍💼Doctor Follow Up Duration:</p>", unsafe_allow_html= True)
-        follow_up_duration = st.slider("👩‍💼Doctor Follow Up Duration", 1, 10, 5)
+        follow_up_duration = st.slider("👩‍💼Doctor Follow Up Duration", 1, 20, 5)
         
         #st.markdown("<p style='font-size:20px; font-weight:bold;'> 🏥Length of Stay:</p>", unsafe_allow_html= True)
-        length_of_stay = st.slider("🏥Length of Stay", 1, 10, 5)
+        length_of_stay = st.slider("🏥Length of Stay", 1, 30, 5)
 
         #st.markdown("<p style='font-size:20px; font-weight:bold;'> 🛏️Bed Set Up Time:</p>", unsafe_allow_html= True)
         setup_time = st.slider(" 🛏️Bed Set Up Time", 1, 10, 5)
