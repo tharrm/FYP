@@ -664,6 +664,7 @@ with st.sidebar:
 
     run_button_pressed = False # Initial Value      
     if st.button("▶️ Run Simulation"):
+       st.cache_data.clear()
        if (total_percentage + total_percentages !=200):
            if total_percentages != 100:
                 st.error("Please check the triage percentages. They need to add up to 100%")
