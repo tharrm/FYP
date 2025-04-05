@@ -297,22 +297,26 @@ class AnE:
         arrival_time= self.env.now 
         self.num_patient_requires_bed += 1
        
-        #Request a bed for the patient
-        req= self.bed.request()
-        yield req # Waiit for a bed
+        patient_waits= self.env.now
+        
+        req= self.bed.request()  #Request a bed for the patient
+        req_nurse = self.nurse.request(priority = priority)
+
+        yield self.env.all_of([req, req_nurse]) # Waits for a bed and a nurse to be free
+
+        #Calculate times for both resources
+        patient_wait_time = self.env.now - patient_waits
+        self.patient_totsl_wait_time.append(patient_wait_time)
+
+        if patient_wait_time > 0:
+            self.patient_who_waited.append(patient_wait_time)
+            self.track_waiting_time_for_bed.append(patient_wait_time)
+            self.track_waiting_time_for_nurse.append(patient_wait_time)
+
+
         self.occupied_beds += 1
 
-        patient_wait_for_nurse = self.env.now 
-        req_nurse = self.nurse.request(priority=priority)
-        yield req_nurse
-
-        nurse_wait_time = self.env.now - patient_wait_for_nurse
-        self.patient_total_wait_time.append(nurse_wait_time)
-
-        if nurse_wait_time > 0:
-            self.patient_who_waited.append(nurse_wait_time)
-            self.track_waiting_time_for_nurse.append(nurse_wait_time)
-
+        
 
         with open("patient_log.txt", "a") as output:
             output.write(f" Patient {patient_ID} bed set up commenced at {self.sim_format_time(self.env.now)}" + '\n')
@@ -325,34 +329,31 @@ class AnE:
         
         self.nurse.release(req_nurse )
 
-        wait_time = self.env.now - arrival_time
-        self.patient_total_wait_time.append(wait_time)
-        
-        if wait_time > 0:
-            self.patient_who_waited.append(wait_time)
-            self.track_waiting_time_for_bed.append(wait_time)
-        
-        with open("patient_log.txt", "a") as output:
-            output.write(f"Patient {patient_ID} was  assigned to a bed at {self.sim_format_time(self.env.now)}"+ '\n')
+    
         
         yield self.env.process(self.patient_gets_doctor(patient_ID))              
 
         #occupied_beds = self.bed.capacity - len(self.bed.queue)
-        #self.track_bed_usage.append((self.env.now,occupied_beds))
-        
+  
         #Stimulate the length of stay (LOS) in the bed
+        bed_start_time = self.env.now
         yield self.env.timeout(self.length_of_stay)
         self.update_last_patient_time()
+        
         with open("patient_log.txt", "a") as output:
             output.write(f"Patient {patient_ID} has left the bed at {self.sim_format_time(self.env.now)}"+ '\n')
 
+        #Bed gets released and gets updated
         self.occupied_beds -= 1
         self.bed.release(req)
         self.update_bed_occupancy()
 
         # Calculate the length of stay (LOS) for the patient
-        los = self.env.now - arrival_time
+        los = self.env.now - bed_start_time
         self.patient_LOS.append(los)
+
+
+
 
 
     def patient_request_doctor_for_doctor_consultation(self,patient_ID,priority):
