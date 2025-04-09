@@ -1,1025 +1,2183 @@
-Patient 1 arrived at 08:10
-Patient 1 is waiting for a clerk at 08:10
-Patient 1 was assigned a Clerk at 08:10
-Patient 2 arrived at 08:12
-Patient 2 is waiting for a clerk at 08:12
-Patient 2 was assigned a Clerk at 08:12
-Patient 3 arrived at 08:14
-Patient 3 is waiting for a clerk at 08:14
-Patient 3 was assigned a Clerk at 08:14
-Patient 1's admission completed at 08:15
-Patient 1's clerk released at 08:15
-Patient 1 was assigned a nurse at at 08:15
-Patient 1 triaged as Red (Immediate) priority
-Patient 4 arrived at 08:17
-Patient 4 is waiting for a clerk at 08:17
-Patient 4 was assigned a Clerk at 08:17
-Patient 2's admission completed at 08:17
-Patient 2's clerk released at 08:17
-Patient 2 was assigned a nurse at at 08:17
-Patient 2 triaged as Yellow (Urgent) priority
-Patient 3's admission completed at 08:19
-Patient 3's clerk released at 08:19
-Patient 3 was assigned a nurse at at 08:19
+Patient 1 arrived at 08:03
+Patient 1 is waiting for a clerk at 08:03
+Patient 1 was assigned a Clerk at 08:03
+Patient 2 arrived at 08:05
+Patient 2 is waiting for a clerk at 08:05
+Patient 2 was assigned a Clerk at 08:05
+Patient 3 arrived at 08:06
+Patient 3 is waiting for a clerk at 08:06
+Patient 3 was assigned a Clerk at 08:06
+Patient 1's admission completed at 08:08
+Patient 1's clerk released at 08:08
+Patient 1 was assigned a nurse at at 08:08
+Patient 1 triaged as Orange (Very Urgent) priority
+Patient 2's admission completed at 08:10
+Patient 2's clerk released at 08:10
+Patient 2 was assigned a nurse at at 08:10
+Patient 2 triaged as Blue (Non-Urgent) priority
+Patient 3's admission completed at 08:11
+Patient 3's clerk released at 08:11
+Patient 3 was assigned a nurse at at 08:11
 Patient 3 triaged as Blue (Non-Urgent) priority
-Patient 5 arrived at 08:20
-Patient 5 is waiting for a clerk at 08:20
-Patient 5 was assigned a Clerk at 08:20
-Patient 1's nurse  was released at 08:20
-Patient 1 is immediate. Assigning a bed at 08:20
- Patient 1 bed set up commenced at 08:20
-Patient 6 arrived at 08:22
-Patient 6 is waiting for a clerk at 08:22
-Patient 6 was assigned a Clerk at 08:22
-Patient 7 arrived at 08:22
-Patient 7 is waiting for a clerk at 08:22
-Patient 4's admission completed at 08:22
-Patient 4's clerk released at 08:22
-Patient 7 was assigned a Clerk at 08:22
-Patient 4 was assigned a nurse at at 08:22
+Patient 1's nurse  was released at 08:13
+Patient 1 was assigned to a Doctor at 08:13
+Patient 4 arrived at 08:15
+Patient 4 is waiting for a clerk at 08:15
+Patient 4 was assigned a Clerk at 08:15
+Patient 2's nurse  was released at 08:15
+Patient 2 was assigned to a Doctor at 08:15
+Patient 3's nurse  was released at 08:16
+Patient 3 was assigned to a Doctor at 08:16
+Patient 5 arrived at 08:17
+Patient 5 is waiting for a clerk at 08:17
+Patient 5 was assigned a Clerk at 08:17
+Patient 1's Doctor Consultation was completed at 08:18
+Patient 1 needs to do tests
+Patient 1's Doctor released at 08:18
+Patient 1 was assigned to a Nurse at 08:18
+Patient 4's admission completed at 08:20
+Patient 4's clerk released at 08:20
+Patient 4 was assigned a nurse at at 08:20
 Patient 4 triaged as Blue (Non-Urgent) priority
-Patient 2's nurse  was released at 08:22
-Patient 2 was assigned to a Doctor at 08:22
-Patient 3's nurse  was released at 08:24
-Patient 3 was assigned to a Doctor at 08:24
-Patient 8 arrived at 08:25
-Patient 8 is waiting for a clerk at 08:25
-Patient 5's admission completed at 08:25
-Patient 5's clerk released at 08:25
-Patient 8 was assigned a Clerk at 08:25
-Patient 5 was assigned a nurse at at 08:25
+Patient 2's Doctor Consultation was completed at 08:20
+Patient 2 needs to do tests
+Patient 2's Doctor released at 08:20
+Patient 2 was assigned to a Nurse at 08:20
+Patient 3's Doctor Consultation was completed at 08:21
+Patient 3 is discharged at 08:21
+Patient 3's Doctor released at 08:21
+Patient 5's admission completed at 08:22
+Patient 5's clerk released at 08:22
+Patient 5 was assigned a nurse at at 08:22
 Patient 5 triaged as Green (Standard) priority
-Patient 1 bed set up completed at 08:25
-Patient 1 was assigned a Doctor assigned at 08:25
-Patient 9 arrived at 08:26
-Patient 9 is waiting for a clerk at 08:26
-Patient 10 arrived at 08:27
-Patient 10 is waiting for a clerk at 08:27
-Patient 6's admission completed at 08:27
-Patient 6's clerk released at 08:27
-Patient 9 was assigned a Clerk at 08:27
-Patient 6 was assigned a nurse at at 08:27
-Patient 6 triaged as Red (Immediate) priority
-Patient 7's admission completed at 08:27
-Patient 7's clerk released at 08:27
-Patient 4's nurse  was released at 08:27
-Patient 10 was assigned a Clerk at 08:27
-Patient 7 was assigned a nurse at at 08:27
-Patient 7 triaged as Red (Immediate) priority
-Patient 4 was assigned to a Doctor at 08:27
-Patient 2's Doctor Consultation was completed at 08:27
-Patient 2 needs to be admitted to for hospitilisation or surgery at 08:27
- Patient 2 bed set up commenced at 08:27
-Patient 11 arrived at 08:28
-Patient 11 is waiting for a clerk at 08:28
-Patient 3's Doctor Consultation was completed at 08:29
-Patient 3 needs to take medication
-Patient 3's Doctor released at 08:29
-Patient 3 with priority 4 was assigned to  a Nurse at 08:29
-Patient 3 was assigned to a Nurse at 08:29
-Patient 12 arrived at 08:30
-Patient 12 is waiting for a clerk at 08:30
-Patient 8's admission completed at 08:30
-Patient 8's clerk released at 08:30
-Patient 5's nurse  was released at 08:30
-Patient 11 was assigned a Clerk at 08:30
-Patient 8 was assigned a nurse at at 08:30
-Patient 8 triaged as Red (Immediate) priority
-Patient 5 was assigned to a Doctor at 08:30
-Patient 1's treatment completed at 08:30
-Patient 9's admission completed at 08:32
-Patient 9's clerk released at 08:32
-Patient 6's nurse  was released at 08:32
-Patient 6 is immediate. Assigning a bed at 08:32
-Patient 12 was assigned a Clerk at 08:32
-Patient 9 was assigned a nurse at at 08:32
-Patient 9 triaged as Blue (Non-Urgent) priority
- Patient 6 bed set up commenced at 08:32
-Patient 10's admission completed at 08:32
-Patient 10's clerk released at 08:32
-Patient 7's nurse  was released at 08:32
-Patient 4's Doctor Consultation was completed at 08:32
-Patient 4 needs to do tests
-Patient 4's Doctor released at 08:32
-Patient 7 is immediate. Assigning a bed at 08:32
-Patient 4 was assigned to a Nurse at 08:32
-Patient 10 was assigned a nurse at at 08:32
-Patient 10 triaged as Blue (Non-Urgent) priority
- Patient 7 bed set up commenced at 08:32
-Patient 2 bed set up completed at 08:32
-Patient 2 was assigned a Doctor assigned at 08:32
-Patient 3 finished medication at 08:34
-Patient 3's medication completed at 08:34
-Patient 3's Nurse released at 08:34
-Patient 3 was assigned to a Doctor for a follow up at 08:34
-Patient 11's admission completed at 08:35
-Patient 11's clerk released at 08:35
-Patient 8's nurse  was released at 08:35
-Patient 5's Doctor Consultation was completed at 08:35
-Patient 5 needs to be admitted to for hospitilisation or surgery at 08:35
-Patient 8 is immediate. Assigning a bed at 08:35
-Patient 11 was assigned a nurse at at 08:35
-Patient 11 triaged as Blue (Non-Urgent) priority
- Patient 5 bed set up commenced at 08:35
-Patient 1 has left the bed at 08:35
-Patient 1 was assigned to a Doctor for a follow up at 08:35
- Patient 8 bed set up commenced at 08:35
-Patient 12's admission completed at 08:37
-Patient 12's clerk released at 08:37
-Patient 9's nurse  was released at 08:37
-Patient 6 bed set up completed at 08:37
-Patient 6 was assigned a Doctor assigned at 08:37
-Patient 12 was assigned a nurse at at 08:37
-Patient 12 triaged as Blue (Non-Urgent) priority
-Patient 9 was assigned to a Doctor at 08:37
-Patient 4 's tests completed at 08:37
-Patient 4's Nurse released at 08:37
-Patient 10's nurse  was released at 08:37
-Patient 7 bed set up completed at 08:37
-Patient 4 was assigned to a Doctor for a follow up at 08:37
-Patient 7 was assigned a Doctor assigned at 08:37
-Patient 10 was assigned to a Doctor at 08:37
-Patient 2's treatment completed at 08:37
-Patient 3's Doctor follow up completed at 08:39
-Patient 3 has left the A&E at 08:39
-Patient 3's Doctor released at 08:39
-Patient 11's nurse  was released at 08:40
-Patient 5 bed set up completed at 08:40
-Patient 5 was assigned a Doctor assigned at 08:40
-Patient 11 was assigned to a Doctor at 08:40
-Patient 1's Doctor follow up completed at 08:40
-Patient 1 has left the A&E at 08:40
-Patient 1's Doctor released at 08:40
-Patient 8 bed set up completed at 08:40
-Patient 8 was assigned a Doctor assigned at 08:40
-Patient 13 arrived at 08:41
-Patient 13 is waiting for a clerk at 08:41
-Patient 13 was assigned a Clerk at 08:41
-Patient 14 arrived at 08:42
-Patient 14 is waiting for a clerk at 08:42
-Patient 14 was assigned a Clerk at 08:42
-Patient 6's treatment completed at 08:42
-Patient 12's nurse  was released at 08:42
-Patient 9's Doctor Consultation was completed at 08:42
-Patient 9 needs to take medication
-Patient 9's Doctor released at 08:42
-Patient 9 with priority 4 was assigned to  a Nurse at 08:42
-Patient 9 was assigned to a Nurse at 08:42
-Patient 12 was assigned to a Doctor at 08:42
-Patient 4's Doctor follow up completed at 08:42
-Patient 4 has left the A&E at 08:42
-Patient 4's Doctor released at 08:42
-Patient 7's treatment completed at 08:42
-Patient 10's Doctor Consultation was completed at 08:42
-Patient 10 needs to take medication
-Patient 10's Doctor released at 08:42
-Patient 10 with priority 4 was assigned to  a Nurse at 08:42
-Patient 10 was assigned to a Nurse at 08:42
-Patient 2 has left the bed at 08:42
-Patient 15 arrived at 08:43
-Patient 15 is waiting for a clerk at 08:43
-Patient 15 was assigned a Clerk at 08:43
-Patient 5's treatment completed at 08:45
-Patient 11's Doctor Consultation was completed at 08:45
-Patient 11 needs to take medication
-Patient 11's Doctor released at 08:45
-Patient 11 with priority 4 was assigned to  a Nurse at 08:45
-Patient 11 was assigned to a Nurse at 08:45
-Patient 8's treatment completed at 08:45
-Patient 13's admission completed at 08:46
-Patient 13's clerk released at 08:46
-Patient 13 was assigned a nurse at at 08:46
-Patient 13 triaged as Orange (Very Urgent) priority
-Patient 16 arrived at 08:46
-Patient 16 is waiting for a clerk at 08:46
-Patient 16 was assigned a Clerk at 08:46
-Patient 17 arrived at 08:47
-Patient 17 is waiting for a clerk at 08:47
-Patient 14's admission completed at 08:47
-Patient 14's clerk released at 08:47
-Patient 17 was assigned a Clerk at 08:47
-Patient 14 was assigned a nurse at at 08:47
+Patient 1 's tests completed at 08:23
+Patient 1's Nurse released at 08:23
+Patient 1 was assigned to a Doctor for a follow up at 08:23
+Patient 6 arrived at 08:24
+Patient 6 is waiting for a clerk at 08:24
+Patient 6 was assigned a Clerk at 08:24
+Patient 4's nurse  was released at 08:25
+Patient 4 was assigned to a Doctor at 08:25
+Patient 2 's tests completed at 08:25
+Patient 2's Nurse released at 08:25
+Patient 2 was assigned to a Doctor for a follow up at 08:25
+Patient 5's nurse  was released at 08:27
+Patient 5 was assigned to a Doctor at 08:27
+Patient 7 arrived at 08:28
+Patient 7 is waiting for a clerk at 08:28
+Patient 7 was assigned a Clerk at 08:28
+Patient 1's Doctor follow up completed at 08:28
+Patient 1 has left the A&E at 08:28
+Patient 1's Doctor released at 08:28
+Patient 6's admission completed at 08:29
+Patient 6's clerk released at 08:29
+Patient 6 was assigned a nurse at at 08:29
+Patient 6 triaged as Blue (Non-Urgent) priority
+Patient 8 arrived at 08:29
+Patient 8 is waiting for a clerk at 08:29
+Patient 8 was assigned a Clerk at 08:29
+Patient 4's Doctor Consultation was completed at 08:30
+Patient 4 is discharged at 08:30
+Patient 4's Doctor released at 08:30
+Patient 2's Doctor follow up completed at 08:30
+Patient 2 has left the A&E at 08:30
+Patient 2's Doctor released at 08:30
+Patient 5's Doctor Consultation was completed at 08:32
+Patient 5 needs to be admitted to for hospitilisation or surgery at 08:32
+Patient 5 has been assigned a bed at 08:32
+Patient 5 was assigned a Nurse at 08:32
+Patient 7's admission completed at 08:33
+Patient 7's clerk released at 08:33
+Patient 7 was assigned a nurse at at 08:33
+Patient 7 triaged as Orange (Very Urgent) priority
+Patient 5 bed set up completed at 08:33 
+Patient 5 was assigned a Doctor assigned at 08:33
+Patient 6's nurse  was released at 08:34
+Patient 6 was assigned to a Doctor at 08:34
+Patient 8's admission completed at 08:34
+Patient 8's clerk released at 08:34
+Patient 8 was assigned a nurse at at 08:34
+Patient 8 triaged as Blue (Non-Urgent) priority
+Patient 7's nurse  was released at 08:38
+Patient 7 was assigned to a Doctor at 08:38
+Patient 5's treatment completed at 08:38
+Patient 6's Doctor Consultation was completed at 08:39
+Patient 6 needs to do tests
+Patient 6's Doctor released at 08:39
+Patient 6 was assigned to a Nurse at 08:39
+Patient 8's nurse  was released at 08:39
+Patient 8 was assigned to a Doctor at 08:39
+Patient 9 arrived at 08:41
+Patient 9 is waiting for a clerk at 08:41
+Patient 9 was assigned a Clerk at 08:41
+Patient 7's Doctor Consultation was completed at 08:43
+Patient 7 needs to take medication
+Patient 7's Doctor released at 08:43
+Patient 7 with priority 1 was assigned to  a Nurse at 08:43
+Patient 7 was assigned to a Nurse at 08:43
+Patient 5 has left the bed at 08:43
+Patient 10 arrived at 08:44
+Patient 10 is waiting for a clerk at 08:44
+Patient 10 was assigned a Clerk at 08:44
+Patient 6 's tests completed at 08:44
+Patient 6's Nurse released at 08:44
+Patient 6 was assigned to a Doctor for a follow up at 08:44
+Patient 11 arrived at 08:44
+Patient 11 is waiting for a clerk at 08:44
+Patient 11 was assigned a Clerk at 08:44
+Patient 8's Doctor Consultation was completed at 08:44
+Patient 8 needs to do tests
+Patient 8's Doctor released at 08:44
+Patient 8 was assigned to a Nurse at 08:44
+Patient 12 arrived at 08:45
+Patient 12 is waiting for a clerk at 08:45
+Patient 13 arrived at 08:45
+Patient 13 is waiting for a clerk at 08:45
+Patient 9's admission completed at 08:46
+Patient 9's clerk released at 08:46
+Patient 12 was assigned a Clerk at 08:46
+Patient 9 was assigned a nurse at at 08:46
+Patient 9 triaged as Green (Standard) priority
+Patient 14 arrived at 08:48
+Patient 14 is waiting for a clerk at 08:48
+Patient 7 finished medication at 08:48
+Patient 7's medication completed at 08:48
+Patient 7's Nurse released at 08:48
+Patient 7 was assigned to a Doctor for a follow up at 08:48
+Patient 10's admission completed at 08:49
+Patient 10's clerk released at 08:49
+Patient 13 was assigned a Clerk at 08:49
+Patient 10 was assigned a nurse at at 08:49
+Patient 10 triaged as Green (Standard) priority
+Patient 6's Doctor follow up completed at 08:49
+Patient 6 has left the A&E at 08:49
+Patient 6's Doctor released at 08:49
+Patient 11's admission completed at 08:49
+Patient 11's clerk released at 08:49
+Patient 14 was assigned a Clerk at 08:49
+Patient 11 was assigned a nurse at at 08:49
+Patient 11 triaged as Green (Standard) priority
+Patient 8 's tests completed at 08:49
+Patient 8's Nurse released at 08:49
+Patient 8 was assigned to a Doctor for a follow up at 08:49
+Patient 12's admission completed at 08:51
+Patient 12's clerk released at 08:51
+Patient 9's nurse  was released at 08:51
+Patient 12 was assigned a nurse at at 08:51
+Patient 12 triaged as Red (Immediate) priority
+Patient 9 was assigned to a Doctor at 08:51
+Patient 7's Doctor follow up completed at 08:53
+Patient 7 has left the A&E at 08:53
+Patient 7's Doctor released at 08:53
+Patient 15 arrived at 08:53
+Patient 15 is waiting for a clerk at 08:53
+Patient 15 was assigned a Clerk at 08:53
+Patient 13's admission completed at 08:54
+Patient 13's clerk released at 08:54
+Patient 10's nurse  was released at 08:54
+Patient 13 was assigned a nurse at at 08:54
+Patient 13 triaged as Red (Immediate) priority
+Patient 10 was assigned to a Doctor at 08:54
+Patient 14's admission completed at 08:54
+Patient 14's clerk released at 08:54
+Patient 11's nurse  was released at 08:54
+Patient 14 was assigned a nurse at at 08:54
 Patient 14 triaged as Blue (Non-Urgent) priority
-Patient 6 has left the bed at 08:47
-Patient 9 finished medication at 08:47
-Patient 9's medication completed at 08:47
-Patient 9's Nurse released at 08:47
-Patient 12's Doctor Consultation was completed at 08:47
-Patient 12 needs to take medication
-Patient 12's Doctor released at 08:47
-Patient 9 was assigned to a Doctor for a follow up at 08:47
-Patient 12 with priority 4 was assigned to  a Nurse at 08:47
-Patient 12 was assigned to a Nurse at 08:47
-Patient 6 was assigned to a Doctor for a follow up at 08:47
-Patient 7 has left the bed at 08:47
-Patient 10 finished medication at 08:47
-Patient 10's medication completed at 08:47
-Patient 10's Nurse released at 08:47
-Patient 10 was assigned to a Doctor for a follow up at 08:47
-Patient 7 was assigned to a Doctor for a follow up at 08:47
-Patient 15's admission completed at 08:48
-Patient 15's clerk released at 08:48
-Patient 15 was assigned a nurse at at 08:48
+Patient 11 was assigned to a Doctor at 08:54
+Patient 8's Doctor follow up completed at 08:54
+Patient 8 has left the A&E at 08:54
+Patient 8's Doctor released at 08:54
+Patient 12's nurse  was released at 08:56
+Patient 9's Doctor Consultation was completed at 08:56
+Patient 9 needs to be admitted to for hospitilisation or surgery at 08:56
+Patient 12 is immediate. Assigning a bed at 08:56
+Patient 9 has been assigned a bed at 08:56
+Patient 9 was assigned a Nurse at 08:56
+Patient 9 bed set up completed at 08:57 
+Patient 9 was assigned a Doctor assigned at 08:57
+Patient 16 arrived at 08:58
+Patient 16 is waiting for a clerk at 08:58
+Patient 16 was assigned a Clerk at 08:58
+Patient 15's admission completed at 08:58
+Patient 15's clerk released at 08:58
+Patient 15 was assigned a nurse at at 08:58
 Patient 15 triaged as Blue (Non-Urgent) priority
-Patient 5 has left the bed at 08:50
-Patient 11 finished medication at 08:50
-Patient 11's medication completed at 08:50
-Patient 11's Nurse released at 08:50
-Patient 11 was assigned to a Doctor for a follow up at 08:50
-Patient 8 has left the bed at 08:50
-Patient 8 was assigned to a Doctor for a follow up at 08:50
-Patient 18 arrived at 08:50
-Patient 18 is waiting for a clerk at 08:50
-Patient 18 was assigned a Clerk at 08:50
-Patient 13's nurse  was released at 08:51
-Patient 13 was assigned to a Doctor at 08:51
-Patient 16's admission completed at 08:51
-Patient 16's clerk released at 08:51
-Patient 16 was assigned a nurse at at 08:51
-Patient 16 triaged as Red (Immediate) priority
-Patient 17's admission completed at 08:52
-Patient 17's clerk released at 08:52
-Patient 14's nurse  was released at 08:52
-Patient 17 was assigned a nurse at at 08:52
-Patient 17 triaged as Red (Immediate) priority
-Patient 14 was assigned to a Doctor at 08:52
-Patient 9's Doctor follow up completed at 08:52
-Patient 9 has left the A&E at 08:52
-Patient 9's Doctor released at 08:52
-Patient 12 finished medication at 08:52
-Patient 12's medication completed at 08:52
-Patient 12's Nurse released at 08:52
-Patient 6's Doctor follow up completed at 08:52
-Patient 6 has left the A&E at 08:52
-Patient 6's Doctor released at 08:52
-Patient 12 was assigned to a Doctor for a follow up at 08:52
-Patient 10's Doctor follow up completed at 08:52
-Patient 10 has left the A&E at 08:52
-Patient 10's Doctor released at 08:52
-Patient 7's Doctor follow up completed at 08:52
-Patient 7 has left the A&E at 08:52
-Patient 7's Doctor released at 08:52
-Patient 15's nurse  was released at 08:53
-Patient 15 was assigned to a Doctor at 08:53
-Patient 19 arrived at 08:53
-Patient 19 is waiting for a clerk at 08:53
-Patient 19 was assigned a Clerk at 08:53
-Patient 11's Doctor follow up completed at 08:55
-Patient 11 has left the A&E at 08:55
-Patient 11's Doctor released at 08:55
-Patient 8's Doctor follow up completed at 08:55
-Patient 8 has left the A&E at 08:55
-Patient 8's Doctor released at 08:55
-Patient 18's admission completed at 08:55
-Patient 18's clerk released at 08:55
-Patient 18 was assigned a nurse at at 08:55
-Patient 18 triaged as Blue (Non-Urgent) priority
-Patient 13's Doctor Consultation was completed at 08:56
-Patient 13 needs to do tests
-Patient 13's Doctor released at 08:56
-Patient 13 was assigned to a Nurse at 08:56
-Patient 16's nurse  was released at 08:56
-Patient 16 is immediate. Assigning a bed at 08:56
- Patient 16 bed set up commenced at 08:56
-Patient 20 arrived at 08:56
-Patient 20 is waiting for a clerk at 08:56
-Patient 20 was assigned a Clerk at 08:56
-Patient 17's nurse  was released at 08:57
-Patient 14's Doctor Consultation was completed at 08:57
+Patient 13's nurse  was released at 08:59
+Patient 10's Doctor Consultation was completed at 08:59
+Patient 10 is discharged at 08:59
+Patient 10's Doctor released at 08:59
+Patient 13 is immediate. Assigning a bed at 08:59
+Patient 14's nurse  was released at 08:59
+Patient 11's Doctor Consultation was completed at 08:59
+Patient 11 is discharged at 08:59
+Patient 11's Doctor released at 08:59
+Patient 14 was assigned to a Doctor at 08:59
+Patient 9's treatment completed at 09:02
+Patient 16's admission completed at 09:03
+Patient 16's clerk released at 09:03
+Patient 16 was assigned a nurse at at 09:03
+Patient 16 triaged as Blue (Non-Urgent) priority
+Patient 15's nurse  was released at 09:03
+Patient 15 was assigned to a Doctor at 09:03
+Patient 17 arrived at 09:04
+Patient 17 is waiting for a clerk at 09:04
+Patient 17 was assigned a Clerk at 09:04
+Patient 14's Doctor Consultation was completed at 09:04
 Patient 14 needs to do tests
-Patient 14's Doctor released at 08:57
-Patient 17 is immediate. Assigning a bed at 08:57
-Patient 14 was assigned to a Nurse at 08:57
- Patient 17 bed set up commenced at 08:57
-Patient 12's Doctor follow up completed at 08:57
-Patient 12 has left the A&E at 08:57
-Patient 12's Doctor released at 08:57
-Patient 15's Doctor Consultation was completed at 08:58
-Patient 15 needs to be admitted to for hospitilisation or surgery at 08:58
- Patient 15 bed set up commenced at 08:58
-Patient 19's admission completed at 08:58
-Patient 19's clerk released at 08:58
-Patient 19 was assigned a nurse at at 08:58
+Patient 14's Doctor released at 09:04
+Patient 14 was assigned to a Nurse at 09:04
+Patient 9 has left the bed at 09:07
+Patient 12 has been assigned a bed at 09:07
+Patient 12 was assigned a Nurse at 09:07
+Patient 12 bed set up completed at 09:08 
+Patient 12 was assigned a Doctor assigned at 09:08
+Patient 16's nurse  was released at 09:08
+Patient 16 was assigned to a Doctor at 09:08
+Patient 15's Doctor Consultation was completed at 09:08
+Patient 15 needs to do tests
+Patient 15's Doctor released at 09:08
+Patient 15 was assigned to a Nurse at 09:08
+Patient 17's admission completed at 09:09
+Patient 17's clerk released at 09:09
+Patient 17 was assigned a nurse at at 09:09
+Patient 17 triaged as Blue (Non-Urgent) priority
+Patient 14 's tests completed at 09:09
+Patient 14's Nurse released at 09:09
+Patient 14 was assigned to a Doctor for a follow up at 09:09
+Patient 18 arrived at 09:13
+Patient 18 is waiting for a clerk at 09:13
+Patient 18 was assigned a Clerk at 09:13
+Patient 12's treatment completed at 09:13
+Patient 16's Doctor Consultation was completed at 09:13
+Patient 16 needs to do tests
+Patient 16's Doctor released at 09:13
+Patient 16 was assigned to a Nurse at 09:13
+Patient 15 's tests completed at 09:13
+Patient 15's Nurse released at 09:13
+Patient 15 was assigned to a Doctor for a follow up at 09:13
+Patient 17's nurse  was released at 09:14
+Patient 17 was assigned to a Doctor at 09:14
+Patient 14's Doctor follow up completed at 09:14
+Patient 14 has left the A&E at 09:14
+Patient 14's Doctor released at 09:14
+Patient 19 arrived at 09:16
+Patient 19 is waiting for a clerk at 09:16
+Patient 19 was assigned a Clerk at 09:16
+Patient 18's admission completed at 09:18
+Patient 18's clerk released at 09:18
+Patient 18 was assigned a nurse at at 09:18
+Patient 18 triaged as Green (Standard) priority
+Patient 12 has left the bed at 09:18
+Patient 13 has been assigned a bed at 09:18
+Patient 12 was assigned to a Doctor for a follow up at 09:18
+Patient 13 was assigned a Nurse at 09:18
+Patient 16 's tests completed at 09:18
+Patient 16's Nurse released at 09:18
+Patient 16 was assigned to a Doctor for a follow up at 09:18
+Patient 15's Doctor follow up completed at 09:18
+Patient 15 has left the A&E at 09:18
+Patient 15's Doctor released at 09:18
+Patient 17's Doctor Consultation was completed at 09:19
+Patient 17 needs to do tests
+Patient 17's Doctor released at 09:19
+Patient 17 was assigned to a Nurse at 09:19
+Patient 13 bed set up completed at 09:19 
+Patient 13 was assigned a Doctor assigned at 09:19
+Patient 19's admission completed at 09:21
+Patient 19's clerk released at 09:21
+Patient 19 was assigned a nurse at at 09:21
 Patient 19 triaged as Blue (Non-Urgent) priority
-Patient 18's nurse  was released at 09:00
-Patient 18 was assigned to a Doctor at 09:00
-Patient 13 's tests completed at 09:01
-Patient 13's Nurse released at 09:01
-Patient 13 was assigned to a Doctor for a follow up at 09:01
-Patient 21 arrived at 09:01
-Patient 21 is waiting for a clerk at 09:01
-Patient 21 was assigned a Clerk at 09:01
-Patient 16 bed set up completed at 09:01
-Patient 16 was assigned a Doctor assigned at 09:01
-Patient 20's admission completed at 09:01
-Patient 20's clerk released at 09:01
-Patient 20 was assigned a nurse at at 09:01
-Patient 20 triaged as Blue (Non-Urgent) priority
-Patient 14 's tests completed at 09:02
-Patient 14's Nurse released at 09:02
-Patient 17 bed set up completed at 09:02
-Patient 14 was assigned to a Doctor for a follow up at 09:02
-Patient 17 was assigned a Doctor assigned at 09:02
-Patient 15 bed set up completed at 09:03
-Patient 15 was assigned a Doctor assigned at 09:03
-Patient 19's nurse  was released at 09:03
-Patient 19 was assigned to a Doctor at 09:03
-Patient 18's Doctor Consultation was completed at 09:05
-Patient 18 needs to take medication
-Patient 18's Doctor released at 09:05
-Patient 18 with priority 4 was assigned to  a Nurse at 09:05
-Patient 18 was assigned to a Nurse at 09:05
-Patient 13's Doctor follow up completed at 09:06
-Patient 13 has left the A&E at 09:06
-Patient 13's Doctor released at 09:06
-Patient 21's admission completed at 09:06
-Patient 21's clerk released at 09:06
-Patient 21 was assigned a nurse at at 09:06
-Patient 21 triaged as Orange (Very Urgent) priority
-Patient 16's treatment completed at 09:06
-Patient 20's nurse  was released at 09:06
-Patient 20 was assigned to a Doctor at 09:06
-Patient 14's Doctor follow up completed at 09:07
-Patient 14 has left the A&E at 09:07
-Patient 14's Doctor released at 09:07
-Patient 17's treatment completed at 09:07
-Patient 15's treatment completed at 09:08
-Patient 19's Doctor Consultation was completed at 09:08
-Patient 19 needs to be admitted to for hospitilisation or surgery at 09:08
- Patient 19 bed set up commenced at 09:08
-Patient 18 finished medication at 09:10
-Patient 18's medication completed at 09:10
-Patient 18's Nurse released at 09:10
-Patient 18 was assigned to a Doctor for a follow up at 09:10
-Patient 22 arrived at 09:11
-Patient 22 is waiting for a clerk at 09:11
-Patient 22 was assigned a Clerk at 09:11
-Patient 21's nurse  was released at 09:11
-Patient 21 was assigned to a Doctor at 09:11
-Patient 16 has left the bed at 09:11
-Patient 16 was assigned to a Doctor for a follow up at 09:11
-Patient 20's Doctor Consultation was completed at 09:11
-Patient 20 needs to do tests
-Patient 20's Doctor released at 09:11
-Patient 20 was assigned to a Nurse at 09:11
-Patient 17 has left the bed at 09:12
-Patient 17 was assigned to a Doctor for a follow up at 09:12
-Patient 23 arrived at 09:13
-Patient 23 is waiting for a clerk at 09:13
-Patient 23 was assigned a Clerk at 09:13
-Patient 15 has left the bed at 09:13
-Patient 19 bed set up completed at 09:13
-Patient 19 was assigned a Doctor assigned at 09:13
-Patient 24 arrived at 09:14
-Patient 24 is waiting for a clerk at 09:14
-Patient 24 was assigned a Clerk at 09:14
-Patient 25 arrived at 09:15
-Patient 25 is waiting for a clerk at 09:15
-Patient 18's Doctor follow up completed at 09:15
-Patient 18 has left the A&E at 09:15
-Patient 18's Doctor released at 09:15
-Patient 22's admission completed at 09:16
-Patient 22's clerk released at 09:16
-Patient 25 was assigned a Clerk at 09:16
-Patient 22 was assigned a nurse at at 09:16
-Patient 22 triaged as Red (Immediate) priority
-Patient 21's Doctor Consultation was completed at 09:16
-Patient 21 needs to be admitted to for hospitilisation or surgery at 09:16
- Patient 21 bed set up commenced at 09:16
-Patient 16's Doctor follow up completed at 09:16
-Patient 16 has left the A&E at 09:16
-Patient 16's Doctor released at 09:16
-Patient 20 's tests completed at 09:16
-Patient 20's Nurse released at 09:16
-Patient 20 was assigned to a Doctor for a follow up at 09:16
-Patient 17's Doctor follow up completed at 09:17
-Patient 17 has left the A&E at 09:17
-Patient 17's Doctor released at 09:17
-Patient 23's admission completed at 09:18
-Patient 23's clerk released at 09:18
-Patient 23 was assigned a nurse at at 09:18
-Patient 23 triaged as Yellow (Urgent) priority
-Patient 19's treatment completed at 09:18
-Patient 24's admission completed at 09:19
-Patient 24's clerk released at 09:19
-Patient 24 was assigned a nurse at at 09:19
+Patient 18's nurse  was released at 09:23
+Patient 18 was assigned to a Doctor at 09:23
+Patient 12's Doctor follow up completed at 09:23
+Patient 12 has left the A&E at 09:23
+Patient 12's Doctor released at 09:23
+Patient 16's Doctor follow up completed at 09:23
+Patient 16 has left the A&E at 09:23
+Patient 16's Doctor released at 09:23
+Patient 17 's tests completed at 09:24
+Patient 17's Nurse released at 09:24
+Patient 17 was assigned to a Doctor for a follow up at 09:24
+Patient 20 arrived at 09:24
+Patient 20 is waiting for a clerk at 09:24
+Patient 20 was assigned a Clerk at 09:24
+Patient 13's treatment completed at 09:24
+Patient 19's nurse  was released at 09:26
+Patient 19 was assigned to a Doctor at 09:26
+Patient 21 arrived at 09:27
+Patient 21 is waiting for a clerk at 09:27
+Patient 21 was assigned a Clerk at 09:27
+Patient 22 arrived at 09:27
+Patient 22 is waiting for a clerk at 09:27
+Patient 22 was assigned a Clerk at 09:27
+Patient 18's Doctor Consultation was completed at 09:28
+Patient 18 needs to do tests
+Patient 18's Doctor released at 09:28
+Patient 18 was assigned to a Nurse at 09:28
+Patient 17's Doctor follow up completed at 09:29
+Patient 17 has left the A&E at 09:29
+Patient 17's Doctor released at 09:29
+Patient 23 arrived at 09:29
+Patient 23 is waiting for a clerk at 09:29
+Patient 20's admission completed at 09:29
+Patient 20's clerk released at 09:29
+Patient 23 was assigned a Clerk at 09:29
+Patient 20 was assigned a nurse at at 09:29
+Patient 20 triaged as Red (Immediate) priority
+Patient 13 has left the bed at 09:29
+Patient 13 was assigned to a Doctor for a follow up at 09:29
+Patient 19's Doctor Consultation was completed at 09:31
+Patient 19 is discharged at 09:31
+Patient 19's Doctor released at 09:31
+Patient 21's admission completed at 09:32
+Patient 21's clerk released at 09:32
+Patient 21 was assigned a nurse at at 09:32
+Patient 21 triaged as Blue (Non-Urgent) priority
+Patient 22's admission completed at 09:32
+Patient 22's clerk released at 09:32
+Patient 22 was assigned a nurse at at 09:32
+Patient 22 triaged as Blue (Non-Urgent) priority
+Patient 18 's tests completed at 09:33
+Patient 18's Nurse released at 09:33
+Patient 18 was assigned to a Doctor for a follow up at 09:33
+Patient 23's admission completed at 09:34
+Patient 23's clerk released at 09:34
+Patient 20's nurse  was released at 09:34
+Patient 20 is immediate. Assigning a bed at 09:34
+Patient 23 was assigned a nurse at at 09:34
+Patient 23 triaged as Red (Immediate) priority
+Patient 20 has been assigned a bed at 09:34
+Patient 20 was assigned a Nurse at 09:34
+Patient 13's Doctor follow up completed at 09:34
+Patient 13 has left the A&E at 09:34
+Patient 13's Doctor released at 09:34
+Patient 20 bed set up completed at 09:35 
+Patient 20 was assigned a Doctor assigned at 09:35
+Patient 24 arrived at 09:35
+Patient 24 is waiting for a clerk at 09:35
+Patient 24 was assigned a Clerk at 09:35
+Patient 25 arrived at 09:37
+Patient 25 is waiting for a clerk at 09:37
+Patient 25 was assigned a Clerk at 09:37
+Patient 21's nurse  was released at 09:37
+Patient 21 was assigned to a Doctor at 09:37
+Patient 22's nurse  was released at 09:37
+Patient 22 was assigned to a Doctor at 09:37
+Patient 26 arrived at 09:37
+Patient 26 is waiting for a clerk at 09:37
+Patient 26 was assigned a Clerk at 09:37
+Patient 18's Doctor follow up completed at 09:38
+Patient 18 has left the A&E at 09:38
+Patient 18's Doctor released at 09:38
+Patient 23's nurse  was released at 09:39
+Patient 23 is immediate. Assigning a bed at 09:39
+Patient 27 arrived at 09:40
+Patient 27 is waiting for a clerk at 09:40
+Patient 20's treatment completed at 09:40
+Patient 24's admission completed at 09:40
+Patient 24's clerk released at 09:40
+Patient 27 was assigned a Clerk at 09:40
+Patient 24 was assigned a nurse at at 09:40
 Patient 24 triaged as Blue (Non-Urgent) priority
-Patient 25's admission completed at 09:21
-Patient 25's clerk released at 09:21
-Patient 22's nurse  was released at 09:21
-Patient 22 is immediate. Assigning a bed at 09:21
-Patient 25 was assigned a nurse at at 09:21
+Patient 25's admission completed at 09:42
+Patient 25's clerk released at 09:42
+Patient 25 was assigned a nurse at at 09:42
 Patient 25 triaged as Red (Immediate) priority
- Patient 22 bed set up commenced at 09:21
-Patient 21 bed set up completed at 09:21
-Patient 21 was assigned a Doctor assigned at 09:21
-Patient 20's Doctor follow up completed at 09:21
-Patient 20 has left the A&E at 09:21
-Patient 20's Doctor released at 09:21
-Patient 23's nurse  was released at 09:23
-Patient 23 was assigned to a Doctor at 09:23
-Patient 19 has left the bed at 09:23
-Patient 24's nurse  was released at 09:24
-Patient 24 was assigned to a Doctor at 09:24
-Patient 25's nurse  was released at 09:26
-Patient 22 bed set up completed at 09:26
-Patient 25 is immediate. Assigning a bed at 09:26
-Patient 22 was assigned a Doctor assigned at 09:26
- Patient 25 bed set up commenced at 09:26
-Patient 21's treatment completed at 09:26
-Patient 26 arrived at 09:26
-Patient 26 is waiting for a clerk at 09:26
-Patient 26 was assigned a Clerk at 09:26
-Patient 27 arrived at 09:28
-Patient 27 is waiting for a clerk at 09:28
-Patient 27 was assigned a Clerk at 09:28
-Patient 23's Doctor Consultation was completed at 09:28
-Patient 23 needs to take medication
-Patient 23's Doctor released at 09:28
-Patient 23 with priority 2 was assigned to  a Nurse at 09:28
-Patient 23 was assigned to a Nurse at 09:28
-Patient 28 arrived at 09:29
-Patient 28 is waiting for a clerk at 09:29
-Patient 28 was assigned a Clerk at 09:29
-Patient 24's Doctor Consultation was completed at 09:29
-Patient 24 needs to be admitted to for hospitilisation or surgery at 09:29
- Patient 24 bed set up commenced at 09:29
-Patient 22's treatment completed at 09:31
-Patient 25 bed set up completed at 09:31
-Patient 25 was assigned a Doctor assigned at 09:31
-Patient 21 has left the bed at 09:31
-Patient 26's admission completed at 09:31
-Patient 26's clerk released at 09:31
-Patient 26 was assigned a nurse at at 09:31
-Patient 26 triaged as Green (Standard) priority
-Patient 29 arrived at 09:32
-Patient 29 is waiting for a clerk at 09:32
-Patient 29 was assigned a Clerk at 09:32
-Patient 30 arrived at 09:32
-Patient 30 is waiting for a clerk at 09:32
-Patient 27's admission completed at 09:33
-Patient 27's clerk released at 09:33
-Patient 30 was assigned a Clerk at 09:33
-Patient 27 was assigned a nurse at at 09:33
-Patient 27 triaged as Red (Immediate) priority
-Patient 23 finished medication at 09:33
-Patient 23's medication completed at 09:33
-Patient 23's Nurse released at 09:33
-Patient 23 was assigned to a Doctor for a follow up at 09:33
-Patient 28's admission completed at 09:34
-Patient 28's clerk released at 09:34
-Patient 28 was assigned a nurse at at 09:34
+Patient 21's Doctor Consultation was completed at 09:42
+Patient 21 needs to do tests
+Patient 21's Doctor released at 09:42
+Patient 21 was assigned to a Nurse at 09:42
+Patient 22's Doctor Consultation was completed at 09:42
+Patient 22 needs to do tests
+Patient 22's Doctor released at 09:42
+Patient 22 was assigned to a Nurse at 09:42
+Patient 26's admission completed at 09:42
+Patient 26's clerk released at 09:42
+Patient 26 was assigned a nurse at at 09:42
+Patient 26 triaged as Yellow (Urgent) priority
+Patient 20 has left the bed at 09:45
+Patient 23 has been assigned a bed at 09:45
+Patient 20 was assigned to a Doctor for a follow up at 09:45
+Patient 23 was assigned a Nurse at 09:45
+Patient 27's admission completed at 09:45
+Patient 27's clerk released at 09:45
+Patient 24's nurse  was released at 09:45
+Patient 27 was assigned a nurse at at 09:45
+Patient 27 triaged as Blue (Non-Urgent) priority
+Patient 24 was assigned to a Doctor at 09:45
+Patient 23 bed set up completed at 09:46 
+Patient 23 was assigned a Doctor assigned at 09:46
+Patient 25's nurse  was released at 09:47
+Patient 25 is immediate. Assigning a bed at 09:47
+Patient 21 's tests completed at 09:47
+Patient 21's Nurse released at 09:47
+Patient 21 was assigned to a Doctor for a follow up at 09:47
+Patient 22 's tests completed at 09:47
+Patient 22's Nurse released at 09:47
+Patient 22 was assigned to a Doctor for a follow up at 09:47
+Patient 26's nurse  was released at 09:47
+Patient 26 was assigned to a Doctor at 09:47
+Patient 28 arrived at 09:47
+Patient 28 is waiting for a clerk at 09:47
+Patient 28 was assigned a Clerk at 09:47
+Patient 20's Doctor follow up completed at 09:50
+Patient 20 has left the A&E at 09:50
+Patient 20's Doctor released at 09:50
+Patient 27's nurse  was released at 09:50
+Patient 24's Doctor Consultation was completed at 09:50
+Patient 24 is discharged at 09:50
+Patient 24's Doctor released at 09:50
+Patient 27 was assigned to a Doctor at 09:50
+Patient 23's treatment completed at 09:51
+Patient 21's Doctor follow up completed at 09:52
+Patient 21 has left the A&E at 09:52
+Patient 21's Doctor released at 09:52
+Patient 22's Doctor follow up completed at 09:52
+Patient 22 has left the A&E at 09:52
+Patient 22's Doctor released at 09:52
+Patient 26's Doctor Consultation was completed at 09:52
+Patient 26 is discharged at 09:52
+Patient 26's Doctor released at 09:52
+Patient 28's admission completed at 09:52
+Patient 28's clerk released at 09:52
+Patient 28 was assigned a nurse at at 09:52
 Patient 28 triaged as Blue (Non-Urgent) priority
-Patient 31 arrived at 09:34
-Patient 31 is waiting for a clerk at 09:34
-Patient 31 was assigned a Clerk at 09:34
-Patient 24 bed set up completed at 09:34
-Patient 24 was assigned a Doctor assigned at 09:34
-Patient 32 arrived at 09:34
-Patient 32 is waiting for a clerk at 09:34
-Patient 33 arrived at 09:35
-Patient 33 is waiting for a clerk at 09:35
-Patient 22 has left the bed at 09:36
-Patient 25's treatment completed at 09:36
-Patient 22 was assigned to a Doctor for a follow up at 09:36
-Patient 26's nurse  was released at 09:36
-Patient 26 was assigned to a Doctor at 09:36
-Patient 34 arrived at 09:36
-Patient 34 is waiting for a clerk at 09:36
-Patient 29's admission completed at 09:37
-Patient 29's clerk released at 09:37
-Patient 32 was assigned a Clerk at 09:37
-Patient 29 was assigned a nurse at at 09:37
-Patient 29 triaged as Red (Immediate) priority
-Patient 30's admission completed at 09:38
-Patient 30's clerk released at 09:38
-Patient 27's nurse  was released at 09:38
-Patient 27 is immediate. Assigning a bed at 09:38
-Patient 33 was assigned a Clerk at 09:38
-Patient 30 was assigned a nurse at at 09:38
-Patient 30 triaged as Blue (Non-Urgent) priority
- Patient 27 bed set up commenced at 09:38
-Patient 23's Doctor follow up completed at 09:38
-Patient 23 has left the A&E at 09:38
-Patient 23's Doctor released at 09:38
-Patient 28's nurse  was released at 09:39
-Patient 28 was assigned to a Doctor at 09:39
-Patient 31's admission completed at 09:39
-Patient 31's clerk released at 09:39
-Patient 34 was assigned a Clerk at 09:39
-Patient 31 was assigned a nurse at at 09:39
-Patient 31 triaged as Green (Standard) priority
-Patient 24's treatment completed at 09:39
-Patient 25 has left the bed at 09:41
-Patient 22's Doctor follow up completed at 09:41
-Patient 22 has left the A&E at 09:41
-Patient 22's Doctor released at 09:41
-Patient 25 was assigned to a Doctor for a follow up at 09:41
-Patient 26's Doctor Consultation was completed at 09:41
-Patient 26 needs to take medication
-Patient 26's Doctor released at 09:41
-Patient 26 with priority 3 was assigned to  a Nurse at 09:41
-Patient 26 was assigned to a Nurse at 09:41
-Patient 32's admission completed at 09:42
-Patient 32's clerk released at 09:42
-Patient 29's nurse  was released at 09:42
-Patient 29 is immediate. Assigning a bed at 09:42
-Patient 32 was assigned a nurse at at 09:42
-Patient 32 triaged as Blue (Non-Urgent) priority
- Patient 29 bed set up commenced at 09:42
-Patient 33's admission completed at 09:43
-Patient 33's clerk released at 09:43
-Patient 30's nurse  was released at 09:43
-Patient 27 bed set up completed at 09:43
-Patient 27 was assigned a Doctor assigned at 09:43
-Patient 33 was assigned a nurse at at 09:43
-Patient 33 triaged as Blue (Non-Urgent) priority
-Patient 30 was assigned to a Doctor at 09:43
-Patient 28's Doctor Consultation was completed at 09:44
+Patient 29 arrived at 09:53
+Patient 29 is waiting for a clerk at 09:53
+Patient 29 was assigned a Clerk at 09:53
+Patient 27's Doctor Consultation was completed at 09:55
+Patient 27 is discharged at 09:55
+Patient 27's Doctor released at 09:55
+Patient 23 has left the bed at 09:56
+Patient 25 has been assigned a bed at 09:56
+Patient 23 was assigned to a Doctor for a follow up at 09:56
+Patient 25 was assigned a Nurse at 09:56
+Patient 25 bed set up completed at 09:57 
+Patient 25 was assigned a Doctor assigned at 09:57
+Patient 28's nurse  was released at 09:57
+Patient 28 was assigned to a Doctor at 09:57
+Patient 29's admission completed at 09:58
+Patient 29's clerk released at 09:58
+Patient 29 was assigned a nurse at at 09:58
+Patient 29 triaged as Green (Standard) priority
+Patient 23's Doctor follow up completed at 10:01
+Patient 23 has left the A&E at 10:01
+Patient 23's Doctor released at 10:01
+Patient 25's treatment completed at 10:02
+Patient 28's Doctor Consultation was completed at 10:02
 Patient 28 needs to do tests
-Patient 28's Doctor released at 09:44
-Patient 28 was assigned to a Nurse at 09:44
-Patient 34's admission completed at 09:44
-Patient 34's clerk released at 09:44
-Patient 31's nurse  was released at 09:44
-Patient 34 was assigned a nurse at at 09:44
+Patient 28's Doctor released at 10:02
+Patient 28 was assigned to a Nurse at 10:02
+Patient 29's nurse  was released at 10:03
+Patient 29 was assigned to a Doctor at 10:03
+Patient 30 arrived at 10:04
+Patient 30 is waiting for a clerk at 10:04
+Patient 30 was assigned a Clerk at 10:04
+Patient 25 has left the bed at 10:07
+Patient 25 was assigned to a Doctor for a follow up at 10:07
+Patient 28 's tests completed at 10:07
+Patient 28's Nurse released at 10:07
+Patient 28 was assigned to a Doctor for a follow up at 10:07
+Patient 29's Doctor Consultation was completed at 10:08
+Patient 29 is discharged at 10:08
+Patient 29's Doctor released at 10:08
+Patient 31 arrived at 10:09
+Patient 31 is waiting for a clerk at 10:09
+Patient 31 was assigned a Clerk at 10:09
+Patient 30's admission completed at 10:09
+Patient 30's clerk released at 10:09
+Patient 30 was assigned a nurse at at 10:09
+Patient 30 triaged as Blue (Non-Urgent) priority
+Patient 32 arrived at 10:09
+Patient 32 is waiting for a clerk at 10:09
+Patient 32 was assigned a Clerk at 10:09
+Patient 33 arrived at 10:11
+Patient 33 is waiting for a clerk at 10:11
+Patient 33 was assigned a Clerk at 10:11
+Patient 25's Doctor follow up completed at 10:12
+Patient 25 has left the A&E at 10:12
+Patient 25's Doctor released at 10:12
+Patient 28's Doctor follow up completed at 10:12
+Patient 28 has left the A&E at 10:12
+Patient 28's Doctor released at 10:12
+Patient 34 arrived at 10:14
+Patient 34 is waiting for a clerk at 10:14
+Patient 31's admission completed at 10:14
+Patient 31's clerk released at 10:14
+Patient 34 was assigned a Clerk at 10:14
+Patient 31 was assigned a nurse at at 10:14
+Patient 31 triaged as Red (Immediate) priority
+Patient 30's nurse  was released at 10:14
+Patient 30 was assigned to a Doctor at 10:14
+Patient 32's admission completed at 10:14
+Patient 32's clerk released at 10:14
+Patient 32 was assigned a nurse at at 10:14
+Patient 32 triaged as Green (Standard) priority
+Patient 33's admission completed at 10:16
+Patient 33's clerk released at 10:16
+Patient 33 was assigned a nurse at at 10:16
+Patient 33 triaged as Green (Standard) priority
+Patient 34's admission completed at 10:19
+Patient 34's clerk released at 10:19
+Patient 31's nurse  was released at 10:19
+Patient 31 is immediate. Assigning a bed at 10:19
+Patient 34 was assigned a nurse at at 10:19
 Patient 34 triaged as Blue (Non-Urgent) priority
-Patient 31 was assigned to a Doctor at 09:44
-Patient 24 has left the bed at 09:44
-Patient 35 arrived at 09:44
-Patient 35 is waiting for a clerk at 09:44
-Patient 35 was assigned a Clerk at 09:44
-Patient 36 arrived at 09:45
-Patient 36 is waiting for a clerk at 09:45
-Patient 36 was assigned a Clerk at 09:45
-Patient 25's Doctor follow up completed at 09:46
-Patient 25 has left the A&E at 09:46
-Patient 25's Doctor released at 09:46
-Patient 26 finished medication at 09:46
-Patient 26's medication completed at 09:46
-Patient 26's Nurse released at 09:46
-Patient 26 was assigned to a Doctor for a follow up at 09:46
-Patient 32's nurse  was released at 09:47
-Patient 29 bed set up completed at 09:47
-Patient 27's treatment completed at 09:48
-Patient 33's nurse  was released at 09:48
-Patient 30's Doctor Consultation was completed at 09:48
+Patient 31 has been assigned a bed at 10:19
+Patient 31 was assigned a Nurse at 10:19
+Patient 30's Doctor Consultation was completed at 10:19
 Patient 30 needs to take medication
-Patient 30's Doctor released at 09:48
-Patient 30 with priority 4 was assigned to  a Nurse at 09:48
-Patient 30 was assigned to a Nurse at 09:48
-Patient 29 was assigned a Doctor assigned at 09:48
-Patient 32 was assigned to a Doctor at 09:48
-Patient 28 's tests completed at 09:49
-Patient 28's Nurse released at 09:49
-Patient 34's nurse  was released at 09:49
-Patient 31's Doctor Consultation was completed at 09:49
-Patient 31 needs to take medication
-Patient 31's Doctor released at 09:49
-Patient 31 with priority 3 was assigned to  a Nurse at 09:49
-Patient 31 was assigned to a Nurse at 09:49
-Patient 33 was assigned to a Doctor at 09:49
-Patient 37 arrived at 09:49
-Patient 37 is waiting for a clerk at 09:49
-Patient 37 was assigned a Clerk at 09:49
-Patient 35's admission completed at 09:49
-Patient 35's clerk released at 09:49
-Patient 35 was assigned a nurse at at 09:49
-Patient 35 triaged as Red (Immediate) priority
-Patient 36's admission completed at 09:50
-Patient 36's clerk released at 09:50
-Patient 36 was assigned a nurse at at 09:50
-Patient 36 triaged as Red (Immediate) priority
-Patient 26's Doctor follow up completed at 09:51
-Patient 26 has left the A&E at 09:51
-Patient 26's Doctor released at 09:51
-Patient 28 was assigned to a Doctor for a follow up at 09:51
-Patient 38 arrived at 09:51
-Patient 38 is waiting for a clerk at 09:51
-Patient 38 was assigned a Clerk at 09:51
-Patient 27 has left the bed at 09:53
-Patient 30 finished medication at 09:53
-Patient 30's medication completed at 09:53
-Patient 30's Nurse released at 09:53
-Patient 29's treatment completed at 09:53
-Patient 32's Doctor Consultation was completed at 09:53
-Patient 32 needs to be admitted to for hospitilisation or surgery at 09:53
-Patient 27 was assigned to a Doctor for a follow up at 09:53
- Patient 32 bed set up commenced at 09:53
-Patient 31 finished medication at 09:54
-Patient 31's medication completed at 09:54
-Patient 31's Nurse released at 09:54
-Patient 33's Doctor Consultation was completed at 09:54
-Patient 33 needs to take medication
-Patient 33's Doctor released at 09:54
-Patient 33 with priority 4 was assigned to  a Nurse at 09:54
-Patient 33 was assigned to a Nurse at 09:54
-Patient 31 was assigned to a Doctor for a follow up at 09:54
-Patient 37's admission completed at 09:54
-Patient 37's clerk released at 09:54
-Patient 37 was assigned a nurse at at 09:54
-Patient 37 triaged as Red (Immediate) priority
-Patient 35's nurse  was released at 09:54
-Patient 35 is immediate. Assigning a bed at 09:54
- Patient 35 bed set up commenced at 09:54
-Patient 39 arrived at 09:55
-Patient 39 is waiting for a clerk at 09:55
-Patient 39 was assigned a Clerk at 09:55
-Patient 40 arrived at 09:55
-Patient 40 is waiting for a clerk at 09:55
-Patient 40 was assigned a Clerk at 09:55
-Patient 36's nurse  was released at 09:55
-Patient 36 is immediate. Assigning a bed at 09:55
- Patient 36 bed set up commenced at 09:55
-Patient 28's Doctor follow up completed at 09:56
-Patient 28 has left the A&E at 09:56
-Patient 28's Doctor released at 09:56
-Patient 34 was assigned to a Doctor at 09:56
-Patient 38's admission completed at 09:56
-Patient 38's clerk released at 09:56
-Patient 38 was assigned a nurse at at 09:56
+Patient 30's Doctor released at 10:19
+Patient 30 with priority 4 was assigned to  a Nurse at 10:19
+Patient 30 was assigned to a Nurse at 10:19
+Patient 32's nurse  was released at 10:19
+Patient 32 was assigned to a Doctor at 10:19
+Patient 31 bed set up completed at 10:20 
+Patient 31 was assigned a Doctor assigned at 10:20
+Patient 33's nurse  was released at 10:21
+Patient 33 was assigned to a Doctor at 10:21
+Patient 34's nurse  was released at 10:24
+Patient 34 was assigned to a Doctor at 10:24
+Patient 30 finished medication at 10:24
+Patient 30's medication completed at 10:24
+Patient 30's Nurse released at 10:24
+Patient 30 was assigned to a Doctor for a follow up at 10:24
+Patient 32's Doctor Consultation was completed at 10:24
+Patient 32 needs to do tests
+Patient 32's Doctor released at 10:24
+Patient 32 was assigned to a Nurse at 10:24
+Patient 31's treatment completed at 10:25
+Patient 35 arrived at 10:26
+Patient 35 is waiting for a clerk at 10:26
+Patient 35 was assigned a Clerk at 10:26
+Patient 33's Doctor Consultation was completed at 10:26
+Patient 33 is discharged at 10:26
+Patient 33's Doctor released at 10:26
+Patient 34's Doctor Consultation was completed at 10:29
+Patient 34 is discharged at 10:29
+Patient 34's Doctor released at 10:29
+Patient 30's Doctor follow up completed at 10:29
+Patient 30 has left the A&E at 10:29
+Patient 30's Doctor released at 10:29
+Patient 32 's tests completed at 10:29
+Patient 32's Nurse released at 10:29
+Patient 32 was assigned to a Doctor for a follow up at 10:29
+Patient 31 has left the bed at 10:30
+Patient 31 was assigned to a Doctor for a follow up at 10:30
+Patient 35's admission completed at 10:31
+Patient 35's clerk released at 10:31
+Patient 35 was assigned a nurse at at 10:31
+Patient 35 triaged as Green (Standard) priority
+Patient 36 arrived at 10:31
+Patient 36 is waiting for a clerk at 10:31
+Patient 36 was assigned a Clerk at 10:31
+Patient 37 arrived at 10:31
+Patient 37 is waiting for a clerk at 10:31
+Patient 37 was assigned a Clerk at 10:31
+Patient 38 arrived at 10:32
+Patient 38 is waiting for a clerk at 10:32
+Patient 38 was assigned a Clerk at 10:32
+Patient 39 arrived at 10:34
+Patient 39 is waiting for a clerk at 10:34
+Patient 32's Doctor follow up completed at 10:34
+Patient 32 has left the A&E at 10:34
+Patient 32's Doctor released at 10:34
+Patient 31's Doctor follow up completed at 10:35
+Patient 31 has left the A&E at 10:35
+Patient 31's Doctor released at 10:35
+Patient 35's nurse  was released at 10:36
+Patient 35 was assigned to a Doctor at 10:36
+Patient 36's admission completed at 10:36
+Patient 36's clerk released at 10:36
+Patient 39 was assigned a Clerk at 10:36
+Patient 36 was assigned a nurse at at 10:36
+Patient 36 triaged as Green (Standard) priority
+Patient 37's admission completed at 10:36
+Patient 37's clerk released at 10:36
+Patient 37 was assigned a nurse at at 10:36
+Patient 37 triaged as Blue (Non-Urgent) priority
+Patient 38's admission completed at 10:37
+Patient 38's clerk released at 10:37
+Patient 38 was assigned a nurse at at 10:37
 Patient 38 triaged as Blue (Non-Urgent) priority
-Patient 29 has left the bed at 09:58
-Patient 27's Doctor follow up completed at 09:58
-Patient 27 has left the A&E at 09:58
-Patient 27's Doctor released at 09:58
-Patient 32 bed set up completed at 09:58
-Patient 32 was assigned a Doctor assigned at 09:58
-Patient 33 finished medication at 09:59
-Patient 33's medication completed at 09:59
-Patient 33's Nurse released at 09:59
-Patient 31's Doctor follow up completed at 09:59
-Patient 31 has left the A&E at 09:59
-Patient 31's Doctor released at 09:59
-Patient 29 was assigned to a Doctor for a follow up at 09:59
-Patient 37's nurse  was released at 09:59
-Patient 37 is immediate. Assigning a bed at 09:59
- Patient 37 bed set up commenced at 09:59
-Patient 35 bed set up completed at 09:59
-Patient 39's admission completed at 10:00
-Patient 39's clerk released at 10:00
-Patient 39 was assigned a nurse at at 10:00
+Patient 35's Doctor Consultation was completed at 10:41
+Patient 35 is discharged at 10:41
+Patient 35's Doctor released at 10:41
+Patient 40 arrived at 10:41
+Patient 40 is waiting for a clerk at 10:41
+Patient 40 was assigned a Clerk at 10:41
+Patient 39's admission completed at 10:41
+Patient 39's clerk released at 10:41
+Patient 36's nurse  was released at 10:41
+Patient 39 was assigned a nurse at at 10:41
 Patient 39 triaged as Red (Immediate) priority
-Patient 40's admission completed at 10:00
-Patient 40's clerk released at 10:00
-Patient 40 was assigned a nurse at at 10:00
-Patient 40 triaged as Red (Immediate) priority
-Patient 41 arrived at 10:00
-Patient 41 is waiting for a clerk at 10:00
-Patient 41 was assigned a Clerk at 10:00
-Patient 36 bed set up completed at 10:00
-Patient 34's Doctor Consultation was completed at 10:01
-Patient 34 needs to do tests
-Patient 34's Doctor released at 10:01
-Patient 34 was assigned to a Nurse at 10:01
-Patient 35 was assigned a Doctor assigned at 10:01
-Patient 42 arrived at 10:01
-Patient 42 is waiting for a clerk at 10:01
-Patient 42 was assigned a Clerk at 10:01
-Patient 38's nurse  was released at 10:01
-Patient 43 arrived at 10:02
-Patient 43 is waiting for a clerk at 10:02
-Patient 43 was assigned a Clerk at 10:02
-Patient 32's treatment completed at 10:03
-Patient 36 was assigned a Doctor assigned at 10:03
-Patient 29's Doctor follow up completed at 10:04
-Patient 29 has left the A&E at 10:04
-Patient 29's Doctor released at 10:04
-Patient 30 was assigned to a Doctor for a follow up at 10:04
-Patient 37 bed set up completed at 10:04
-Patient 39's nurse  was released at 10:05
-Patient 39 is immediate. Assigning a bed at 10:05
- Patient 39 bed set up commenced at 10:05
-Patient 40's nurse  was released at 10:05
-Patient 40 is immediate. Assigning a bed at 10:05
-Patient 41's admission completed at 10:05
-Patient 41's clerk released at 10:05
-Patient 41 was assigned a nurse at at 10:05
+Patient 36 was assigned to a Doctor at 10:41
+Patient 37's nurse  was released at 10:41
+Patient 37 was assigned to a Doctor at 10:41
+Patient 38's nurse  was released at 10:42
+Patient 38 was assigned to a Doctor at 10:42
+Patient 41 arrived at 10:44
+Patient 41 is waiting for a clerk at 10:44
+Patient 41 was assigned a Clerk at 10:44
+Patient 42 arrived at 10:45
+Patient 42 is waiting for a clerk at 10:45
+Patient 42 was assigned a Clerk at 10:45
+Patient 43 arrived at 10:46
+Patient 43 is waiting for a clerk at 10:46
+Patient 40's admission completed at 10:46
+Patient 40's clerk released at 10:46
+Patient 43 was assigned a Clerk at 10:46
+Patient 40 was assigned a nurse at at 10:46
+Patient 40 triaged as Green (Standard) priority
+Patient 39's nurse  was released at 10:46
+Patient 36's Doctor Consultation was completed at 10:46
+Patient 36 is discharged at 10:46
+Patient 36's Doctor released at 10:46
+Patient 39 is immediate. Assigning a bed at 10:46
+Patient 39 has been assigned a bed at 10:46
+Patient 39 was assigned a Nurse at 10:46
+Patient 37's Doctor Consultation was completed at 10:46
+Patient 37 is discharged at 10:46
+Patient 37's Doctor released at 10:46
+Patient 38's Doctor Consultation was completed at 10:47
+Patient 38 needs to do tests
+Patient 38's Doctor released at 10:47
+Patient 38 was assigned to a Nurse at 10:47
+Patient 39 bed set up completed at 10:47 
+Patient 39 was assigned a Doctor assigned at 10:47
+Patient 41's admission completed at 10:49
+Patient 41's clerk released at 10:49
+Patient 41 was assigned a nurse at at 10:49
 Patient 41 triaged as Blue (Non-Urgent) priority
-Patient 34 's tests completed at 10:06
-Patient 34's Nurse released at 10:06
-Patient 35's treatment completed at 10:06
-Patient 37 was assigned a Doctor assigned at 10:06
-Patient 42's admission completed at 10:06
-Patient 42's clerk released at 10:06
-Patient 42 was assigned a nurse at at 10:06
-Patient 42 triaged as Blue (Non-Urgent) priority
-Patient 44 arrived at 10:06
-Patient 44 is waiting for a clerk at 10:06
-Patient 44 was assigned a Clerk at 10:06
-Patient 43's admission completed at 10:07
-Patient 43's clerk released at 10:07
-Patient 43 was assigned a nurse at at 10:07
-Patient 43 triaged as Yellow (Urgent) priority
-Patient 32 has left the bed at 10:08
-Patient 36's treatment completed at 10:08
-Patient 33 was assigned to a Doctor for a follow up at 10:08
- Patient 40 bed set up commenced at 10:08
-Patient 30's Doctor follow up completed at 10:09
-Patient 30 has left the A&E at 10:09
-Patient 30's Doctor released at 10:09
-Patient 38 was assigned to a Doctor at 10:09
-Patient 45 arrived at 10:09
-Patient 45 is waiting for a clerk at 10:09
-Patient 45 was assigned a Clerk at 10:09
-Patient 39 bed set up completed at 10:10
-Patient 41's nurse  was released at 10:10
-Patient 35 has left the bed at 10:11
-Patient 37's treatment completed at 10:11
-Patient 39 was assigned a Doctor assigned at 10:11
-Patient 42's nurse  was released at 10:11
-Patient 44's admission completed at 10:11
-Patient 44's clerk released at 10:11
-Patient 44 was assigned a nurse at at 10:11
-Patient 44 triaged as Blue (Non-Urgent) priority
-Patient 43's nurse  was released at 10:12
-Patient 36 has left the bed at 10:13
-Patient 33's Doctor follow up completed at 10:13
-Patient 33 has left the A&E at 10:13
-Patient 33's Doctor released at 10:13
-Patient 40 bed set up completed at 10:13
-Patient 35 was assigned to a Doctor for a follow up at 10:13
-Patient 38's Doctor Consultation was completed at 10:14
-Patient 38 needs to be admitted to for hospitilisation or surgery at 10:14
- Patient 38 bed set up commenced at 10:14
-Patient 45's admission completed at 10:14
-Patient 45's clerk released at 10:14
-Patient 45 was assigned a nurse at at 10:14
-Patient 45 triaged as Yellow (Urgent) priority
-Patient 37 has left the bed at 10:16
-Patient 39's treatment completed at 10:16
-Patient 40 was assigned a Doctor assigned at 10:16
-Patient 44's nurse  was released at 10:16
-Patient 46 arrived at 10:17
-Patient 46 is waiting for a clerk at 10:17
-Patient 46 was assigned a Clerk at 10:17
-Patient 35's Doctor follow up completed at 10:18
-Patient 35 has left the A&E at 10:18
-Patient 35's Doctor released at 10:18
-Patient 36 was assigned to a Doctor for a follow up at 10:18
-Patient 38 bed set up completed at 10:19
-Patient 45's nurse  was released at 10:19
-Patient 39 has left the bed at 10:21
-Patient 40's treatment completed at 10:21
-Patient 37 was assigned to a Doctor for a follow up at 10:21
-Patient 47 arrived at 10:21
-Patient 47 is waiting for a clerk at 10:21
-Patient 47 was assigned a Clerk at 10:21
-Patient 46's admission completed at 10:22
-Patient 46's clerk released at 10:22
-Patient 46 was assigned a nurse at at 10:22
-Patient 46 triaged as Red (Immediate) priority
-Patient 36's Doctor follow up completed at 10:23
-Patient 36 has left the A&E at 10:23
-Patient 36's Doctor released at 10:23
-Patient 38 was assigned a Doctor assigned at 10:23
-Patient 40 has left the bed at 10:26
-Patient 37's Doctor follow up completed at 10:26
-Patient 37 has left the A&E at 10:26
-Patient 37's Doctor released at 10:26
-Patient 39 was assigned to a Doctor for a follow up at 10:26
-Patient 47's admission completed at 10:26
-Patient 47's clerk released at 10:26
-Patient 47 was assigned a nurse at at 10:26
-Patient 47 triaged as Blue (Non-Urgent) priority
-Patient 48 arrived at 10:26
-Patient 48 is waiting for a clerk at 10:26
-Patient 48 was assigned a Clerk at 10:26
-Patient 46's nurse  was released at 10:27
-Patient 46 is immediate. Assigning a bed at 10:27
- Patient 46 bed set up commenced at 10:27
-Patient 38's treatment completed at 10:28
-Patient 40 was assigned to a Doctor for a follow up at 10:28
-Patient 39's Doctor follow up completed at 10:31
-Patient 39 has left the A&E at 10:31
-Patient 39's Doctor released at 10:31
-Patient 43 was assigned to a Doctor at 10:31
-Patient 47's nurse  was released at 10:31
-Patient 48's admission completed at 10:31
-Patient 48's clerk released at 10:31
-Patient 48 was assigned a nurse at at 10:31
-Patient 48 triaged as Red (Immediate) priority
-Patient 46 bed set up completed at 10:32
-Patient 38 has left the bed at 10:33
-Patient 40's Doctor follow up completed at 10:33
-Patient 40 has left the A&E at 10:33
-Patient 40's Doctor released at 10:33
-Patient 46 was assigned a Doctor assigned at 10:33
-Patient 49 arrived at 10:35
-Patient 49 is waiting for a clerk at 10:35
-Patient 49 was assigned a Clerk at 10:35
-Patient 43's Doctor Consultation was completed at 10:36
+Patient 42's admission completed at 10:50
+Patient 42's clerk released at 10:50
+Patient 42 was assigned a nurse at at 10:50
+Patient 42 triaged as Green (Standard) priority
+Patient 43's admission completed at 10:51
+Patient 43's clerk released at 10:51
+Patient 40's nurse  was released at 10:51
+Patient 43 was assigned a nurse at at 10:51
+Patient 43 triaged as Green (Standard) priority
+Patient 40 was assigned to a Doctor at 10:51
+Patient 44 arrived at 10:52
+Patient 44 is waiting for a clerk at 10:52
+Patient 44 was assigned a Clerk at 10:52
+Patient 38 's tests completed at 10:52
+Patient 38's Nurse released at 10:52
+Patient 38 was assigned to a Doctor for a follow up at 10:52
+Patient 39's treatment completed at 10:52
+Patient 45 arrived at 10:54
+Patient 45 is waiting for a clerk at 10:54
+Patient 45 was assigned a Clerk at 10:54
+Patient 41's nurse  was released at 10:54
+Patient 41 was assigned to a Doctor at 10:54
+Patient 42's nurse  was released at 10:55
+Patient 42 was assigned to a Doctor at 10:55
+Patient 43's nurse  was released at 10:56
+Patient 40's Doctor Consultation was completed at 10:56
+Patient 40 is discharged at 10:56
+Patient 40's Doctor released at 10:56
+Patient 43 was assigned to a Doctor at 10:56
+Patient 44's admission completed at 10:57
+Patient 44's clerk released at 10:57
+Patient 44 was assigned a nurse at at 10:57
+Patient 44 triaged as Green (Standard) priority
+Patient 38's Doctor follow up completed at 10:57
+Patient 38 has left the A&E at 10:57
+Patient 38's Doctor released at 10:57
+Patient 39 has left the bed at 10:57
+Patient 39 was assigned to a Doctor for a follow up at 10:57
+Patient 45's admission completed at 10:59
+Patient 45's clerk released at 10:59
+Patient 45 was assigned a nurse at at 10:59
+Patient 45 triaged as Green (Standard) priority
+Patient 41's Doctor Consultation was completed at 10:59
+Patient 41 needs to do tests
+Patient 41's Doctor released at 10:59
+Patient 41 was assigned to a Nurse at 10:59
+Patient 42's Doctor Consultation was completed at 11:00
+Patient 42 is discharged at 11:00
+Patient 42's Doctor released at 11:00
+Patient 43's Doctor Consultation was completed at 11:01
 Patient 43 needs to take medication
-Patient 43's Doctor released at 10:36
-Patient 43 with priority 2 was assigned to  a Nurse at 10:36
-Patient 43 was assigned to a Nurse at 10:36
-Patient 45 was assigned to a Doctor at 10:36
-Patient 48's nurse  was released at 10:36
-Patient 48 is immediate. Assigning a bed at 10:36
- Patient 48 bed set up commenced at 10:36
-Patient 46's treatment completed at 10:38
-Patient 34 was assigned to a Doctor for a follow up at 10:38
-Patient 49's admission completed at 10:40
-Patient 49's clerk released at 10:40
-Patient 49 was assigned a nurse at at 10:40
-Patient 49 triaged as Blue (Non-Urgent) priority
-Patient 50 arrived at 10:40
-Patient 50 is waiting for a clerk at 10:40
-Patient 50 was assigned a Clerk at 10:40
-Patient 43 finished medication at 10:41
-Patient 43's medication completed at 10:41
-Patient 43's Nurse released at 10:41
-Patient 45's Doctor Consultation was completed at 10:41
-Patient 45 needs to be admitted to for hospitilisation or surgery at 10:41
- Patient 45 bed set up commenced at 10:41
-Patient 48 bed set up completed at 10:41
-Patient 51 arrived at 10:41
-Patient 51 is waiting for a clerk at 10:41
-Patient 51 was assigned a Clerk at 10:41
-Patient 46 has left the bed at 10:43
-Patient 34's Doctor follow up completed at 10:43
-Patient 34 has left the A&E at 10:43
-Patient 34's Doctor released at 10:43
-Patient 48 was assigned a Doctor assigned at 10:43
-Patient 49's nurse  was released at 10:45
-Patient 50's admission completed at 10:45
-Patient 50's clerk released at 10:45
-Patient 50 was assigned a nurse at at 10:45
-Patient 50 triaged as Blue (Non-Urgent) priority
-Patient 45 bed set up completed at 10:46
-Patient 52 arrived at 10:46
-Patient 52 is waiting for a clerk at 10:46
-Patient 52 was assigned a Clerk at 10:46
-Patient 51's admission completed at 10:46
-Patient 51's clerk released at 10:46
-Patient 51 was assigned a nurse at at 10:46
-Patient 51 triaged as Blue (Non-Urgent) priority
-Patient 48's treatment completed at 10:48
-Patient 46 was assigned to a Doctor for a follow up at 10:48
-Patient 50's nurse  was released at 10:50
-Patient 52's admission completed at 10:51
-Patient 52's clerk released at 10:51
-Patient 52 was assigned a nurse at at 10:51
-Patient 52 triaged as Blue (Non-Urgent) priority
-Patient 51's nurse  was released at 10:51
-Patient 48 has left the bed at 10:53
-Patient 46's Doctor follow up completed at 10:53
-Patient 46 has left the A&E at 10:53
-Patient 46's Doctor released at 10:53
-Patient 45 was assigned a Doctor assigned at 10:53
-Patient 53 arrived at 10:53
-Patient 53 is waiting for a clerk at 10:53
-Patient 53 was assigned a Clerk at 10:53
-Patient 54 arrived at 10:56
-Patient 54 is waiting for a clerk at 10:56
-Patient 54 was assigned a Clerk at 10:56
-Patient 52's nurse  was released at 10:56
-Patient 55 arrived at 10:56
-Patient 55 is waiting for a clerk at 10:56
-Patient 55 was assigned a Clerk at 10:56
-Patient 45's treatment completed at 10:58
-Patient 48 was assigned to a Doctor for a follow up at 10:58
-Patient 56 arrived at 10:58
-Patient 56 is waiting for a clerk at 10:58
-Patient 53's admission completed at 10:58
-Patient 53's clerk released at 10:58
-Patient 56 was assigned a Clerk at 10:58
-Patient 53 was assigned a nurse at at 10:58
-Patient 53 triaged as Blue (Non-Urgent) priority
-Patient 57 arrived at 11:00
-Patient 57 is waiting for a clerk at 11:00
-Patient 54's admission completed at 11:01
-Patient 54's clerk released at 11:01
-Patient 57 was assigned a Clerk at 11:01
-Patient 54 was assigned a nurse at at 11:01
-Patient 54 triaged as Blue (Non-Urgent) priority
-Patient 55's admission completed at 11:01
-Patient 55's clerk released at 11:01
-Patient 55 was assigned a nurse at at 11:01
-Patient 55 triaged as Blue (Non-Urgent) priority
-Patient 45 has left the bed at 11:03
-Patient 48's Doctor follow up completed at 11:03
-Patient 48 has left the A&E at 11:03
-Patient 48's Doctor released at 11:03
-Patient 43 was assigned to a Doctor for a follow up at 11:03
-Patient 58 arrived at 11:03
-Patient 58 is waiting for a clerk at 11:03
-Patient 58 was assigned a Clerk at 11:03
-Patient 56's admission completed at 11:03
-Patient 56's clerk released at 11:03
-Patient 53's nurse  was released at 11:03
-Patient 56 was assigned a nurse at at 11:03
-Patient 56 triaged as Blue (Non-Urgent) priority
-Patient 59 arrived at 11:04
-Patient 59 is waiting for a clerk at 11:04
-Patient 59 was assigned a Clerk at 11:04
-Patient 60 arrived at 11:04
-Patient 60 is waiting for a clerk at 11:04
-Patient 57's admission completed at 11:06
-Patient 57's clerk released at 11:06
-Patient 54's nurse  was released at 11:06
-Patient 60 was assigned a Clerk at 11:06
-Patient 57 was assigned a nurse at at 11:06
-Patient 57 triaged as Blue (Non-Urgent) priority
-Patient 55's nurse  was released at 11:06
-Patient 61 arrived at 11:07
-Patient 61 is waiting for a clerk at 11:07
-Patient 62 arrived at 11:07
-Patient 62 is waiting for a clerk at 11:07
-Patient 43's Doctor follow up completed at 11:08
-Patient 43 has left the A&E at 11:08
-Patient 43's Doctor released at 11:08
-Patient 41 was assigned to a Doctor at 11:08
-Patient 58's admission completed at 11:08
-Patient 58's clerk released at 11:08
-Patient 61 was assigned a Clerk at 11:08
-Patient 58 was assigned a nurse at at 11:08
-Patient 58 triaged as Red (Immediate) priority
-Patient 56's nurse  was released at 11:08
-Patient 63 arrived at 11:09
-Patient 63 is waiting for a clerk at 11:09
-Patient 59's admission completed at 11:09
-Patient 59's clerk released at 11:09
-Patient 62 was assigned a Clerk at 11:09
-Patient 59 was assigned a nurse at at 11:09
-Patient 59 triaged as Green (Standard) priority
-Patient 60's admission completed at 11:11
-Patient 60's clerk released at 11:11
-Patient 57's nurse  was released at 11:11
-Patient 63 was assigned a Clerk at 11:11
-Patient 60 was assigned a nurse at at 11:11
-Patient 60 triaged as Blue (Non-Urgent) priority
-Patient 41's Doctor Consultation was completed at 11:13
-Patient 41 needs to take medication
-Patient 41's Doctor released at 11:13
-Patient 41 with priority 4 was assigned to  a Nurse at 11:13
-Patient 41 was assigned to a Nurse at 11:13
-Patient 42 was assigned to a Doctor at 11:13
-Patient 61's admission completed at 11:13
-Patient 61's clerk released at 11:13
-Patient 58's nurse  was released at 11:13
-Patient 58 is immediate. Assigning a bed at 11:13
-Patient 61 was assigned a nurse at at 11:13
-Patient 61 triaged as Yellow (Urgent) priority
- Patient 58 bed set up commenced at 11:13
-Patient 62's admission completed at 11:14
-Patient 62's clerk released at 11:14
-Patient 59's nurse  was released at 11:14
-Patient 62 was assigned a nurse at at 11:14
-Patient 62 triaged as Blue (Non-Urgent) priority
-Patient 63's admission completed at 11:16
-Patient 63's clerk released at 11:16
-Patient 60's nurse  was released at 11:16
-Patient 63 was assigned a nurse at at 11:16
-Patient 63 triaged as Blue (Non-Urgent) priority
-Patient 41 finished medication at 11:18
-Patient 41's medication completed at 11:18
-Patient 41's Nurse released at 11:18
-Patient 42's Doctor Consultation was completed at 11:18
-Patient 42 needs to take medication
-Patient 42's Doctor released at 11:18
-Patient 42 with priority 4 was assigned to  a Nurse at 11:18
-Patient 42 was assigned to a Nurse at 11:18
-Patient 59 was assigned to a Doctor at 11:18
-Patient 61's nurse  was released at 11:18
-Patient 58 bed set up completed at 11:18
-Patient 62's nurse  was released at 11:19
-Patient 63's nurse  was released at 11:21
-Patient 42 finished medication at 11:23
-Patient 42's medication completed at 11:23
-Patient 42's Nurse released at 11:23
-Patient 59's Doctor Consultation was completed at 11:23
-Patient 59 is discharged at 11:23
-Patient 59's Doctor released at 11:23
-Patient 58 was assigned a Doctor assigned at 11:23
-Patient 58's treatment completed at 11:28
-Patient 61 was assigned to a Doctor at 11:28
-Patient 58 has left the bed at 11:33
-Patient 61's Doctor Consultation was completed at 11:33
-Patient 61 needs to take medication
-Patient 61's Doctor released at 11:33
-Patient 61 with priority 2 was assigned to  a Nurse at 11:33
-Patient 61 was assigned to a Nurse at 11:33
-Patient 58 was assigned to a Doctor for a follow up at 11:33
-Patient 61 finished medication at 11:38
-Patient 61's medication completed at 11:38
-Patient 61's Nurse released at 11:38
-Patient 58's Doctor follow up completed at 11:38
-Patient 58 has left the A&E at 11:38
-Patient 58's Doctor released at 11:38
-Patient 61 was assigned to a Doctor for a follow up at 11:38
-Patient 61's Doctor follow up completed at 11:43
-Patient 61 has left the A&E at 11:43
-Patient 61's Doctor released at 11:43
-Patient 44 was assigned to a Doctor at 11:43
-Patient 44's Doctor Consultation was completed at 11:48
+Patient 43's Doctor released at 11:01
+Patient 43 with priority 3 was assigned to  a Nurse at 11:01
+Patient 43 was assigned to a Nurse at 11:01
+Patient 44's nurse  was released at 11:02
+Patient 44 was assigned to a Doctor at 11:02
+Patient 46 arrived at 11:02
+Patient 46 is waiting for a clerk at 11:02
+Patient 46 was assigned a Clerk at 11:02
+Patient 39's Doctor follow up completed at 11:02
+Patient 39 has left the A&E at 11:02
+Patient 39's Doctor released at 11:02
+Patient 47 arrived at 11:04
+Patient 47 is waiting for a clerk at 11:04
+Patient 47 was assigned a Clerk at 11:04
+Patient 45's nurse  was released at 11:04
+Patient 45 was assigned to a Doctor at 11:04
+Patient 48 arrived at 11:04
+Patient 48 is waiting for a clerk at 11:04
+Patient 48 was assigned a Clerk at 11:04
+Patient 41 's tests completed at 11:04
+Patient 41's Nurse released at 11:04
+Patient 41 was assigned to a Doctor for a follow up at 11:04
+Patient 43 finished medication at 11:06
+Patient 43's medication completed at 11:06
+Patient 43's Nurse released at 11:06
+Patient 43 was assigned to a Doctor for a follow up at 11:06
+Patient 44's Doctor Consultation was completed at 11:07
 Patient 44 needs to do tests
-Patient 44's Doctor released at 11:48
-Patient 44 was assigned to a Nurse at 11:48
-Patient 47 was assigned to a Doctor at 11:48
-Patient 44 's tests completed at 11:53
-Patient 44's Nurse released at 11:53
-Patient 47's Doctor Consultation was completed at 11:53
-Patient 47 needs to be admitted to for hospitilisation or surgery at 11:53
- Patient 47 bed set up commenced at 11:53
-Patient 47 bed set up completed at 11:58
+Patient 44's Doctor released at 11:07
+Patient 44 was assigned to a Nurse at 11:07
+Patient 46's admission completed at 11:07
+Patient 46's clerk released at 11:07
+Patient 46 was assigned a nurse at at 11:07
+Patient 46 triaged as Orange (Very Urgent) priority
+Patient 49 arrived at 11:07
+Patient 49 is waiting for a clerk at 11:07
+Patient 49 was assigned a Clerk at 11:07
+Patient 47's admission completed at 11:09
+Patient 47's clerk released at 11:09
+Patient 47 was assigned a nurse at at 11:09
+Patient 47 triaged as Blue (Non-Urgent) priority
+Patient 45's Doctor Consultation was completed at 11:09
+Patient 45 needs to do tests
+Patient 45's Doctor released at 11:09
+Patient 45 was assigned to a Nurse at 11:09
+Patient 48's admission completed at 11:09
+Patient 48's clerk released at 11:09
+Patient 48 was assigned a nurse at at 11:09
+Patient 48 triaged as Red (Immediate) priority
+Patient 41's Doctor follow up completed at 11:09
+Patient 41 has left the A&E at 11:09
+Patient 41's Doctor released at 11:09
+Patient 50 arrived at 11:09
+Patient 50 is waiting for a clerk at 11:09
+Patient 50 was assigned a Clerk at 11:09
+Patient 51 arrived at 11:10
+Patient 51 is waiting for a clerk at 11:10
+Patient 51 was assigned a Clerk at 11:10
+Patient 52 arrived at 11:10
+Patient 52 is waiting for a clerk at 11:10
+Patient 43's Doctor follow up completed at 11:11
+Patient 43 has left the A&E at 11:11
+Patient 43's Doctor released at 11:11
+Patient 53 arrived at 11:11
+Patient 53 is waiting for a clerk at 11:11
+Patient 44 's tests completed at 11:12
+Patient 44's Nurse released at 11:12
+Patient 44 was assigned to a Doctor for a follow up at 11:12
+Patient 46's nurse  was released at 11:12
+Patient 46 was assigned to a Doctor at 11:12
+Patient 49's admission completed at 11:12
+Patient 49's clerk released at 11:12
+Patient 52 was assigned a Clerk at 11:12
+Patient 49 was assigned a nurse at at 11:12
+Patient 49 triaged as Red (Immediate) priority
+Patient 54 arrived at 11:13
+Patient 54 is waiting for a clerk at 11:13
+Patient 55 arrived at 11:13
+Patient 55 is waiting for a clerk at 11:13
+Patient 56 arrived at 11:13
+Patient 56 is waiting for a clerk at 11:13
+Patient 47's nurse  was released at 11:14
+Patient 47 was assigned to a Doctor at 11:14
+Patient 45 's tests completed at 11:14
+Patient 45's Nurse released at 11:14
+Patient 45 was assigned to a Doctor for a follow up at 11:14
+Patient 48's nurse  was released at 11:14
+Patient 48 is immediate. Assigning a bed at 11:14
+Patient 48 has been assigned a bed at 11:14
+Patient 48 was assigned a Nurse at 11:14
+Patient 50's admission completed at 11:14
+Patient 50's clerk released at 11:14
+Patient 53 was assigned a Clerk at 11:14
+Patient 50 was assigned a nurse at at 11:14
+Patient 50 triaged as Red (Immediate) priority
+Patient 51's admission completed at 11:15
+Patient 51's clerk released at 11:15
+Patient 54 was assigned a Clerk at 11:15
+Patient 51 was assigned a nurse at at 11:15
+Patient 51 triaged as Blue (Non-Urgent) priority
+Patient 48 bed set up completed at 11:15 
+Patient 48 was assigned a Doctor assigned at 11:15
+Patient 57 arrived at 11:16
+Patient 57 is waiting for a clerk at 11:16
+Patient 44's Doctor follow up completed at 11:17
+Patient 44 has left the A&E at 11:17
+Patient 44's Doctor released at 11:17
+Patient 46's Doctor Consultation was completed at 11:17
+Patient 46 needs to take medication
+Patient 46's Doctor released at 11:17
+Patient 46 with priority 1 was assigned to  a Nurse at 11:17
+Patient 46 was assigned to a Nurse at 11:17
+Patient 52's admission completed at 11:17
+Patient 52's clerk released at 11:17
+Patient 49's nurse  was released at 11:17
+Patient 49 is immediate. Assigning a bed at 11:17
+Patient 55 was assigned a Clerk at 11:17
+Patient 52 was assigned a nurse at at 11:17
+Patient 52 triaged as Green (Standard) priority
+Patient 58 arrived at 11:18
+Patient 58 is waiting for a clerk at 11:18
+Patient 47's Doctor Consultation was completed at 11:19
+Patient 47 needs to do tests
+Patient 47's Doctor released at 11:19
+Patient 47 was assigned to a Nurse at 11:19
+Patient 59 arrived at 11:19
+Patient 59 is waiting for a clerk at 11:19
+Patient 45's Doctor follow up completed at 11:19
+Patient 45 has left the A&E at 11:19
+Patient 45's Doctor released at 11:19
+Patient 60 arrived at 11:19
+Patient 60 is waiting for a clerk at 11:19
+Patient 53's admission completed at 11:19
+Patient 53's clerk released at 11:19
+Patient 50's nurse  was released at 11:19
+Patient 50 is immediate. Assigning a bed at 11:19
+Patient 56 was assigned a Clerk at 11:19
+Patient 53 was assigned a nurse at at 11:19
+Patient 53 triaged as Red (Immediate) priority
+Patient 54's admission completed at 11:20
+Patient 54's clerk released at 11:20
+Patient 51's nurse  was released at 11:20
+Patient 57 was assigned a Clerk at 11:20
+Patient 54 was assigned a nurse at at 11:20
+Patient 54 triaged as Blue (Non-Urgent) priority
+Patient 51 was assigned to a Doctor at 11:20
+Patient 48's treatment completed at 11:20
+Patient 46 finished medication at 11:22
+Patient 46's medication completed at 11:22
+Patient 46's Nurse released at 11:22
+Patient 46 was assigned to a Doctor for a follow up at 11:22
+Patient 55's admission completed at 11:22
+Patient 55's clerk released at 11:22
+Patient 52's nurse  was released at 11:22
+Patient 58 was assigned a Clerk at 11:22
+Patient 55 was assigned a nurse at at 11:22
+Patient 55 triaged as Green (Standard) priority
+Patient 52 was assigned to a Doctor at 11:22
+Patient 47 's tests completed at 11:24
+Patient 47's Nurse released at 11:24
+Patient 47 was assigned to a Doctor for a follow up at 11:24
+Patient 61 arrived at 11:24
+Patient 61 is waiting for a clerk at 11:24
+Patient 56's admission completed at 11:24
+Patient 56's clerk released at 11:24
+Patient 53's nurse  was released at 11:24
+Patient 53 is immediate. Assigning a bed at 11:24
+Patient 59 was assigned a Clerk at 11:24
+Patient 56 was assigned a nurse at at 11:24
+Patient 56 triaged as Green (Standard) priority
+Patient 57's admission completed at 11:25
+Patient 57's clerk released at 11:25
+Patient 54's nurse  was released at 11:25
+Patient 51's Doctor Consultation was completed at 11:25
+Patient 51 needs to be admitted to for hospitilisation or surgery at 11:25
+Patient 60 was assigned a Clerk at 11:25
+Patient 57 was assigned a nurse at at 11:25
+Patient 57 triaged as Blue (Non-Urgent) priority
+Patient 54 was assigned to a Doctor at 11:25
+Patient 48 has left the bed at 11:25
+Patient 49 has been assigned a bed at 11:25
+Patient 48 was assigned to a Doctor for a follow up at 11:25
+Patient 49 was assigned a Nurse at 11:25
+Patient 49 bed set up completed at 11:26 
+Patient 49 was assigned a Doctor assigned at 11:26
+Patient 46's Doctor follow up completed at 11:27
+Patient 46 has left the A&E at 11:27
+Patient 46's Doctor released at 11:27
+Patient 58's admission completed at 11:27
+Patient 58's clerk released at 11:27
+Patient 55's nurse  was released at 11:27
+Patient 52's Doctor Consultation was completed at 11:27
+Patient 52 needs to do tests
+Patient 52's Doctor released at 11:27
+Patient 52 was assigned to a Nurse at 11:27
+Patient 61 was assigned a Clerk at 11:27
+Patient 58 was assigned a nurse at at 11:27
+Patient 58 triaged as Blue (Non-Urgent) priority
+Patient 55 was assigned to a Doctor at 11:27
+Patient 62 arrived at 11:29
+Patient 62 is waiting for a clerk at 11:29
+Patient 47's Doctor follow up completed at 11:29
+Patient 47 has left the A&E at 11:29
+Patient 47's Doctor released at 11:29
+Patient 59's admission completed at 11:29
+Patient 59's clerk released at 11:29
+Patient 56's nurse  was released at 11:29
+Patient 62 was assigned a Clerk at 11:29
+Patient 59 was assigned a nurse at at 11:29
+Patient 59 triaged as Red (Immediate) priority
+Patient 56 was assigned to a Doctor at 11:29
+Patient 60's admission completed at 11:30
+Patient 60's clerk released at 11:30
+Patient 57's nurse  was released at 11:30
+Patient 54's Doctor Consultation was completed at 11:30
+Patient 54 needs to do tests
+Patient 54's Doctor released at 11:30
+Patient 54 was assigned to a Nurse at 11:30
+Patient 60 was assigned a nurse at at 11:30
+Patient 60 triaged as Red (Immediate) priority
+Patient 57 was assigned to a Doctor at 11:30
+Patient 48's Doctor follow up completed at 11:30
+Patient 48 has left the A&E at 11:30
+Patient 48's Doctor released at 11:30
+Patient 49's treatment completed at 11:31
+Patient 63 arrived at 11:31
+Patient 63 is waiting for a clerk at 11:31
+Patient 63 was assigned a Clerk at 11:31
+Patient 52 's tests completed at 11:32
+Patient 52's Nurse released at 11:32
+Patient 61's admission completed at 11:32
+Patient 61's clerk released at 11:32
+Patient 58's nurse  was released at 11:32
+Patient 55's Doctor Consultation was completed at 11:32
+Patient 55 needs to be admitted to for hospitilisation or surgery at 11:32
+Patient 52 was assigned to a Doctor for a follow up at 11:32
+Patient 61 was assigned a nurse at at 11:32
+Patient 61 triaged as Blue (Non-Urgent) priority
+Patient 58 was assigned to a Doctor at 11:32
+Patient 64 arrived at 11:33
+Patient 64 is waiting for a clerk at 11:33
+Patient 64 was assigned a Clerk at 11:33
+Patient 62's admission completed at 11:34
+Patient 62's clerk released at 11:34
+Patient 59's nurse  was released at 11:34
+Patient 56's Doctor Consultation was completed at 11:34
+Patient 56 needs to be admitted to for hospitilisation or surgery at 11:34
+Patient 59 is immediate. Assigning a bed at 11:34
+Patient 62 was assigned a nurse at at 11:34
+Patient 62 triaged as Blue (Non-Urgent) priority
+Patient 54 's tests completed at 11:35
+Patient 54's Nurse released at 11:35
+Patient 60's nurse  was released at 11:35
+Patient 57's Doctor Consultation was completed at 11:35
+Patient 57 needs to do tests
+Patient 57's Doctor released at 11:35
+Patient 54 was assigned to a Doctor for a follow up at 11:35
+Patient 60 is immediate. Assigning a bed at 11:35
+Patient 57 was assigned to a Nurse at 11:35
+Patient 49 has left the bed at 11:36
+Patient 50 has been assigned a bed at 11:36
+Patient 49 was assigned to a Doctor for a follow up at 11:36
+Patient 50 was assigned a Nurse at 11:36
+Patient 63's admission completed at 11:36
+Patient 63's clerk released at 11:36
+Patient 63 was assigned a nurse at at 11:36
+Patient 63 triaged as Blue (Non-Urgent) priority
+Patient 50 bed set up completed at 11:37 
+Patient 50 was assigned a Doctor assigned at 11:37
+Patient 52's Doctor follow up completed at 11:37
+Patient 52 has left the A&E at 11:37
+Patient 52's Doctor released at 11:37
+Patient 61's nurse  was released at 11:37
+Patient 58's Doctor Consultation was completed at 11:37
+Patient 58 needs to do tests
+Patient 58's Doctor released at 11:37
+Patient 58 was assigned to a Nurse at 11:37
+Patient 61 was assigned to a Doctor at 11:37
+Patient 64's admission completed at 11:38
+Patient 64's clerk released at 11:38
+Patient 64 was assigned a nurse at at 11:38
+Patient 64 triaged as Blue (Non-Urgent) priority
+Patient 62's nurse  was released at 11:39
+Patient 62 was assigned to a Doctor at 11:39
+Patient 54's Doctor follow up completed at 11:40
+Patient 54 has left the A&E at 11:40
+Patient 54's Doctor released at 11:40
+Patient 57 's tests completed at 11:40
+Patient 57's Nurse released at 11:40
+Patient 57 was assigned to a Doctor for a follow up at 11:40
+Patient 49's Doctor follow up completed at 11:41
+Patient 49 has left the A&E at 11:41
+Patient 49's Doctor released at 11:41
+Patient 63's nurse  was released at 11:41
+Patient 63 was assigned to a Doctor at 11:41
+Patient 50's treatment completed at 11:42
+Patient 58 's tests completed at 11:42
+Patient 58's Nurse released at 11:42
+Patient 61's Doctor Consultation was completed at 11:42
+Patient 61 needs to do tests
+Patient 61's Doctor released at 11:42
+Patient 58 was assigned to a Doctor for a follow up at 11:42
+Patient 61 was assigned to a Nurse at 11:42
+Patient 64's nurse  was released at 11:43
+Patient 64 was assigned to a Doctor at 11:43
+Patient 62's Doctor Consultation was completed at 11:44
+Patient 62 is discharged at 11:44
+Patient 62's Doctor released at 11:44
+Patient 65 arrived at 11:45
+Patient 65 is waiting for a clerk at 11:45
+Patient 65 was assigned a Clerk at 11:45
+Patient 57's Doctor follow up completed at 11:45
+Patient 57 has left the A&E at 11:45
+Patient 57's Doctor released at 11:45
+Patient 63's Doctor Consultation was completed at 11:46
+Patient 63 needs to do tests
+Patient 63's Doctor released at 11:46
+Patient 63 was assigned to a Nurse at 11:46
+Patient 66 arrived at 11:47
+Patient 66 is waiting for a clerk at 11:47
+Patient 66 was assigned a Clerk at 11:47
+Patient 50 has left the bed at 11:47
+Patient 53 has been assigned a bed at 11:47
+Patient 50 was assigned to a Doctor for a follow up at 11:47
+Patient 53 was assigned a Nurse at 11:47
+Patient 58's Doctor follow up completed at 11:47
+Patient 58 has left the A&E at 11:47
+Patient 58's Doctor released at 11:47
+Patient 61 's tests completed at 11:47
+Patient 61's Nurse released at 11:47
+Patient 61 was assigned to a Doctor for a follow up at 11:47
+Patient 53 bed set up completed at 11:48 
+Patient 53 was assigned a Doctor assigned at 11:48
+Patient 64's Doctor Consultation was completed at 11:48
+Patient 64 needs to be admitted to for hospitilisation or surgery at 11:48
+Patient 65's admission completed at 11:50
+Patient 65's clerk released at 11:50
+Patient 65 was assigned a nurse at at 11:50
+Patient 65 triaged as Green (Standard) priority
+Patient 63 's tests completed at 11:51
+Patient 63's Nurse released at 11:51
+Patient 63 was assigned to a Doctor for a follow up at 11:51
+Patient 66's admission completed at 11:52
+Patient 66's clerk released at 11:52
+Patient 66 was assigned a nurse at at 11:52
+Patient 66 triaged as Blue (Non-Urgent) priority
+Patient 50's Doctor follow up completed at 11:52
+Patient 50 has left the A&E at 11:52
+Patient 50's Doctor released at 11:52
+Patient 61's Doctor follow up completed at 11:52
+Patient 61 has left the A&E at 11:52
+Patient 61's Doctor released at 11:52
+Patient 53's treatment completed at 11:53
+Patient 65's nurse  was released at 11:55
+Patient 65 was assigned to a Doctor at 11:55
+Patient 63's Doctor follow up completed at 11:56
+Patient 63 has left the A&E at 11:56
+Patient 63's Doctor released at 11:56
+Patient 66's nurse  was released at 11:57
+Patient 66 was assigned to a Doctor at 11:57
+Patient 67 arrived at 11:57
+Patient 67 is waiting for a clerk at 11:57
+Patient 67 was assigned a Clerk at 11:57
+Patient 53 has left the bed at 11:58
+Patient 51 has been assigned a bed at 11:58
+Patient 53 was assigned to a Doctor for a follow up at 11:58
+Patient 51 was assigned a Nurse at 11:58
+Patient 51 bed set up completed at 11:59 
+Patient 51 was assigned a Doctor assigned at 11:59
+Patient 68 arrived at 11:59
+Patient 68 is waiting for a clerk at 11:59
+Patient 68 was assigned a Clerk at 11:59
+Patient 65's Doctor Consultation was completed at 12:00
+Patient 65 is discharged at 12:00
+Patient 65's Doctor released at 12:00
+Patient 69 arrived at 12:01
+Patient 69 is waiting for a clerk at 12:01
+Patient 69 was assigned a Clerk at 12:01
+Patient 66's Doctor Consultation was completed at 12:02
+Patient 66 is discharged at 12:02
+Patient 66's Doctor released at 12:02
+Patient 67's admission completed at 12:02
+Patient 67's clerk released at 12:02
+Patient 67 was assigned a nurse at at 12:02
+Patient 67 triaged as Red (Immediate) priority
+Patient 53's Doctor follow up completed at 12:03
+Patient 53 has left the A&E at 12:03
+Patient 53's Doctor released at 12:03
+Patient 70 arrived at 12:04
+Patient 70 is waiting for a clerk at 12:04
+Patient 70 was assigned a Clerk at 12:04
+Patient 51's treatment completed at 12:04
+Patient 68's admission completed at 12:04
+Patient 68's clerk released at 12:04
+Patient 68 was assigned a nurse at at 12:04
+Patient 68 triaged as Red (Immediate) priority
+Patient 71 arrived at 12:05
+Patient 71 is waiting for a clerk at 12:05
+Patient 71 was assigned a Clerk at 12:05
+Patient 69's admission completed at 12:06
+Patient 69's clerk released at 12:06
+Patient 69 was assigned a nurse at at 12:06
+Patient 69 triaged as Blue (Non-Urgent) priority
+Patient 67's nurse  was released at 12:07
+Patient 67 is immediate. Assigning a bed at 12:07
+Patient 70's admission completed at 12:09
+Patient 70's clerk released at 12:09
+Patient 70 was assigned a nurse at at 12:09
+Patient 70 triaged as Red (Immediate) priority
+Patient 51 has left the bed at 12:09
+Patient 55 has been assigned a bed at 12:09
+Patient 55 was assigned a Nurse at 12:09
+Patient 68's nurse  was released at 12:09
+Patient 68 is immediate. Assigning a bed at 12:09
+Patient 72 arrived at 12:10
+Patient 72 is waiting for a clerk at 12:10
+Patient 72 was assigned a Clerk at 12:10
+Patient 55 bed set up completed at 12:10 
+Patient 55 was assigned a Doctor assigned at 12:10
+Patient 71's admission completed at 12:10
+Patient 71's clerk released at 12:10
+Patient 71 was assigned a nurse at at 12:10
+Patient 71 triaged as Green (Standard) priority
+Patient 69's nurse  was released at 12:11
+Patient 69 was assigned to a Doctor at 12:11
+Patient 73 arrived at 12:13
+Patient 73 is waiting for a clerk at 12:13
+Patient 73 was assigned a Clerk at 12:13
+Patient 70's nurse  was released at 12:14
+Patient 70 is immediate. Assigning a bed at 12:14
+Patient 72's admission completed at 12:15
+Patient 72's clerk released at 12:15
+Patient 72 was assigned a nurse at at 12:15
+Patient 72 triaged as Red (Immediate) priority
+Patient 55's treatment completed at 12:15
+Patient 71's nurse  was released at 12:15
+Patient 71 was assigned to a Doctor at 12:15
+Patient 69's Doctor Consultation was completed at 12:16
+Patient 69 is discharged at 12:16
+Patient 69's Doctor released at 12:16
+Patient 73's admission completed at 12:18
+Patient 73's clerk released at 12:18
+Patient 73 was assigned a nurse at at 12:18
+Patient 73 triaged as Green (Standard) priority
+Patient 74 arrived at 12:19
+Patient 74 is waiting for a clerk at 12:19
+Patient 74 was assigned a Clerk at 12:19
+Patient 72's nurse  was released at 12:20
+Patient 72 is immediate. Assigning a bed at 12:20
+Patient 55 has left the bed at 12:20
+Patient 56 has been assigned a bed at 12:20
+Patient 56 was assigned a Nurse at 12:20
+Patient 71's Doctor Consultation was completed at 12:20
+Patient 71 needs to do tests
+Patient 71's Doctor released at 12:20
+Patient 71 was assigned to a Nurse at 12:20
+Patient 56 bed set up completed at 12:21 
+Patient 56 was assigned a Doctor assigned at 12:21
+Patient 75 arrived at 12:23
+Patient 75 is waiting for a clerk at 12:23
+Patient 75 was assigned a Clerk at 12:23
+Patient 73's nurse  was released at 12:23
+Patient 73 was assigned to a Doctor at 12:23
+Patient 76 arrived at 12:23
+Patient 76 is waiting for a clerk at 12:23
+Patient 76 was assigned a Clerk at 12:23
+Patient 77 arrived at 12:23
+Patient 77 is waiting for a clerk at 12:23
+Patient 74's admission completed at 12:24
+Patient 74's clerk released at 12:24
+Patient 77 was assigned a Clerk at 12:24
+Patient 74 was assigned a nurse at at 12:24
+Patient 74 triaged as Blue (Non-Urgent) priority
+Patient 78 arrived at 12:25
+Patient 78 is waiting for a clerk at 12:25
+Patient 71 's tests completed at 12:25
+Patient 71's Nurse released at 12:25
+Patient 71 was assigned to a Doctor for a follow up at 12:25
+Patient 56's treatment completed at 12:26
+Patient 75's admission completed at 12:28
+Patient 75's clerk released at 12:28
+Patient 78 was assigned a Clerk at 12:28
+Patient 75 was assigned a nurse at at 12:28
+Patient 75 triaged as Blue (Non-Urgent) priority
+Patient 73's Doctor Consultation was completed at 12:28
+Patient 73 needs to do tests
+Patient 73's Doctor released at 12:28
+Patient 73 was assigned to a Nurse at 12:28
+Patient 76's admission completed at 12:28
+Patient 76's clerk released at 12:28
+Patient 76 was assigned a nurse at at 12:28
+Patient 76 triaged as Blue (Non-Urgent) priority
+Patient 77's admission completed at 12:29
+Patient 77's clerk released at 12:29
+Patient 74's nurse  was released at 12:29
+Patient 77 was assigned a nurse at at 12:29
+Patient 77 triaged as Red (Immediate) priority
+Patient 74 was assigned to a Doctor at 12:29
+Patient 71's Doctor follow up completed at 12:30
+Patient 71 has left the A&E at 12:30
+Patient 71's Doctor released at 12:30
+Patient 56 has left the bed at 12:31
+Patient 59 has been assigned a bed at 12:31
+Patient 59 was assigned a Nurse at 12:31
+Patient 79 arrived at 12:31
+Patient 79 is waiting for a clerk at 12:31
+Patient 79 was assigned a Clerk at 12:31
+Patient 59 bed set up completed at 12:32 
+Patient 59 was assigned a Doctor assigned at 12:32
+Patient 78's admission completed at 12:33
+Patient 78's clerk released at 12:33
+Patient 75's nurse  was released at 12:33
+Patient 78 was assigned a nurse at at 12:33
+Patient 78 triaged as Blue (Non-Urgent) priority
+Patient 75 was assigned to a Doctor at 12:33
+Patient 73 's tests completed at 12:33
+Patient 73's Nurse released at 12:33
+Patient 73 was assigned to a Doctor for a follow up at 12:33
+Patient 76's nurse  was released at 12:33
+Patient 80 arrived at 12:34
+Patient 80 is waiting for a clerk at 12:34
+Patient 80 was assigned a Clerk at 12:34
+Patient 77's nurse  was released at 12:34
+Patient 74's Doctor Consultation was completed at 12:34
+Patient 74 is discharged at 12:34
+Patient 74's Doctor released at 12:34
+Patient 77 is immediate. Assigning a bed at 12:34
+Patient 76 was assigned to a Doctor at 12:34
+Patient 79's admission completed at 12:36
+Patient 79's clerk released at 12:36
+Patient 79 was assigned a nurse at at 12:36
+Patient 79 triaged as Blue (Non-Urgent) priority
+Patient 59's treatment completed at 12:37
+Patient 78's nurse  was released at 12:38
+Patient 75's Doctor Consultation was completed at 12:38
+Patient 75 needs to take medication
+Patient 75's Doctor released at 12:38
+Patient 75 with priority 4 was assigned to  a Nurse at 12:38
+Patient 75 was assigned to a Nurse at 12:38
+Patient 78 was assigned to a Doctor at 12:38
+Patient 73's Doctor follow up completed at 12:38
+Patient 73 has left the A&E at 12:38
+Patient 73's Doctor released at 12:38
+Patient 81 arrived at 12:38
+Patient 81 is waiting for a clerk at 12:38
+Patient 81 was assigned a Clerk at 12:38
+Patient 80's admission completed at 12:39
+Patient 80's clerk released at 12:39
+Patient 80 was assigned a nurse at at 12:39
+Patient 80 triaged as Red (Immediate) priority
+Patient 76's Doctor Consultation was completed at 12:39
+Patient 76 needs to take medication
+Patient 76's Doctor released at 12:39
+Patient 76 with priority 4 was assigned to  a Nurse at 12:39
+Patient 76 was assigned to a Nurse at 12:39
+Patient 82 arrived at 12:39
+Patient 82 is waiting for a clerk at 12:39
+Patient 82 was assigned a Clerk at 12:39
+Patient 79's nurse  was released at 12:41
+Patient 79 was assigned to a Doctor at 12:41
+Patient 59 has left the bed at 12:42
+Patient 60 has been assigned a bed at 12:42
+Patient 59 was assigned to a Doctor for a follow up at 12:42
+Patient 60 was assigned a Nurse at 12:42
+Patient 75 finished medication at 12:43
+Patient 75's medication completed at 12:43
+Patient 75's Nurse released at 12:43
+Patient 78's Doctor Consultation was completed at 12:43
+Patient 78 needs to be admitted to for hospitilisation or surgery at 12:43
+Patient 75 was assigned to a Doctor for a follow up at 12:43
+Patient 83 arrived at 12:43
+Patient 83 is waiting for a clerk at 12:43
+Patient 83 was assigned a Clerk at 12:43
+Patient 60 bed set up completed at 12:43 
+Patient 81's admission completed at 12:43
+Patient 81's clerk released at 12:43
+Patient 81 was assigned a nurse at at 12:43
+Patient 81 triaged as Green (Standard) priority
+Patient 84 arrived at 12:43
+Patient 84 is waiting for a clerk at 12:43
+Patient 84 was assigned a Clerk at 12:43
+Patient 80's nurse  was released at 12:44
+Patient 80 is immediate. Assigning a bed at 12:44
+Patient 76 finished medication at 12:44
+Patient 76's medication completed at 12:44
+Patient 76's Nurse released at 12:44
+Patient 82's admission completed at 12:44
+Patient 82's clerk released at 12:44
+Patient 82 was assigned a nurse at at 12:44
+Patient 82 triaged as Blue (Non-Urgent) priority
+Patient 85 arrived at 12:45
+Patient 85 is waiting for a clerk at 12:45
+Patient 85 was assigned a Clerk at 12:45
+Patient 86 arrived at 12:46
+Patient 86 is waiting for a clerk at 12:46
+Patient 79's Doctor Consultation was completed at 12:46
+Patient 79 needs to do tests
+Patient 79's Doctor released at 12:46
+Patient 79 was assigned to a Nurse at 12:46
+Patient 60 was assigned a Doctor assigned at 12:46
+Patient 59's Doctor follow up completed at 12:47
+Patient 59 has left the A&E at 12:47
+Patient 59's Doctor released at 12:47
+Patient 76 was assigned to a Doctor for a follow up at 12:47
+Patient 75's Doctor follow up completed at 12:48
+Patient 75 has left the A&E at 12:48
+Patient 75's Doctor released at 12:48
+Patient 83's admission completed at 12:48
+Patient 83's clerk released at 12:48
+Patient 86 was assigned a Clerk at 12:48
+Patient 83 was assigned a nurse at at 12:48
+Patient 83 triaged as Green (Standard) priority
+Patient 81's nurse  was released at 12:48
+Patient 81 was assigned to a Doctor at 12:48
+Patient 84's admission completed at 12:48
+Patient 84's clerk released at 12:48
+Patient 84 was assigned a nurse at at 12:48
+Patient 84 triaged as Blue (Non-Urgent) priority
+Patient 82's nurse  was released at 12:49
+Patient 87 arrived at 12:49
+Patient 87 is waiting for a clerk at 12:49
+Patient 87 was assigned a Clerk at 12:49
+Patient 85's admission completed at 12:50
+Patient 85's clerk released at 12:50
+Patient 85 was assigned a nurse at at 12:50
+Patient 85 triaged as Blue (Non-Urgent) priority
+Patient 79 's tests completed at 12:51
+Patient 79's Nurse released at 12:51
+Patient 60's treatment completed at 12:51
+Patient 82 was assigned to a Doctor at 12:51
+Patient 88 arrived at 12:52
+Patient 88 is waiting for a clerk at 12:52
+Patient 88 was assigned a Clerk at 12:52
+Patient 76's Doctor follow up completed at 12:52
+Patient 76 has left the A&E at 12:52
+Patient 76's Doctor released at 12:52
+Patient 79 was assigned to a Doctor for a follow up at 12:52
+Patient 86's admission completed at 12:53
+Patient 86's clerk released at 12:53
+Patient 83's nurse  was released at 12:53
+Patient 86 was assigned a nurse at at 12:53
+Patient 86 triaged as Blue (Non-Urgent) priority
+Patient 81's Doctor Consultation was completed at 12:53
+Patient 81 needs to be admitted to for hospitilisation or surgery at 12:53
+Patient 84's nurse  was released at 12:53
+Patient 89 arrived at 12:54
+Patient 89 is waiting for a clerk at 12:54
+Patient 89 was assigned a Clerk at 12:54
+Patient 90 arrived at 12:54
+Patient 90 is waiting for a clerk at 12:54
+Patient 91 arrived at 12:54
+Patient 91 is waiting for a clerk at 12:54
+Patient 87's admission completed at 12:54
+Patient 87's clerk released at 12:54
+Patient 90 was assigned a Clerk at 12:54
+Patient 87 was assigned a nurse at at 12:54
+Patient 87 triaged as Green (Standard) priority
+Patient 85's nurse  was released at 12:55
+Patient 60 has left the bed at 12:56
+Patient 82's Doctor Consultation was completed at 12:56
+Patient 82 is discharged at 12:56
+Patient 82's Doctor released at 12:56
+Patient 64 has been assigned a bed at 12:56
+Patient 60 was assigned to a Doctor for a follow up at 12:56
+Patient 64 was assigned a Nurse at 12:56
+Patient 88's admission completed at 12:57
+Patient 88's clerk released at 12:57
+Patient 91 was assigned a Clerk at 12:57
+Patient 88 was assigned a nurse at at 12:57
+Patient 88 triaged as Blue (Non-Urgent) priority
+Patient 79's Doctor follow up completed at 12:57
+Patient 79 has left the A&E at 12:57
+Patient 79's Doctor released at 12:57
+Patient 83 was assigned to a Doctor at 12:57
+Patient 64 bed set up completed at 12:57 
+Patient 86's nurse  was released at 12:58
+Patient 89's admission completed at 12:59
+Patient 89's clerk released at 12:59
+Patient 89 was assigned a nurse at at 12:59
+Patient 89 triaged as Red (Immediate) priority
+Patient 90's admission completed at 12:59
+Patient 90's clerk released at 12:59
+Patient 87's nurse  was released at 12:59
+Patient 90 was assigned a nurse at at 12:59
+Patient 90 triaged as Red (Immediate) priority
+Patient 60's Doctor follow up completed at 13:01
+Patient 60 has left the A&E at 13:01
+Patient 60's Doctor released at 13:01
+Patient 64 was assigned a Doctor assigned at 13:01
+Patient 92 arrived at 13:02
+Patient 92 is waiting for a clerk at 13:02
+Patient 92 was assigned a Clerk at 13:02
+Patient 91's admission completed at 13:02
+Patient 91's clerk released at 13:02
+Patient 88's nurse  was released at 13:02
+Patient 91 was assigned a nurse at at 13:02
+Patient 91 triaged as Blue (Non-Urgent) priority
+Patient 93 arrived at 13:02
+Patient 93 is waiting for a clerk at 13:02
+Patient 93 was assigned a Clerk at 13:02
+Patient 83's Doctor Consultation was completed at 13:02
+Patient 83 needs to take medication
+Patient 83's Doctor released at 13:02
+Patient 83 with priority 3 was assigned to  a Nurse at 13:02
+Patient 83 was assigned to a Nurse at 13:02
+Patient 87 was assigned to a Doctor at 13:02
+Patient 89's nurse  was released at 13:04
+Patient 89 is immediate. Assigning a bed at 13:04
+Patient 90's nurse  was released at 13:04
+Patient 90 is immediate. Assigning a bed at 13:04
+Patient 94 arrived at 13:06
+Patient 94 is waiting for a clerk at 13:06
+Patient 94 was assigned a Clerk at 13:06
+Patient 64's treatment completed at 13:06
+Patient 84 was assigned to a Doctor at 13:06
+Patient 92's admission completed at 13:07
+Patient 92's clerk released at 13:07
+Patient 92 was assigned a nurse at at 13:07
+Patient 92 triaged as Red (Immediate) priority
+Patient 91's nurse  was released at 13:07
+Patient 93's admission completed at 13:07
+Patient 93's clerk released at 13:07
+Patient 93 was assigned a nurse at at 13:07
+Patient 93 triaged as Green (Standard) priority
+Patient 83 finished medication at 13:07
+Patient 83's medication completed at 13:07
+Patient 83's Nurse released at 13:07
+Patient 87's Doctor Consultation was completed at 13:07
+Patient 87 needs to take medication
+Patient 87's Doctor released at 13:07
+Patient 87 with priority 3 was assigned to  a Nurse at 13:07
+Patient 87 was assigned to a Nurse at 13:07
+Patient 83 was assigned to a Doctor for a follow up at 13:07
+Patient 95 arrived at 13:07
+Patient 95 is waiting for a clerk at 13:07
+Patient 95 was assigned a Clerk at 13:07
+Patient 96 arrived at 13:08
+Patient 96 is waiting for a clerk at 13:08
+Patient 96 was assigned a Clerk at 13:08
+Patient 97 arrived at 13:10
+Patient 97 is waiting for a clerk at 13:10
+Patient 94's admission completed at 13:11
+Patient 94's clerk released at 13:11
+Patient 97 was assigned a Clerk at 13:11
+Patient 94 was assigned a nurse at at 13:11
+Patient 94 triaged as Blue (Non-Urgent) priority
+Patient 64 has left the bed at 13:11
+Patient 84's Doctor Consultation was completed at 13:11
+Patient 84 is discharged at 13:11
+Patient 84's Doctor released at 13:11
+Patient 67 has been assigned a bed at 13:11
+Patient 85 was assigned to a Doctor at 13:11
+Patient 67 was assigned a Nurse at 13:11
+Patient 92's nurse  was released at 13:12
+Patient 92 is immediate. Assigning a bed at 13:12
+Patient 93's nurse  was released at 13:12
+Patient 87 finished medication at 13:12
+Patient 87's medication completed at 13:12
+Patient 87's Nurse released at 13:12
+Patient 83's Doctor follow up completed at 13:12
+Patient 83 has left the A&E at 13:12
+Patient 83's Doctor released at 13:12
+Patient 93 was assigned to a Doctor at 13:12
+Patient 67 bed set up completed at 13:12 
+Patient 95's admission completed at 13:12
+Patient 95's clerk released at 13:12
+Patient 95 was assigned a nurse at at 13:12
+Patient 95 triaged as Red (Immediate) priority
+Patient 96's admission completed at 13:13
+Patient 96's clerk released at 13:13
+Patient 96 was assigned a nurse at at 13:13
+Patient 96 triaged as Blue (Non-Urgent) priority
+Patient 98 arrived at 13:14
+Patient 98 is waiting for a clerk at 13:14
+Patient 98 was assigned a Clerk at 13:14
+Patient 99 arrived at 13:15
+Patient 99 is waiting for a clerk at 13:15
+Patient 99 was assigned a Clerk at 13:15
+Patient 97's admission completed at 13:16
+Patient 97's clerk released at 13:16
+Patient 94's nurse  was released at 13:16
+Patient 97 was assigned a nurse at at 13:16
+Patient 97 triaged as Red (Immediate) priority
+Patient 85's Doctor Consultation was completed at 13:16
+Patient 85 needs to do tests
+Patient 85's Doctor released at 13:16
+Patient 85 was assigned to a Nurse at 13:16
+Patient 67 was assigned a Doctor assigned at 13:16
+Patient 93's Doctor Consultation was completed at 13:17
+Patient 93 needs to do tests
+Patient 93's Doctor released at 13:17
+Patient 93 was assigned to a Nurse at 13:17
+Patient 87 was assigned to a Doctor for a follow up at 13:17
+Patient 95's nurse  was released at 13:17
+Patient 95 is immediate. Assigning a bed at 13:17
+Patient 96's nurse  was released at 13:18
+Patient 98's admission completed at 13:19
+Patient 98's clerk released at 13:19
+Patient 98 was assigned a nurse at at 13:19
+Patient 98 triaged as Green (Standard) priority
+Patient 99's admission completed at 13:20
+Patient 99's clerk released at 13:20
+Patient 99 was assigned a nurse at at 13:20
+Patient 99 triaged as Blue (Non-Urgent) priority
+Patient 100 arrived at 13:20
+Patient 100 is waiting for a clerk at 13:20
+Patient 100 was assigned a Clerk at 13:20
+Patient 97's nurse  was released at 13:21
+Patient 97 is immediate. Assigning a bed at 13:21
+Patient 85 's tests completed at 13:21
+Patient 85's Nurse released at 13:21
+Patient 67's treatment completed at 13:21
+Patient 86 was assigned to a Doctor at 13:21
+Patient 93 's tests completed at 13:22
+Patient 93's Nurse released at 13:22
+Patient 87's Doctor follow up completed at 13:22
+Patient 87 has left the A&E at 13:22
+Patient 87's Doctor released at 13:22
+Patient 93 was assigned to a Doctor for a follow up at 13:22
+Patient 101 arrived at 13:22
+Patient 101 is waiting for a clerk at 13:22
+Patient 101 was assigned a Clerk at 13:22
+Patient 98's nurse  was released at 13:24
+Patient 99's nurse  was released at 13:25
+Patient 100's admission completed at 13:25
+Patient 100's clerk released at 13:25
+Patient 100 was assigned a nurse at at 13:25
+Patient 100 triaged as Red (Immediate) priority
+Patient 102 arrived at 13:26
+Patient 102 is waiting for a clerk at 13:26
+Patient 102 was assigned a Clerk at 13:26
+Patient 67 has left the bed at 13:26
+Patient 86's Doctor Consultation was completed at 13:26
+Patient 86 is discharged at 13:26
+Patient 86's Doctor released at 13:26
+Patient 68 has been assigned a bed at 13:26
+Patient 67 was assigned to a Doctor for a follow up at 13:26
+Patient 68 was assigned a Nurse at 13:26
+Patient 103 arrived at 13:27
+Patient 103 is waiting for a clerk at 13:27
+Patient 103 was assigned a Clerk at 13:27
+Patient 93's Doctor follow up completed at 13:27
+Patient 93 has left the A&E at 13:27
+Patient 93's Doctor released at 13:27
+Patient 98 was assigned to a Doctor at 13:27
+Patient 68 bed set up completed at 13:27 
+Patient 101's admission completed at 13:27
+Patient 101's clerk released at 13:27
+Patient 101 was assigned a nurse at at 13:27
+Patient 101 triaged as Red (Immediate) priority
+Patient 100's nurse  was released at 13:30
+Patient 100 is immediate. Assigning a bed at 13:30
+Patient 102's admission completed at 13:31
+Patient 102's clerk released at 13:31
+Patient 102 was assigned a nurse at at 13:31
+Patient 102 triaged as Blue (Non-Urgent) priority
+Patient 67's Doctor follow up completed at 13:31
+Patient 67 has left the A&E at 13:31
+Patient 67's Doctor released at 13:31
+Patient 68 was assigned a Doctor assigned at 13:31
+Patient 103's admission completed at 13:32
+Patient 103's clerk released at 13:32
+Patient 103 was assigned a nurse at at 13:32
+Patient 103 triaged as Red (Immediate) priority
+Patient 98's Doctor Consultation was completed at 13:32
+Patient 98 needs to be admitted to for hospitilisation or surgery at 13:32
+Patient 101's nurse  was released at 13:32
+Patient 101 is immediate. Assigning a bed at 13:32
+Patient 102's nurse  was released at 13:36
+Patient 68's treatment completed at 13:36
+Patient 88 was assigned to a Doctor at 13:36
+Patient 103's nurse  was released at 13:37
+Patient 103 is immediate. Assigning a bed at 13:37
+Patient 104 arrived at 13:39
+Patient 104 is waiting for a clerk at 13:39
+Patient 104 was assigned a Clerk at 13:39
+Patient 105 arrived at 13:39
+Patient 105 is waiting for a clerk at 13:39
+Patient 105 was assigned a Clerk at 13:39
+Patient 106 arrived at 13:41
+Patient 106 is waiting for a clerk at 13:41
+Patient 106 was assigned a Clerk at 13:41
+Patient 68 has left the bed at 13:41
+Patient 88's Doctor Consultation was completed at 13:41
+Patient 88 needs to do tests
+Patient 88's Doctor released at 13:41
+Patient 88 was assigned to a Nurse at 13:41
+Patient 70 has been assigned a bed at 13:41
+Patient 68 was assigned to a Doctor for a follow up at 13:41
+Patient 70 was assigned a Nurse at 13:41
+Patient 70 bed set up completed at 13:42 
+Patient 107 arrived at 13:42
+Patient 107 is waiting for a clerk at 13:42
+Patient 108 arrived at 13:43
+Patient 108 is waiting for a clerk at 13:43
+Patient 104's admission completed at 13:44
+Patient 104's clerk released at 13:44
+Patient 107 was assigned a Clerk at 13:44
+Patient 104 was assigned a nurse at at 13:44
+Patient 104 triaged as Red (Immediate) priority
+Patient 105's admission completed at 13:44
+Patient 105's clerk released at 13:44
+Patient 108 was assigned a Clerk at 13:44
+Patient 105 was assigned a nurse at at 13:44
+Patient 105 triaged as Blue (Non-Urgent) priority
+Patient 106's admission completed at 13:46
+Patient 106's clerk released at 13:46
+Patient 106 was assigned a nurse at at 13:46
+Patient 106 triaged as Blue (Non-Urgent) priority
+Patient 109 arrived at 13:46
+Patient 109 is waiting for a clerk at 13:46
+Patient 109 was assigned a Clerk at 13:46
+Patient 88 's tests completed at 13:46
+Patient 88's Nurse released at 13:46
+Patient 68's Doctor follow up completed at 13:46
+Patient 68 has left the A&E at 13:46
+Patient 68's Doctor released at 13:46
+Patient 70 was assigned a Doctor assigned at 13:46
+Patient 107's admission completed at 13:49
+Patient 107's clerk released at 13:49
+Patient 104's nurse  was released at 13:49
+Patient 104 is immediate. Assigning a bed at 13:49
+Patient 107 was assigned a nurse at at 13:49
+Patient 107 triaged as Red (Immediate) priority
+Patient 108's admission completed at 13:49
+Patient 108's clerk released at 13:49
+Patient 105's nurse  was released at 13:49
+Patient 108 was assigned a nurse at at 13:49
+Patient 108 triaged as Blue (Non-Urgent) priority
+Patient 106's nurse  was released at 13:51
+Patient 109's admission completed at 13:51
+Patient 109's clerk released at 13:51
+Patient 109 was assigned a nurse at at 13:51
+Patient 109 triaged as Blue (Non-Urgent) priority
+Patient 110 arrived at 13:51
+Patient 110 is waiting for a clerk at 13:51
+Patient 110 was assigned a Clerk at 13:51
+Patient 70's treatment completed at 13:51
+Patient 91 was assigned to a Doctor at 13:51
+Patient 111 arrived at 13:53
+Patient 111 is waiting for a clerk at 13:53
+Patient 111 was assigned a Clerk at 13:53
+Patient 112 arrived at 13:54
+Patient 112 is waiting for a clerk at 13:54
+Patient 112 was assigned a Clerk at 13:54
+Patient 107's nurse  was released at 13:54
+Patient 107 is immediate. Assigning a bed at 13:54
+Patient 113 arrived at 13:54
+Patient 113 is waiting for a clerk at 13:54
+Patient 108's nurse  was released at 13:54
+Patient 109's nurse  was released at 13:56
+Patient 110's admission completed at 13:56
+Patient 110's clerk released at 13:56
+Patient 113 was assigned a Clerk at 13:56
+Patient 110 was assigned a nurse at at 13:56
+Patient 110 triaged as Green (Standard) priority
+Patient 70 has left the bed at 13:56
+Patient 91's Doctor Consultation was completed at 13:56
+Patient 91 needs to do tests
+Patient 91's Doctor released at 13:56
+Patient 91 was assigned to a Nurse at 13:56
+Patient 72 has been assigned a bed at 13:56
+Patient 70 was assigned to a Doctor for a follow up at 13:56
+Patient 72 was assigned a Nurse at 13:56
+Patient 114 arrived at 13:56
+Patient 114 is waiting for a clerk at 13:56
+Patient 72 bed set up completed at 13:57 
+Patient 111's admission completed at 13:58
+Patient 111's clerk released at 13:58
+Patient 114 was assigned a Clerk at 13:58
+Patient 111 was assigned a nurse at at 13:58
+Patient 111 triaged as Blue (Non-Urgent) priority
+Patient 112's admission completed at 13:59
+Patient 112's clerk released at 13:59
+Patient 112 was assigned a nurse at at 13:59
+Patient 112 triaged as Orange (Very Urgent) priority
+Patient 115 arrived at 14:00
+Patient 115 is waiting for a clerk at 14:00
+Patient 115 was assigned a Clerk at 14:00
+Patient 113's admission completed at 14:01
+Patient 113's clerk released at 14:01
+Patient 110's nurse  was released at 14:01
+Patient 113 was assigned a nurse at at 14:01
+Patient 113 triaged as Green (Standard) priority
+Patient 91 's tests completed at 14:01
+Patient 91's Nurse released at 14:01
+Patient 70's Doctor follow up completed at 14:01
+Patient 70 has left the A&E at 14:01
+Patient 70's Doctor released at 14:01
+Patient 72 was assigned a Doctor assigned at 14:01
+Patient 116 arrived at 14:03
+Patient 116 is waiting for a clerk at 14:03
+Patient 116 was assigned a Clerk at 14:03
+Patient 114's admission completed at 14:03
+Patient 114's clerk released at 14:03
+Patient 111's nurse  was released at 14:03
+Patient 114 was assigned a nurse at at 14:03
+Patient 114 triaged as Blue (Non-Urgent) priority
+Patient 117 arrived at 14:03
+Patient 117 is waiting for a clerk at 14:03
+Patient 117 was assigned a Clerk at 14:03
+Patient 118 arrived at 14:04
+Patient 118 is waiting for a clerk at 14:04
+Patient 119 arrived at 14:04
+Patient 119 is waiting for a clerk at 14:04
+Patient 112's nurse  was released at 14:04
+Patient 115's admission completed at 14:05
+Patient 115's clerk released at 14:05
+Patient 118 was assigned a Clerk at 14:05
+Patient 115 was assigned a nurse at at 14:05
+Patient 115 triaged as Blue (Non-Urgent) priority
+Patient 113's nurse  was released at 14:06
+Patient 72's treatment completed at 14:06
+Patient 112 was assigned to a Doctor at 14:06
+Patient 116's admission completed at 14:08
+Patient 116's clerk released at 14:08
+Patient 119 was assigned a Clerk at 14:08
+Patient 116 was assigned a nurse at at 14:08
+Patient 116 triaged as Green (Standard) priority
+Patient 114's nurse  was released at 14:08
+Patient 117's admission completed at 14:08
+Patient 117's clerk released at 14:08
+Patient 117 was assigned a nurse at at 14:08
+Patient 117 triaged as Green (Standard) priority
+Patient 120 arrived at 14:10
+Patient 120 is waiting for a clerk at 14:10
+Patient 120 was assigned a Clerk at 14:10
+Patient 118's admission completed at 14:10
+Patient 118's clerk released at 14:10
+Patient 115's nurse  was released at 14:10
+Patient 118 was assigned a nurse at at 14:10
+Patient 118 triaged as Red (Immediate) priority
+Patient 72 has left the bed at 14:11
+Patient 112's Doctor Consultation was completed at 14:11
+Patient 112 is discharged at 14:11
+Patient 112's Doctor released at 14:11
+Patient 77 has been assigned a bed at 14:11
+Patient 72 was assigned to a Doctor for a follow up at 14:11
+Patient 77 was assigned a Nurse at 14:11
+Patient 77 bed set up completed at 14:12 
+Patient 121 arrived at 14:12
+Patient 121 is waiting for a clerk at 14:12
+Patient 121 was assigned a Clerk at 14:12
+Patient 119's admission completed at 14:13
+Patient 119's clerk released at 14:13
+Patient 116's nurse  was released at 14:13
+Patient 119 was assigned a nurse at at 14:13
+Patient 119 triaged as Green (Standard) priority
+Patient 122 arrived at 14:13
+Patient 122 is waiting for a clerk at 14:13
+Patient 122 was assigned a Clerk at 14:13
+Patient 117's nurse  was released at 14:13
+Patient 120's admission completed at 14:15
+Patient 120's clerk released at 14:15
+Patient 120 was assigned a nurse at at 14:15
+Patient 120 triaged as Blue (Non-Urgent) priority
+Patient 118's nurse  was released at 14:15
+Patient 118 is immediate. Assigning a bed at 14:15
+Patient 123 arrived at 14:15
+Patient 123 is waiting for a clerk at 14:15
+Patient 123 was assigned a Clerk at 14:15
+Patient 72's Doctor follow up completed at 14:16
+Patient 72 has left the A&E at 14:16
+Patient 72's Doctor released at 14:16
+Patient 77 was assigned a Doctor assigned at 14:16
+Patient 121's admission completed at 14:17
+Patient 121's clerk released at 14:17
+Patient 121 was assigned a nurse at at 14:17
+Patient 121 triaged as Red (Immediate) priority
+Patient 119's nurse  was released at 14:18
+Patient 122's admission completed at 14:18
+Patient 122's clerk released at 14:18
+Patient 122 was assigned a nurse at at 14:18
+Patient 122 triaged as Green (Standard) priority
+Patient 120's nurse  was released at 14:20
+Patient 124 arrived at 14:20
+Patient 124 is waiting for a clerk at 14:20
+Patient 124 was assigned a Clerk at 14:20
+Patient 125 arrived at 14:20
+Patient 125 is waiting for a clerk at 14:20
+Patient 125 was assigned a Clerk at 14:20
+Patient 123's admission completed at 14:20
+Patient 123's clerk released at 14:20
+Patient 123 was assigned a nurse at at 14:20
+Patient 123 triaged as Green (Standard) priority
+Patient 77's treatment completed at 14:21
+Patient 110 was assigned to a Doctor at 14:21
+Patient 121's nurse  was released at 14:22
+Patient 121 is immediate. Assigning a bed at 14:22
+Patient 122's nurse  was released at 14:23
+Patient 124's admission completed at 14:25
+Patient 124's clerk released at 14:25
+Patient 124 was assigned a nurse at at 14:25
+Patient 124 triaged as Blue (Non-Urgent) priority
+Patient 125's admission completed at 14:25
+Patient 125's clerk released at 14:25
+Patient 125 was assigned a nurse at at 14:25
+Patient 125 triaged as Red (Immediate) priority
+Patient 123's nurse  was released at 14:25
+Patient 77 has left the bed at 14:26
+Patient 110's Doctor Consultation was completed at 14:26
+Patient 110 needs to do tests
+Patient 110's Doctor released at 14:26
+Patient 110 was assigned to a Nurse at 14:26
+Patient 78 has been assigned a bed at 14:26
+Patient 77 was assigned to a Doctor for a follow up at 14:26
+Patient 78 was assigned a Nurse at 14:26
+Patient 126 arrived at 14:27
+Patient 126 is waiting for a clerk at 14:27
+Patient 126 was assigned a Clerk at 14:27
+Patient 78 bed set up completed at 14:27 
+Patient 124's nurse  was released at 14:30
+Patient 125's nurse  was released at 14:30
+Patient 125 is immediate. Assigning a bed at 14:30
+Patient 110 's tests completed at 14:31
+Patient 110's Nurse released at 14:31
+Patient 77's Doctor follow up completed at 14:31
+Patient 77 has left the A&E at 14:31
+Patient 77's Doctor released at 14:31
+Patient 78 was assigned a Doctor assigned at 14:31
+Patient 126's admission completed at 14:32
+Patient 126's clerk released at 14:32
+Patient 126 was assigned a nurse at at 14:32
+Patient 126 triaged as Green (Standard) priority
+Patient 127 arrived at 14:32
+Patient 127 is waiting for a clerk at 14:32
+Patient 127 was assigned a Clerk at 14:32
+Patient 78's treatment completed at 14:36
+Patient 113 was assigned to a Doctor at 14:36
+Patient 126's nurse  was released at 14:37
+Patient 127's admission completed at 14:37
+Patient 127's clerk released at 14:37
+Patient 127 was assigned a nurse at at 14:37
+Patient 127 triaged as Green (Standard) priority
+Patient 128 arrived at 14:40
+Patient 128 is waiting for a clerk at 14:40
+Patient 128 was assigned a Clerk at 14:40
+Patient 78 has left the bed at 14:41
+Patient 113's Doctor Consultation was completed at 14:41
+Patient 113 is discharged at 14:41
+Patient 113's Doctor released at 14:41
+Patient 80 has been assigned a bed at 14:41
+Patient 116 was assigned to a Doctor at 14:41
+Patient 80 was assigned a Nurse at 14:41
+Patient 80 bed set up completed at 14:42 
+Patient 127's nurse  was released at 14:42
+Patient 128's admission completed at 14:45
+Patient 128's clerk released at 14:45
+Patient 128 was assigned a nurse at at 14:45
+Patient 128 triaged as Green (Standard) priority
+Patient 129 arrived at 14:46
+Patient 129 is waiting for a clerk at 14:46
+Patient 129 was assigned a Clerk at 14:46
+Patient 130 arrived at 14:46
+Patient 130 is waiting for a clerk at 14:46
+Patient 130 was assigned a Clerk at 14:46
+Patient 116's Doctor Consultation was completed at 14:46
+Patient 116 is discharged at 14:46
+Patient 116's Doctor released at 14:46
+Patient 80 was assigned a Doctor assigned at 14:46
+Patient 131 arrived at 14:49
+Patient 131 is waiting for a clerk at 14:49
+Patient 131 was assigned a Clerk at 14:49
+Patient 128's nurse  was released at 14:50
+Patient 129's admission completed at 14:51
+Patient 129's clerk released at 14:51
+Patient 129 was assigned a nurse at at 14:51
+Patient 129 triaged as Green (Standard) priority
+Patient 130's admission completed at 14:51
+Patient 130's clerk released at 14:51
+Patient 130 was assigned a nurse at at 14:51
+Patient 130 triaged as Green (Standard) priority
+Patient 80's treatment completed at 14:51
+Patient 117 was assigned to a Doctor at 14:51
+Patient 132 arrived at 14:52
+Patient 132 is waiting for a clerk at 14:52
+Patient 132 was assigned a Clerk at 14:52
+Patient 133 arrived at 14:53
+Patient 133 is waiting for a clerk at 14:53
+Patient 133 was assigned a Clerk at 14:53
+Patient 131's admission completed at 14:54
+Patient 131's clerk released at 14:54
+Patient 131 was assigned a nurse at at 14:54
+Patient 131 triaged as Green (Standard) priority
+Patient 134 arrived at 14:54
+Patient 134 is waiting for a clerk at 14:54
+Patient 134 was assigned a Clerk at 14:54
+Patient 129's nurse  was released at 14:56
+Patient 130's nurse  was released at 14:56
+Patient 80 has left the bed at 14:56
+Patient 117's Doctor Consultation was completed at 14:56
+Patient 117 is discharged at 14:56
+Patient 117's Doctor released at 14:56
+Patient 81 has been assigned a bed at 14:56
+Patient 80 was assigned to a Doctor for a follow up at 14:56
+Patient 81 was assigned a Nurse at 14:56
+Patient 132's admission completed at 14:57
+Patient 132's clerk released at 14:57
+Patient 132 was assigned a nurse at at 14:57
+Patient 132 triaged as Red (Immediate) priority
+Patient 81 bed set up completed at 14:57 
+Patient 135 arrived at 14:57
+Patient 135 is waiting for a clerk at 14:57
+Patient 135 was assigned a Clerk at 14:57
+Patient 133's admission completed at 14:58
+Patient 133's clerk released at 14:58
+Patient 133 was assigned a nurse at at 14:58
+Patient 133 triaged as Green (Standard) priority
+Patient 131's nurse  was released at 14:59
+Patient 134's admission completed at 14:59
+Patient 134's clerk released at 14:59
+Patient 134 was assigned a nurse at at 14:59
+Patient 134 triaged as Blue (Non-Urgent) priority
+Patient 80's Doctor follow up completed at 15:01
+Patient 80 has left the A&E at 15:01
+Patient 80's Doctor released at 15:01
+Patient 81 was assigned a Doctor assigned at 15:01
+Patient 136 arrived at 15:01
+Patient 136 is waiting for a clerk at 15:01
+Patient 136 was assigned a Clerk at 15:01
+Patient 132's nurse  was released at 15:02
+Patient 132 is immediate. Assigning a bed at 15:02
+Patient 135's admission completed at 15:02
+Patient 135's clerk released at 15:02
+Patient 135 was assigned a nurse at at 15:02
+Patient 135 triaged as Blue (Non-Urgent) priority
+Patient 133's nurse  was released at 15:03
+Patient 134's nurse  was released at 15:04
+Patient 81's treatment completed at 15:06
+Patient 119 was assigned to a Doctor at 15:06
+Patient 136's admission completed at 15:06
+Patient 136's clerk released at 15:06
+Patient 136 was assigned a nurse at at 15:06
+Patient 136 triaged as Red (Immediate) priority
+Patient 135's nurse  was released at 15:07
+Patient 137 arrived at 15:08
+Patient 137 is waiting for a clerk at 15:08
+Patient 137 was assigned a Clerk at 15:08
+Patient 81 has left the bed at 15:11
+Patient 119's Doctor Consultation was completed at 15:11
+Patient 119 is discharged at 15:11
+Patient 119's Doctor released at 15:11
+Patient 89 has been assigned a bed at 15:11
+Patient 122 was assigned to a Doctor at 15:11
+Patient 89 was assigned a Nurse at 15:11
+Patient 136's nurse  was released at 15:11
+Patient 136 is immediate. Assigning a bed at 15:11
+Patient 138 arrived at 15:12
+Patient 138 is waiting for a clerk at 15:12
+Patient 138 was assigned a Clerk at 15:12
+Patient 89 bed set up completed at 15:12 
+Patient 137's admission completed at 15:13
+Patient 137's clerk released at 15:13
+Patient 137 was assigned a nurse at at 15:13
+Patient 137 triaged as Blue (Non-Urgent) priority
+Patient 122's Doctor Consultation was completed at 15:16
+Patient 122 is discharged at 15:16
+Patient 122's Doctor released at 15:16
+Patient 89 was assigned a Doctor assigned at 15:16
+Patient 138's admission completed at 15:17
+Patient 138's clerk released at 15:17
+Patient 138 was assigned a nurse at at 15:17
+Patient 138 triaged as Green (Standard) priority
+Patient 139 arrived at 15:17
+Patient 139 is waiting for a clerk at 15:17
+Patient 139 was assigned a Clerk at 15:17
+Patient 137's nurse  was released at 15:18
+Patient 89's treatment completed at 15:21
+Patient 123 was assigned to a Doctor at 15:21
+Patient 138's nurse  was released at 15:22
+Patient 139's admission completed at 15:22
+Patient 139's clerk released at 15:22
+Patient 139 was assigned a nurse at at 15:22
+Patient 139 triaged as Green (Standard) priority
+Patient 140 arrived at 15:25
+Patient 140 is waiting for a clerk at 15:25
+Patient 140 was assigned a Clerk at 15:25
+Patient 89 has left the bed at 15:26
+Patient 123's Doctor Consultation was completed at 15:26
+Patient 123 needs to be admitted to for hospitilisation or surgery at 15:26
+Patient 90 has been assigned a bed at 15:26
+Patient 90 was assigned a Nurse at 15:26
+Patient 90 bed set up completed at 15:27 
+Patient 141 arrived at 15:27
+Patient 141 is waiting for a clerk at 15:27
+Patient 141 was assigned a Clerk at 15:27
+Patient 139's nurse  was released at 15:27
+Patient 142 arrived at 15:28
+Patient 142 is waiting for a clerk at 15:28
+Patient 142 was assigned a Clerk at 15:28
+Patient 143 arrived at 15:28
+Patient 143 is waiting for a clerk at 15:28
+Patient 140's admission completed at 15:30
+Patient 140's clerk released at 15:30
+Patient 143 was assigned a Clerk at 15:30
+Patient 140 was assigned a nurse at at 15:30
+Patient 140 triaged as Red (Immediate) priority
+Patient 144 arrived at 15:32
+Patient 144 is waiting for a clerk at 15:32
+Patient 141's admission completed at 15:32
+Patient 141's clerk released at 15:32
+Patient 144 was assigned a Clerk at 15:32
+Patient 141 was assigned a nurse at at 15:32
+Patient 141 triaged as Red (Immediate) priority
+Patient 142's admission completed at 15:33
+Patient 142's clerk released at 15:33
+Patient 142 was assigned a nurse at at 15:33
+Patient 142 triaged as Blue (Non-Urgent) priority
+Patient 145 arrived at 15:34
+Patient 145 is waiting for a clerk at 15:34
+Patient 145 was assigned a Clerk at 15:34
+Patient 146 arrived at 15:35
+Patient 146 is waiting for a clerk at 15:35
+Patient 147 arrived at 15:35
+Patient 147 is waiting for a clerk at 15:35
+Patient 143's admission completed at 15:35
+Patient 143's clerk released at 15:35
+Patient 140's nurse  was released at 15:35
+Patient 140 is immediate. Assigning a bed at 15:35
+Patient 146 was assigned a Clerk at 15:35
+Patient 143 was assigned a nurse at at 15:35
+Patient 143 triaged as Blue (Non-Urgent) priority
+Patient 148 arrived at 15:37
+Patient 148 is waiting for a clerk at 15:37
+Patient 144's admission completed at 15:37
+Patient 144's clerk released at 15:37
+Patient 141's nurse  was released at 15:37
+Patient 141 is immediate. Assigning a bed at 15:37
+Patient 147 was assigned a Clerk at 15:37
+Patient 144 was assigned a nurse at at 15:37
+Patient 144 triaged as Orange (Very Urgent) priority
+Patient 142's nurse  was released at 15:38
+Patient 145's admission completed at 15:39
+Patient 145's clerk released at 15:39
+Patient 148 was assigned a Clerk at 15:39
+Patient 145 was assigned a nurse at at 15:39
+Patient 145 triaged as Blue (Non-Urgent) priority
+Patient 149 arrived at 15:39
+Patient 149 is waiting for a clerk at 15:39
+Patient 146's admission completed at 15:40
+Patient 146's clerk released at 15:40
+Patient 143's nurse  was released at 15:40
+Patient 149 was assigned a Clerk at 15:40
+Patient 146 was assigned a nurse at at 15:40
+Patient 146 triaged as Blue (Non-Urgent) priority
+Patient 147's admission completed at 15:42
+Patient 147's clerk released at 15:42
+Patient 144's nurse  was released at 15:42
+Patient 147 was assigned a nurse at at 15:42
+Patient 147 triaged as Blue (Non-Urgent) priority
+Patient 150 arrived at 15:44
+Patient 150 is waiting for a clerk at 15:44
+Patient 150 was assigned a Clerk at 15:44
+Patient 148's admission completed at 15:44
+Patient 148's clerk released at 15:44
+Patient 145's nurse  was released at 15:44
+Patient 148 was assigned a nurse at at 15:44
+Patient 148 triaged as Yellow (Urgent) priority
+Patient 149's admission completed at 15:45
+Patient 149's clerk released at 15:45
+Patient 146's nurse  was released at 15:45
+Patient 149 was assigned a nurse at at 15:45
+Patient 149 triaged as Green (Standard) priority
+Patient 147's nurse  was released at 15:47
+Patient 150's admission completed at 15:49
+Patient 150's clerk released at 15:49
+Patient 150 was assigned a nurse at at 15:49
+Patient 150 triaged as Blue (Non-Urgent) priority
+Patient 148's nurse  was released at 15:49
+Patient 149's nurse  was released at 15:50
+Patient 151 arrived at 15:51
+Patient 151 is waiting for a clerk at 15:51
+Patient 151 was assigned a Clerk at 15:51
+Patient 152 arrived at 15:52
+Patient 152 is waiting for a clerk at 15:52
+Patient 152 was assigned a Clerk at 15:52
+Patient 153 arrived at 15:53
+Patient 153 is waiting for a clerk at 15:53
+Patient 153 was assigned a Clerk at 15:53
+Patient 150's nurse  was released at 15:54
+Patient 154 arrived at 15:54
+Patient 154 is waiting for a clerk at 15:54
+Patient 155 arrived at 15:55
+Patient 155 is waiting for a clerk at 15:55
+Patient 151's admission completed at 15:56
+Patient 151's clerk released at 15:56
+Patient 154 was assigned a Clerk at 15:56
+Patient 151 was assigned a nurse at at 15:56
+Patient 151 triaged as Red (Immediate) priority
+Patient 152's admission completed at 15:57
+Patient 152's clerk released at 15:57
+Patient 155 was assigned a Clerk at 15:57
+Patient 152 was assigned a nurse at at 15:57
+Patient 152 triaged as Red (Immediate) priority
+Patient 156 arrived at 15:58
+Patient 156 is waiting for a clerk at 15:58
+Patient 153's admission completed at 15:58
+Patient 153's clerk released at 15:58
+Patient 156 was assigned a Clerk at 15:58
+Patient 153 was assigned a nurse at at 15:58
+Patient 153 triaged as Green (Standard) priority
+Patient 157 arrived at 16:00
+Patient 157 is waiting for a clerk at 16:00
+Patient 154's admission completed at 16:01
+Patient 154's clerk released at 16:01
+Patient 151's nurse  was released at 16:01
+Patient 151 is immediate. Assigning a bed at 16:01
+Patient 157 was assigned a Clerk at 16:01
+Patient 154 was assigned a nurse at at 16:01
+Patient 154 triaged as Blue (Non-Urgent) priority
+Patient 155's admission completed at 16:02
+Patient 155's clerk released at 16:02
+Patient 152's nurse  was released at 16:02
+Patient 152 is immediate. Assigning a bed at 16:02
+Patient 155 was assigned a nurse at at 16:02
+Patient 155 triaged as Blue (Non-Urgent) priority
+Patient 156's admission completed at 16:03
+Patient 156's clerk released at 16:03
+Patient 153's nurse  was released at 16:03
+Patient 156 was assigned a nurse at at 16:03
+Patient 156 triaged as Red (Immediate) priority
+Patient 157's admission completed at 16:06
+Patient 157's clerk released at 16:06
+Patient 154's nurse  was released at 16:06
+Patient 157 was assigned a nurse at at 16:06
+Patient 157 triaged as Green (Standard) priority
+Patient 155's nurse  was released at 16:07
+Patient 156's nurse  was released at 16:08
+Patient 156 is immediate. Assigning a bed at 16:08
+Patient 158 arrived at 16:08
+Patient 158 is waiting for a clerk at 16:08
+Patient 158 was assigned a Clerk at 16:08
+Patient 159 arrived at 16:09
+Patient 159 is waiting for a clerk at 16:09
+Patient 159 was assigned a Clerk at 16:09
+Patient 160 arrived at 16:11
+Patient 160 is waiting for a clerk at 16:11
+Patient 160 was assigned a Clerk at 16:11
+Patient 157's nurse  was released at 16:11
+Patient 161 arrived at 16:11
+Patient 161 is waiting for a clerk at 16:11
+Patient 162 arrived at 16:12
+Patient 162 is waiting for a clerk at 16:12
+Patient 158's admission completed at 16:13
+Patient 158's clerk released at 16:13
+Patient 161 was assigned a Clerk at 16:13
+Patient 158 was assigned a nurse at at 16:13
+Patient 158 triaged as Blue (Non-Urgent) priority
+Patient 159's admission completed at 16:14
+Patient 159's clerk released at 16:14
+Patient 162 was assigned a Clerk at 16:14
+Patient 159 was assigned a nurse at at 16:14
+Patient 159 triaged as Red (Immediate) priority
+Patient 160's admission completed at 16:16
+Patient 160's clerk released at 16:16
+Patient 160 was assigned a nurse at at 16:16
+Patient 160 triaged as Red (Immediate) priority
+Patient 163 arrived at 16:17
+Patient 163 is waiting for a clerk at 16:17
+Patient 163 was assigned a Clerk at 16:17
+Patient 161's admission completed at 16:18
+Patient 161's clerk released at 16:18
+Patient 158's nurse  was released at 16:18
+Patient 161 was assigned a nurse at at 16:18
+Patient 161 triaged as Blue (Non-Urgent) priority
+Patient 162's admission completed at 16:19
+Patient 162's clerk released at 16:19
+Patient 159's nurse  was released at 16:19
+Patient 159 is immediate. Assigning a bed at 16:19
+Patient 162 was assigned a nurse at at 16:19
+Patient 162 triaged as Red (Immediate) priority
+Patient 160's nurse  was released at 16:21
+Patient 160 is immediate. Assigning a bed at 16:21
+Patient 163's admission completed at 16:22
+Patient 163's clerk released at 16:22
+Patient 163 was assigned a nurse at at 16:22
+Patient 163 triaged as Blue (Non-Urgent) priority
+Patient 161's nurse  was released at 16:23
+Patient 162's nurse  was released at 16:24
+Patient 162 is immediate. Assigning a bed at 16:24
+Patient 163's nurse  was released at 16:27

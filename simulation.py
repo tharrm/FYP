@@ -296,45 +296,50 @@ class AnE:
     def patient_request_bed(self,patient_ID,priority):
         arrival_time= self.env.now 
         self.num_patient_requires_bed += 1
-       
-        patient_waits= self.env.now
-        
+               
         req= self.bed.request()  #Request a bed for the patient
-        req_nurse = self.nurse.request(priority = priority)
+        yield req # Wait for the bed to be avaiable
 
-        yield self.env.all_of([req, req_nurse]) # Waits for a bed and a nurse to be free
+        patient_bed_wait_time = self.env.now  - arrival_time
+        self.patient_total_wait_time.append(patient_bed_wait_time)
 
-        #Calculate times for both resources
-        patient_wait_time = self.env.now - patient_waits
-        self.patient_total_wait_time.append(patient_wait_time)
-
-        if patient_wait_time > 0:
-            self.patient_who_waited.append(patient_wait_time)
-            self.track_waiting_time_for_bed.append(patient_wait_time)
-            self.track_waiting_time_for_nurse.append(patient_wait_time)
-
-
-        self.occupied_beds += 1
-
+        if patient_bed_wait_time > 0:
+            self.patient_who_waited.append(patient_bed_wait_time)
+            self.track_waiting_time_for_bed.append(patient_bed_wait_time)
         
+        self.occupied_beds += 1 
+        self.update_bed_occupancy()
 
         with open("patient_log.txt", "a") as output:
-            output.write(f" Patient {patient_ID} bed set up commenced at {self.sim_format_time(self.env.now)}" + '\n')
-
-        yield self.env.timeout(self.setup_time)
-
-        with open("patient_log.txt", "a") as output:   
-            
-            output.write(f"Patient {patient_ID} bed set up completed at {self.sim_format_time(self.env.now)}"+ '\n')
+            output.write(f"Patient {patient_ID} has been assigned a bed at {self.sim_format_time(self.env.now)}"+ '\n')
+                         
         
-        self.nurse.release(req_nurse )
 
-    
+        req_nurse = self.nurse.request(priority = priority)
+        yield req_nurse # Wait for the nurse to be available 
+
+        wait_nurse_time = self.env.now - arrival_time
+        self.patient_total_wait_time.append(wait_nurse_time)
+
+
+        if wait_nurse_time > 0:
+                self.patient_who_waited.append(wait_nurse_time)
+                self.track_waiting_time_for_nurse.append(wait_nurse_time)
+        
+        with open("patient_log.txt", "a") as output:
+            output.write(f"Patient {patient_ID} was assigned a Nurse at {self.sim_format_time(self.env.now)}"+ '\n')
+
+        yield self.env.timeout(self.setup_time) # Stimulate the bed set up
+
+        self.nurse.release(req_nurse)
+
+        with open("patient_log.txt", "a") as output:
+            output.write(f"Patient {patient_ID} bed set up completed at {self.sim_format_time(self.env.now)} "+ '\n')       
         
         yield self.env.process(self.patient_gets_doctor(patient_ID))              
 
-        #occupied_beds = self.bed.capacity - len(self.bed.queue)
-  
+            
+          
         #Stimulate the length of stay (LOS) in the bed
         bed_start_time = self.env.now
         yield self.env.timeout(self.length_of_stay)
