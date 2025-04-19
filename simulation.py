@@ -107,7 +107,8 @@ class AnE:
         self.track_nurse_utilisation = []
         self.track_doctor_utilisation = []
         self.track_bed_utilisation = []
-        
+
+        self.patient_log = []
 
         
 
@@ -140,9 +141,8 @@ class AnE:
                 self.patientCount +=1 
                 patient_ID+=1
                 self.active_patients.add(patient_ID)
-                    
-                with open("patient_log.txt", "a") as output:
-                    output.write(f"Patient {patient_ID} arrived at {self.sim_format_time(self.env.now)}" + '\n')
+
+                self.patient_log.append(f"Patient {patient_ID} arrived at {self.sim_format_time(self.env.now)}" + '\n')
                     
                 #Start patient flow process
                 self.env.process(self.patient_flow(patient_ID))
@@ -157,8 +157,7 @@ class AnE:
         #If the patient is immediate, they are assigned to a bed 
         if priority == 0:
              self.num_patient_immediate += 1
-             with open("patient_log.txt", "a") as output:
-                output.write(f"Patient {patient_ID} is immediate. Assigning a bed at {self.sim_format_time(self.env.now)}" + '\n')
+             self.patient_log.append(f"Patient {patient_ID} is immediate. Assigning a bed at {self.sim_format_time(self.env.now)}" + '\n')
              yield self.env.process(self.patient_request_bed(patient_ID,priority))
              yield self.env.process(self.patient_request_doctor_follow_up(patient_ID,priority))
 
@@ -181,8 +180,7 @@ class AnE:
 
     def patient_request_admission(self,patient_ID):
          arrival_time = self.env.now
-         with open("patient_log.txt", "a") as output:
-            output.write(f"Patient {patient_ID} is waiting for a clerk at {self.sim_format_time(self.env.now)}"+ '\n')
+         self.patient_log.append(f"Patient {patient_ID} is waiting for a clerk at {self.sim_format_time(self.env.now)}"+ '\n')
          
          #Request general data in the reception 
          req = self.clerk.request()
@@ -196,8 +194,7 @@ class AnE:
          if wait_time > 0:
             self.patient_who_waited.append(wait_time)
       
-         with open("patient_log.txt", "a") as output:
-            output.write(f"Patient {patient_ID} was assigned a Clerk at {self.sim_format_time(self.env.now)}"+ '\n')
+         self.patient_log.append(f"Patient {patient_ID} was assigned a Clerk at {self.sim_format_time(self.env.now)}"+ '\n')
 
          #Stimulate the admission process
          #yield self.env.timeout(random.randint(1,5))
@@ -205,13 +202,11 @@ class AnE:
          finish_time = self.env.now
          duration = finish_time - arrival_time
          self.track_time_admission.append(duration)
-         with open("patient_log.txt", "a") as output:
-            output.write(f"Patient {patient_ID}'s admission completed at {self.sim_format_time(self.env.now)}"+ '\n')
+         self.patient_log.append(f"Patient {patient_ID}'s admission completed at {self.sim_format_time(self.env.now)}"+ '\n')
          
          #aRelease the clerk
          self.clerk.release(req)
-         with open("patient_log.txt", "a") as output:
-            output.write(f"Patient {patient_ID}'s clerk released at {self.sim_format_time(self.env.now)}"+ '\n')
+         self.patient_log.append(f"Patient {patient_ID}'s clerk released at {self.sim_format_time(self.env.now)}"+ '\n')
     
     
     def triage_manchester(self):
@@ -245,11 +240,9 @@ class AnE:
                 self.track_waiting_time_for_nurse.append(wait_time)
 
 
-            with open("patient_log.txt", "a") as output:
-                output.write(f"Patient {patient_ID} was assigned a nurse at at {self.sim_format_time(self.env.now)}"+ '\n')
+            
             triage_category, priority = self.triage_manchester()
-            with open("patient_log.txt", "a") as output:
-                output.write(f"Patient {patient_ID} triaged as {triage_category} priority"+ '\n')
+            self.patient_log.append(f"Patient {patient_ID} triaged as {triage_category} priority"+ '\n')
 
 
             #Simulate the risk assesment process time
@@ -259,8 +252,7 @@ class AnE:
             self.track_time_risk_assessment.append(duration)
             #Release the nurse
             self.nurse.release(req)
-            with open("patient_log.txt", "a") as output:
-                output.write(f"Patient {patient_ID}'s nurse  was released at {self.sim_format_time(self.env.now)}"+ '\n')
+            self.patient_log.append(f"Patient {patient_ID}'s nurse  was released at {self.sim_format_time(self.env.now)}"+ '\n')
             return priority
     
     def patient_gets_doctor(self,patient_ID):
@@ -276,14 +268,12 @@ class AnE:
             self.patient_who_waited.append(wait_time)
             self.track_waiting_time_for_doctor.append(wait_time)
         
-        with open("patient_log.txt", "a") as output:
-            output.write(f"Patient {patient_ID} was assigned a Doctor assigned at {self.sim_format_time(self.env.now)}"+ '\n')
+        self.patient_log.append(f"Patient {patient_ID} was assigned a Doctor assigned at {self.sim_format_time(self.env.now)}"+ '\n')
         yield self.env.timeout(self.doctor_consultation_duration)
         finish_time = self.env.now
         duration = finish_time - arrival_time
         self.track_time_doctor_consultation.append(duration)
-        with open("patient_log.txt", "a") as output:
-            output.write(f"Patient {patient_ID}'s treatment completed at {self.sim_format_time(self.env.now)}"+ '\n')
+        self.patient_log.append(f"Patient {patient_ID}'s treatment completed at {self.sim_format_time(self.env.now)}"+ '\n')
         self.doctor.release(req)
 
 
@@ -310,8 +300,7 @@ class AnE:
         self.occupied_beds += 1 
         self.update_bed_occupancy()
 
-        with open("patient_log.txt", "a") as output:
-            output.write(f"Patient {patient_ID} has been assigned a bed at {self.sim_format_time(self.env.now)}"+ '\n')
+        self.patient_log.append(f"Patient {patient_ID} has been assigned a bed at {self.sim_format_time(self.env.now)}"+ '\n')
                          
         
 
@@ -326,15 +315,15 @@ class AnE:
                 self.patient_who_waited.append(wait_nurse_time)
                 self.track_waiting_time_for_nurse.append(wait_nurse_time)
         
-        with open("patient_log.txt", "a") as output:
-            output.write(f"Patient {patient_ID} was assigned a Nurse at {self.sim_format_time(self.env.now)}"+ '\n')
+        
+        self.patient_log.append(f"Patient {patient_ID} was assigned a Nurse at {self.sim_format_time(self.env.now)}"+ '\n')
 
         yield self.env.timeout(self.setup_time) # Stimulate the bed set up
 
         self.nurse.release(req_nurse)
 
-        with open("patient_log.txt", "a") as output:
-            output.write(f"Patient {patient_ID} bed set up completed at {self.sim_format_time(self.env.now)} "+ '\n')       
+        
+        self.patient_log.append(f"Patient {patient_ID} bed set up completed at {self.sim_format_time(self.env.now)} "+ '\n')       
         
         yield self.env.process(self.patient_gets_doctor(patient_ID))              
 
@@ -345,8 +334,8 @@ class AnE:
         yield self.env.timeout(self.length_of_stay)
         self.update_last_patient_time()
         
-        with open("patient_log.txt", "a") as output:
-            output.write(f"Patient {patient_ID} has left the bed at {self.sim_format_time(self.env.now)}"+ '\n')
+        
+        self.patient_log.append(f"Patient {patient_ID} has left the bed at {self.sim_format_time(self.env.now)}"+ '\n')
 
         #Bed gets released and gets updated
         self.occupied_beds -= 1
@@ -374,14 +363,14 @@ class AnE:
                 self.patient_who_waited.append(wait_time)
                 self.track_waiting_time_for_doctor.append(wait_time)
           
-            with open("patient_log.txt", "a") as output:
-                output.write(f"Patient {patient_ID} was assigned to a Doctor at {self.sim_format_time(self.env.now)}" + '\n')
+            
+            self.patient_log.append(f"Patient {patient_ID} was assigned to a Doctor at {self.sim_format_time(self.env.now)}" + '\n')
         
             #Stimulate the doctor consultation process 
             #yield self.env.timeout(random.randint(1,5))
             yield self.env.timeout(self.doctor_consultation_duration)
-            with open("patient_log.txt", "a") as output:
-                output.write(f"Patient {patient_ID}'s Doctor Consultation was completed at {self.sim_format_time(self.env.now)}"+ '\n')
+            
+            self.patient_log.append(f"Patient {patient_ID}'s Doctor Consultation was completed at {self.sim_format_time(self.env.now)}"+ '\n')
             finish_time = self.env.now
             duration = finish_time - arrival_time
             self.track_time_doctor_consultation.append(duration)
@@ -403,44 +392,39 @@ class AnE:
             
             
             #decision =random.uniform(0,1)
-            decision = random.choices(["Discharge", "Tests", "Medication", "Hospitilisation/Surgery"], weights = [self.percentage_discharge, self.percentage_tests, self.percentage_medication, self.percentage_hospitilisation_surgery])[0]
+            decision = random.choices(["Discharge", "Tests", "Medication", "Hospitilisation"], weights = [self.percentage_discharge, self.percentage_tests, self.percentage_medication, self.percentage_hospitilisation_surgery])[0]
             
             if decision == "Discharge":
                 self.track_time_for_discharge.append(duration)
                 self.update_last_patient_time()
-                with open("patient_log.txt", "a") as output:
-                    output.write(f"Patient {patient_ID} is discharged at {self.sim_format_time(self.env.now)}"+ '\n')
+                self.patient_log.append(f"Patient {patient_ID} is discharged at {self.sim_format_time(self.env.now)}"+ '\n')
                 self.num_patient_discharged += 1
                 
 
                  #Release the doctor
                 self.doctor.release(req)
-                with open("patient_log.txt", "a") as output:
-                    output.write(f"Patient {patient_ID}'s Doctor released at {self.sim_format_time(self.env.now)}"+ '\n')
+                self.patient_log.append(f"Patient {patient_ID}'s Doctor released at {self.sim_format_time(self.env.now)}"+ '\n')
             elif decision == "Tests":
                self.num_patient_requires_tests += 1
-               with open("patient_log.txt", "a") as output:
-                output.write(f"Patient {patient_ID} needs to do tests"+ '\n')
+               
+               self.patient_log.append(f"Patient {patient_ID} needs to do tests"+ '\n')
                #Release the doctor
                self.doctor.release(req)
-               with open("patient_log.txt", "a") as output:
-                output.write(f"Patient {patient_ID}'s Doctor released at {self.sim_format_time(self.env.now)}"+ '\n')
+               
+               self.patient_log.append(f"Patient {patient_ID}'s Doctor released at {self.sim_format_time(self.env.now)}"+ '\n')
                yield self.env.process(self.patient_request_tests(patient_ID,priority))
               
             elif decision == "Medication":
               self.num_patient_requires_medication += 1
-              with open("patient_log.txt", "a") as output:
-                output.write(f"Patient {patient_ID} needs to take medication"+ '\n')
+              self.patient_log.append(f"Patient {patient_ID} needs to take medication"+ '\n')
               #Release the doctor
               self.doctor.release(req)
-              with open("patient_log.txt", "a") as output:
-                output.write(f"Patient {patient_ID}'s Doctor released at {self.sim_format_time(self.env.now)}"+ '\n')
+              self.patient_log.append(f"Patient {patient_ID}'s Doctor released at {self.sim_format_time(self.env.now)}"+ '\n')
               yield self.env.process(self.patient_request_medication(patient_ID,priority))
             
-            elif decision == "Hospitilisation/Surgery":
+            elif decision == "Hospitilisation":
                 self.num_patient_requires_bed += 1
-                with open("patient_log.txt", "a") as output:
-                    output.write(f"Patient {patient_ID} needs to be admitted to for hospitilisation or surgery at {self.sim_format_time(self.env.now)}"+ '\n')
+                self.patient_log.append(f"Patient {patient_ID} needs to be admitted to for hospitilisation or surgery at {self.sim_format_time(self.env.now)}"+ '\n')
                 
                 yield self.env.process(self.patient_request_bed(patient_ID, priority))
          
@@ -456,8 +440,7 @@ class AnE:
             self.patient_who_waited.append(wait_time)
             self.track_waiting_time_for_nurse.append(wait_time)
 
-     with open("patient_log.txt", "a") as output:
-        output.write(f"Patient {patient_ID} was assigned to a Nurse at {self.sim_format_time(self.env.now)}"+ '\n')
+     self.patient_log.append(f"Patient {patient_ID} was assigned to a Nurse at {self.sim_format_time(self.env.now)}"+ '\n')
      #yield self.env.timeout(random.randint(1,5))
      yield self.env.timeout(self.test_duration)
      
@@ -465,11 +448,9 @@ class AnE:
      duration = finish_time - arrival_time
      self.track_time_tests.append(duration)
     
-     with open("patient_log.txt", "a") as output:
-        output.write(f"Patient {patient_ID} 's tests completed at {self.sim_format_time(self.env.now)}"+ '\n')
+     self.patient_log.append(f"Patient {patient_ID} 's tests completed at {self.sim_format_time(self.env.now)}"+ '\n')
      self.nurse.release(req)
-     with open("patient_log.txt", "a") as output:   
-        output.write(f"Patient {patient_ID}'s Nurse released at {self.sim_format_time(self.env.now)}"+ '\n')
+     self.patient_log.append(f"Patient {patient_ID}'s Nurse released at {self.sim_format_time(self.env.now)}"+ '\n')
      yield self.env.process(self.patient_request_doctor_follow_up(patient_ID, priority))
 
      
@@ -478,29 +459,24 @@ class AnE:
         arrival_time = self.env.now
         req = self.nurse.request(priority= priority )
         yield req
-        with open("patient_log.txt", "a") as output:
-            output.write(f"Patient {patient_ID} with priority {priority} was assigned to  a Nurse at {self.sim_format_time(self.env.now)}"+ '\n')
+        self.patient_log.append(f"Patient {patient_ID} with priority {priority} was assigned to  a Nurse at {self.sim_format_time(self.env.now)}"+ '\n')
         wait_time = self.env.now - arrival_time
         self.patient_total_wait_time.append(wait_time)
         if wait_time > 0:
             self.patient_who_waited.append(wait_time)
             self.track_waiting_time_for_nurse.append(wait_time)
-        with open("patient_log.txt", "a") as output:
-            output.write(f"Patient {patient_ID} was assigned to a Nurse at {self.sim_format_time(self.env.now)}"+ '\n')
+        self.patient_log.append(f"Patient {patient_ID} was assigned to a Nurse at {self.sim_format_time(self.env.now)}"+ '\n')
         #yield self.env.timeout(random.randint(1,5))
         yield self.env.timeout(self.medication_duration)
-        with open("patient_log.txt", "a") as output:
-            output.write(f"Patient {patient_ID} finished medication at {self.sim_format_time(self.env.now)}" + '\n')
+        self.patient_log.append(f"Patient {patient_ID} finished medication at {self.sim_format_time(self.env.now)}" + '\n')
         
         finish_time = self.env.now
         duration = finish_time - arrival_time
         #print(f"Duration " + duration)
         self.track_time_medication.append(duration)
-        with open("patient_log.txt", "a") as output:
-            output.write(f"Patient {patient_ID}'s medication completed at {self.sim_format_time(self.env.now)}"+ '\n')
+        self.patient_log.append(f"Patient {patient_ID}'s medication completed at {self.sim_format_time(self.env.now)}"+ '\n')
         self.nurse.release(req)
-        with open("patient_log.txt", "a") as output:
-            output.write(f"Patient {patient_ID}'s Nurse released at {self.sim_format_time(self.env.now)}"+ '\n')
+        self.patient_log.append(f"Patient {patient_ID}'s Nurse released at {self.sim_format_time(self.env.now)}"+ '\n')
         yield self.env.process(self.patient_request_doctor_follow_up(patient_ID, priority))
 
 
@@ -515,25 +491,22 @@ class AnE:
         if wait_time > 0:
             self.patient_who_waited.append(wait_time)
             self.track_waiting_time_for_doctor.append(wait_time)
-        with open("patient_log.txt", "a") as output:
-            output.write(f"Patient {patient_ID} was assigned to a Doctor for a follow up at {self.sim_format_time(self.env.now)}"+ '\n')
+        self.patient_log.append(f"Patient {patient_ID} was assigned to a Doctor for a follow up at {self.sim_format_time(self.env.now)}"+ '\n')
         #yield self.env.timeout(random.randint(1,5))
         yield self.env.timeout(self.follow_up_duration)
         finish_time = self.env.now
         duration = finish_time - arrival_time
         self.track_time_for_follow_up.append(duration)
 
-        with open("patient_log.txt", "a") as output:
-            output.write(f"Patient {patient_ID}'s Doctor follow up completed at {self.sim_format_time(self.env.now)}"+ '\n')
+        self.patient_log.append(f"Patient {patient_ID}'s Doctor follow up completed at {self.sim_format_time(self.env.now)}"+ '\n')
     
         self.update_last_patient_time()
-        with open("patient_log.txt", "a") as output:
-            output.write(f"Patient {patient_ID} has left the A&E at {self.sim_format_time(self.env.now)}"+ '\n') 
+        
+        self.patient_log.append(f"Patient {patient_ID} has left the A&E at {self.sim_format_time(self.env.now)}"+ '\n') 
         
         self.doctor.release(req)
 
-        with open("patient_log.txt", "a") as output:
-            output.write(f"Patient {patient_ID}'s Doctor released at {self.sim_format_time(self.env.now)}"+ '\n')
+        self.patient_log.append(f"Patient {patient_ID}'s Doctor released at {self.sim_format_time(self.env.now)}"+ '\n')
     
     def resource_utilisation_tracker(self):
         while True:
@@ -566,7 +539,54 @@ st.set_page_config(page_title="A&E Simulation🏥", layout="wide")
 #st.title("A&E Simulation 🏥")
 st.markdown("<p style =  'font-size:55px; font-weight:bold; text-align: center;'>A&E Simulation🏥</p>", unsafe_allow_html=True)
 #st.write("Testing")
+with st.expander(label = "About", expanded = False):
+        st.subheader("About the A&E Simulation", anchor = False)
+        st.write("This web application presents you with a configurable Accident and Emergency (A&E) simulation. It generates results to help you and other users identify bottlenecks and assist in making well-informed decisions on ways to enhance overall efficiency. Patient flow refers to the movement process of patients through the A&E department, from when they arrive to when they are discharged. Bottlenecks, such as queues or waiting periods, may be identified with this system, and the overall efficiency of the system can be improved")
+        st.write("This simulation is a type of Discrete Event Simulation (DES) that allows us to make observations at certain points of time, where changes take place in the system - such as when a patient arrives; when they are seen by a doctor; or when they get discharged. This enables us to capture the dynamic nature of the system, analyse how various factors impact patient flow, and identify solutions to enhance it.")
+        st.write("The A&E Simulation is designed to be customisable through parametisation. This application is flexible as it enables you to experiment with different configurations, creating scenarios. From these scenarios, users can observe the impact on waiting times, resource usage, and other factors to help identify bottlenecks. To configure the parameters, it is located at the left side panel under **⚙️ Simulation Configuration**.")
+        st.subheader("Simulation Configuration Explained", anchor = False)
+   
+        st.markdown("<p style='font-size:15px; font-weight:bold;'> 1. Resource Allocation</p>", unsafe_allow_html = True)
+        st.write("This section allows you to configure the number of healthcare professionals and beds available. These are known as “resources” in the simulation, which are the entities that are used to process patients. In other words, they are resources since they are limited and shared among all patients. Proper resource management is crucial for patient flow and lowering wait times. If a resource is busy, Patients will have to wait and a queue will be formed.")
+        st.write(" - **👩‍💼 Number of Clerks**: Clerks handle patient registration and administrative tasks" )
+        st.write(" - **👩‍⚕️ Number of Nurses**: Nurses conduct initial assesments and triage patients")
+        st.write(" - **👨‍⚕️ Number of Doctors**: Doctors provide consultations and treatments.")
+        st.write(" - **🛏️ Number of Beds**: Beds are used to accomodate patients who requires further treatment or observation ")
+    
+        st.markdown("<p style='font-size:15px; font-weight:bold;'> 2. Triage Allocation</p>", unsafe_allow_html = True)
+        st.write("Patients are categorised according to the urgency and severity of their condition, known as “triage”. The system applied in this simulation is the Manchester triage, which is widely used to classify patients into five colour-coded categories, resulting in an order in which patients receive treatment first. The triage model should sum up to 100%.")
+        st.write(" - **🔴 Immediate Patients (%)**: Life-threatning conditions")
+        st.write(" - **🟠 Very Urgent Patients(%)**: Severe but non-life threatening")
+        st.write(" - **🟡 Urgent Patients (%)**: Moderate conditions requring prompt care ")
+        st.write(" - **🟢 Standard Patients (%)**: Less critical but need attention")
+        st.write(" - **🔵 Non-Urgent Patients (%)**: Low-risk cases")
 
+        st.markdown("<p style='font-size:15px; font-weight:bold;'> 3. Patient Flow</p>", unsafe_allow_html = True)
+        st.write("- **🔁Admission Duration**: Time taken by the clerk to register a patient")
+        st.write("- **⚠️ Risk Assesment Duration**: Time taken by nurses to assess and triage a patient")
+        st.write("- **🩺 Doctor Consultation Duration**: Time taken by a doctor to peform a consultation to a patient")
+        st.write("- **🧪 Test Duration**: Time required for lab tests")
+        st.write("- **💊 Medication Duration**: Time required for the medication process")
+        st.write("- **👩‍💼 Doctor Follow Up Duration**: A follow up consultation conducted by a doctor after a treatment ")
+        st.write("- **🏥 Length of Stay**: Time spent in bed")
+        st.write("The likelihood of a patient being discharged, requiring tests or medication. The percentages need to add up to 100%.")
+        st.write("- **📤 Percentage of Discharge:**: Patients who leave A&E without anymore check-ups")
+        st.write("- **🧬 Percentage of Tests**: Patients requiring diagnostic tests")
+        st.write("- **💉 Percentage of Medication**: Patients needing medication for treatment")
+        st.write("- **🏥 Percentage of Hospitilisation/Surgery**: Patients not regarded as immeidate but require surgery or hospitlisation")
+
+        st.markdown("<p style='font-size:15px; font-weight:bold;'> 4. Patient Generator</p>", unsafe_allow_html = True)
+        st.write("This section lets you control how frequently new patients arrive at the A&E department. The mean arrival time is the average time between patient arrivals. A lower value would mean more frequent arrivals, while a higher value means less frequent. This was done exponentially, to make it as random as possible." )
+        st.write( " - **🚶‍♀️‍➡️Mean Arrival Time**:  How much patient arrives")
+    
+    
+    
+        st.markdown("<p style='font-size:15px; font-weight:bold;'> 5. Time Configuration</p>", unsafe_allow_html = True)
+        st.write("- **🕛Simulation Run Time in Minutes**: The total simulation duration in minutes. But note that the simulation time might exceed to ensure all patients have been processed")
+        st.write("- **⏳Start Time**: The time of the day the simulation begins")
+
+        st.markdown("<p style='font-size:15px; font-weight:bold;'> Once all are entered press the run simulation button to start the simulation</p>", unsafe_allow_html = True)
+     
 with st.sidebar:
     st.markdown("⚙️ <span style = 'font-size: 20px;'>Simulation Configuration</span>", unsafe_allow_html=True)
 
@@ -604,7 +624,6 @@ with st.sidebar:
         if total_percentages != 100:
             st.warning(f"The total percentage of triage categories is {total_percentages}%. Please ensure it equals 100%.")
 
-    
     with st.expander(label = "Patient Flow", expanded= False):
         #st.markdown("<p style='font-size:20px; font-weight:bold;'> 🔁Admission Duration:</p>", unsafe_allow_html= True)
         admission_duration = st.slider("🔁Admission Duration", 1, 10, 5)
@@ -650,8 +669,9 @@ with st.sidebar:
     
     with st.expander(label = " Patient Generator", expanded = False):
        # st.markdown("<p style='font-size:20px; font-weight:bold;'> 🚶‍♀️‍➡️Mean Arrival Time:</p>", unsafe_allow_html= True)
-        mean_interarrival_time = st.slider("🚶‍♀️‍➡️Mean Arrival Time ", 1, 10,3 )
+            mean_interarrival_time = st.slider("🚶‍♀️‍➡️Mean Arrival Time ", 1, 10,3 )
         #average_rate_patients_per_interval = st.slider(" 🚶‍♂️‍➡️Average Rate of Patients per Interval", 1, 50, 10)
+
 
 
 
@@ -664,8 +684,11 @@ with st.sidebar:
         start_time = st.time_input("⏳ Start Time", datetime(2025, 3, 15, 8, 0).time())
 
 
+    if "simulation_stopped" not in st.session_state:
+        st.session_state.simulation_stop = False
+    
 
-
+    
 
     run_button_pressed = False # Initial Value      
     if st.button("▶️ Run Simulation"):
@@ -678,58 +701,13 @@ with st.sidebar:
 
        else:
            run_button_pressed = True
+           st.session_state.simulation_stop = False
 
-with st.expander(label = "About", expanded = False):
-    st.subheader("About the A&E Simulation", anchor = False)
-    st.write("This web application presents you with a configurable Accident and Emergency (A&E) simulation. It generates results to help you and other users identify bottlenecks and assist in making well-informed decisions on ways to enhance overall efficiency. Patient flow refers to the movement process of patients through the A&E department, from when they arrive to when they are discharged. Bottlenecks, such as queues or waiting periods, may be identified with this system, and the overall efficiency of the system can be improved")
-    st.write("This simulation is a type of Discrete Event Simulation (DES) that allows us to make observations at certain points of time, where changes take place in the system - such as when a patient arrives; when they are seen by a doctor; or when they get discharged. This enables us to capture the dynamic nature of the system, analyse how various factors impact patient flow, and identify solutions to enhance it.")
-    st.write("The A&E Simulation is designed to be customisable through parametisation. This application is flexible as it enables you to experiment with different configurations, creating scenarios. From these scenarios, users can observe the impact on waiting times, resource usage, and other factors to help identify bottlenecks. To configure the parameters, it is located at the left side panel under **⚙️ Simulation Configuration**.")
-    st.subheader("Simulation Configuration Explained", anchor = False)
-   
-    st.markdown("<p style='font-size:15px; font-weight:bold;'> 1. Resource Allocation</p>", unsafe_allow_html = True)
-    st.write("This section allows you to configure the number of healthcare professionals and beds available. These are known as “resources” in the simulation, which are the entities that are used to process patients. In other words, they are resources since they are limited and shared among all patients. Proper resource management is crucial for patient flow and lowering wait times. If a resource is busy, Patients will have to wait and a queue will be formed.")
-    st.write(" - **👩‍💼 Number of Clerks**: Clerks handle patient registration and administrative tasks" )
-    st.write(" - **👩‍⚕️ Number of Nurses**: Nurses conduct initial assesments and triage patients")
-    st.write(" - **👨‍⚕️ Number of Doctors**: Doctors provide consultations and treatments.")
-    st.write(" - **🛏️ Number of Beds**: Beds are used to accomodate patients who requires further treatment or observation ")
     
-    st.markdown("<p style='font-size:15px; font-weight:bold;'> 2. Triage Allocation</p>", unsafe_allow_html = True)
-    st.write("Patients are categorised according to the urgency and severity of their condition, known as “triage”. The system applied in this simulation is the Manchester triage, which is widely used to classify patients into five colour-coded categories, resulting in an order in which patients receive treatment first. The triage model should sum up to 100%.")
-    st.write(" - **🔴 Immediate Patients (%)**: Life-threatning conditions")
-    st.write(" - **🟠 Very Urgent Patients(%)**: Severe but non-life threatening")
-    st.write(" - **🟡 Urgent Patients (%)**: Moderate conditions requring prompt care ")
-    st.write(" - **🟢 Standard Patients (%)**: Less critical but need attention")
-    st.write(" - **🔵 Non-Urgent Patients (%)**: Low-risk cases")
 
-    st.markdown("<p style='font-size:15px; font-weight:bold;'> 3. Patient Flow</p>", unsafe_allow_html = True)
-    st.write("- **🔁Admission Duration**: Time taken by the clerk to register a patient")
-    st.write("- **⚠️ Risk Assesment Duration**: Time taken by nurses to assess and triage a patient")
-    st.write("- **🩺 Doctor Consultation Duration**: Time taken by a doctor to peform a consultation to a patient")
-    st.write("- **🧪 Test Duration**: Time required for lab tests")
-    st.write("- **💊 Medication Duration**: Time required for the medication process")
-    st.write("- **👩‍💼 Doctor Follow Up Duration**: A follow up consultation conducted by a doctor after a treatment ")
-    st.write("- **🏥 Length of Stay**: Time spent in bed")
-    st.write("The likelihood of a patient being discharged, requiring tests or medication. The percentages need to add up to 100%.")
-    st.write("- **📤 Percentage of Discharge:**: Patients who leave A&E without anymore check-ups")
-    st.write("- **🧬 Percentage of Tests**: Patients requiring diagnostic tests")
-    st.write("- **💉 Percentage of Medication**: Patients needing medication for treatment")
-    st.write("- **🏥 Percentage of Hospitilisation/Surgery**: Patients not regarded as immeidate but require surgery or hospitlisation")
+if run_button_pressed and not st.session_state.simulation_stop:
 
-    st.markdown("<p style='font-size:15px; font-weight:bold;'> 4. Patient Generator</p>", unsafe_allow_html = True)
-    st.write("This section lets you control how frequently new patients arrive at the A&E department. The mean arrival time is the average time between patient arrivals. A lower value would mean more frequent arrivals, while a higher value means less frequent. This was done exponentially, to make it as random as possible." )
-    st.write( " - **🚶‍♀️‍➡️Mean Arrival Time**:  How much patient arrives")
-    
-    
-    
-    st.markdown("<p style='font-size:15px; font-weight:bold;'> 5. Time Configuration</p>", unsafe_allow_html = True)
-    st.write("- **🕛Simulation Run Time in Minutes**: The total simulation duration in minutes. But note that the simulation time might exceed to ensure all patients have been processed")
-    st.write("- **⏳Start Time**: The time of the day the simulation begins")
-
-    st.markdown("<p style='font-size:15px; font-weight:bold;'> Once all are entered press the run simulation button to start the simulation</p>", unsafe_allow_html = True)
-
-
-
-if run_button_pressed:
+        #This clears the previous simulation run of the patient log data
         if "patient_log_data" in st.session_state:
             del st.session_state.patient_log_data
 
@@ -750,14 +728,19 @@ if run_button_pressed:
                       )
         env.process(a_and_e.patient_generator(mean_interarrival_time,simulation_run_time))
         env.process(a_and_e.resource_utilisation_tracker())
-        with st.spinner("Running Simulation"):
         
-            env.run(simulation_run_time) #This runs for how long minutes the user wants
-        #while env.peek() < until:
-            #env.step()
-            while a_and_e.active_patients != set():
+        if  st.button("🛑 Stop Simulation"):
+                st.session_state.simulation_stop = True
+        
+        with st.spinner("Running Simulation"):
+           
+            
+            while env.peek() <= simulation_run_time and not st.session_state.simulation_stop:
                 env.step()
-
+                
+            while a_and_e.active_patients != set() and not  st.session_state.simulation_stop:
+                env.step()
+              
         #while any( resource.users for resource in [a_and_e.doctor, a_and_e.nurse, a_and_e.bed, a_and_e.clerk]):
             #env.step()
         #while env.peek() < float("inf") and any(resource.users for resource in [a_and_e.doctor, a_and_e.nurse, a_and_e.clerk, a_and_e.bed]):
@@ -814,15 +797,10 @@ if run_button_pressed:
 
 
             with col2:
+                patient_log = "\n".join(a_and_e.patient_log)
+                st.session_state.patient_log_data = patient_log 
                 st.subheader("Patient Log", anchor = False, divider = True)
-                try:
-                    with open("patient_log.txt", "r", encoding="utf-8") as file:
-                        log_data = file.read()
-                        st.session_state.patient_log_data = log_data  # Store in session state
-
-                except FileNotFoundError:
-                    st.session_state.patient_log_data = None  # Handle missing file
-
+               
                 # Display the updated log
                 if st.session_state.patient_log_data:
 
