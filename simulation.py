@@ -578,6 +578,8 @@ with st.expander(label = "About", expanded = False):
         st.markdown("<p style='font-size:15px; font-weight:bold;'> 4. Patient Generator</p>", unsafe_allow_html = True)
         st.write("This section lets you control how frequently new patients arrive at the A&E department. The mean arrival time is the average time between patient arrivals. A lower value would mean more frequent arrivals, while a higher value means less frequent. This was done exponentially, to make it as random as possible." )
         st.write( " - **🚶‍♀️‍➡️Mean Arrival Time**:  How much patient arrives")
+
+        st.write(" - **🛑 Stop** - This button stops the simulation, if it takes so long and the results are not coming out")
     
     
     
@@ -772,6 +774,7 @@ if run_button_pressed and not st.session_state.simulation_stop:
             #####################################################
             #This calculates the average waiting time for patients who had to wait
             #print(a_and_e.patient_total_wait_time) Testing 
+            st.metric(label = "Total Simulation Time", value = "")
             st.write(a_and_e.last_patient_time)
             with col2:
                 if len(a_and_e.patient_who_waited) > 0:
