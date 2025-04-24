@@ -539,11 +539,14 @@ st.set_page_config(page_title="A&E Simulation🏥", layout="wide")
 #st.title("A&E Simulation 🏥")
 st.markdown("<p style =  'font-size:55px; font-weight:bold; text-align: center;'>A&E Simulation🏥</p>", unsafe_allow_html=True)
 #st.write("Testing")
-with st.expander(label = "About", expanded = False):
+with st.expander(label = "Manual", expanded = False):
         st.subheader("About the A&E Simulation", anchor = False)
         st.write("This web application presents you with a configurable Accident and Emergency (A&E) simulation. It generates results to help you and other users identify bottlenecks and assist in making well-informed decisions on ways to enhance overall efficiency. Patient flow refers to the movement process of patients through the A&E department, from when they arrive to when they are discharged. Bottlenecks, such as queues or waiting periods, may be identified with this system, and the overall efficiency of the system can be improved")
         st.write("This simulation is a type of Discrete Event Simulation (DES) that allows us to make observations at certain points of time, where changes take place in the system - such as when a patient arrives; when they are seen by a doctor; or when they get discharged. This enables us to capture the dynamic nature of the system, analyse how various factors impact patient flow, and identify solutions to enhance it.")
         st.write("The A&E Simulation is designed to be customisable through parametisation. This application is flexible as it enables you to experiment with different configurations, creating scenarios. From these scenarios, users can observe the impact on waiting times, resource usage, and other factors to help identify bottlenecks. To configure the parameters, it is located at the left side panel under **⚙️ Simulation Configuration**.")
+        
+        st.write("If you want to change the theme, please click the three dots at the top right corner of the page and select **Settings**. Then select the **Choose app theme** and select the theme of your choice.")
+        
         st.subheader("Simulation Configuration Explained", anchor = False)
    
         st.markdown("<p style='font-size:15px; font-weight:bold;'> 1. Resource Allocation</p>", unsafe_allow_html = True)
@@ -578,8 +581,6 @@ with st.expander(label = "About", expanded = False):
         st.markdown("<p style='font-size:15px; font-weight:bold;'> 4. Patient Generator</p>", unsafe_allow_html = True)
         st.write("This section lets you control how frequently new patients arrive at the A&E department. The mean arrival time is the average time between patient arrivals. A lower value would mean more frequent arrivals, while a higher value means less frequent. This was done exponentially, to make it as random as possible." )
         st.write( " - **🚶‍♀️‍➡️Mean Arrival Time**:  How much patient arrives")
-
-        st.write(" - **🛑 Stop** - This button stops the simulation, if it takes so long and the results are not coming out")
     
     
     
@@ -588,7 +589,9 @@ with st.expander(label = "About", expanded = False):
         st.write("- **⏳Start Time**: The time of the day the simulation begins")
 
         st.markdown("<p style='font-size:15px; font-weight:bold;'> Once all are entered press the run simulation button to start the simulation</p>", unsafe_allow_html = True)
-     
+
+        st.write(" - **🛑 Stop** - This button stops the simulation, if it takes so long and the results are not coming out after the run simulation button is pressed")
+
 with st.sidebar:
     st.markdown("⚙️ <span style = 'font-size: 20px;'>Simulation Configuration</span>", unsafe_allow_html=True)
 
@@ -957,10 +960,6 @@ if run_button_pressed and not st.session_state.simulation_stop:
               
 
            
-            # Length of stay for patients 
-            with st.expander("Length of Stay for Patients Occupued in Bed", expanded=True):
-                    fig2 = px.box(x=a_and_e.patient_LOS,title="Length of Stay for Patients (Minutes) ", labels={"x": "Length of Stay (minutes)"})                    
-                    st.plotly_chart(fig2)
                   
                   
                   
