@@ -209,15 +209,15 @@ class AnE:
     
     def triage_manchester(self):
         patient_urgency= {
-                        "Red (Immediate)": (self.num_immediate,0), # 5% chance of being immediate with 0 being the highest prirority
-                        "Orange (Very Urgent)": (self.num_very_urgent,1), # 10% chance of being very urgent
-                        "Yellow (Urgent)": (self.num_urgent,2), #35% chance of being urgent
-                        "Green (Standard)": (self.num_standard,3), #30% chance of being standard
-                        "Blue (Non-Urgent)": (self.num_non_urgent,4) #20% chance of being non-urgent
+                        "Red (Immediate)": (self.num_immediate,0), # num_immediate is the chance of being immediate with 0 being the highest prirority
+                        "Orange (Very Urgent)": (self.num_very_urgent,1), # num_very_urgent is the chance of being very urgent
+                        "Yellow (Urgent)": (self.num_urgent,2), #num_urgent is the chance of being urgent
+                        "Green (Standard)": (self.num_standard,3), #num_standard is the chance of being standard
+                        "Blue (Non-Urgent)": (self.num_non_urgent,4) #num_non_urgent is the chance of being non-urgent
                     }
         triage_calculator= random.choices(list(patient_urgency.keys()), weights= [value[0] for value in patient_urgency.values()])[0] #Randomly selects a traige based on the weights and then selects the first element from the list
         priority = patient_urgency[triage_calculator][1] #Selects the priority of the selected triage
-        return triage_calculator, priority 
+        return triage_calculator, priority # Returns triage and priority  
 
 
 
@@ -238,16 +238,20 @@ class AnE:
                 self.track_waiting_time_for_nurse.append(wait_time)
 
 
-            
+            #nurse performs the triage
             triage_category, priority = self.triage_manchester()
             self.patient_log.append(f"Patient {patient_ID} triaged as {triage_category} priority"+ '\n')
 
 
             #Simulate the risk assesment process time
             yield self.env.timeout(self.risk_assesment_duration)
+            
+            #Calculates how long it taken
             finish_time = self.env.now
             duration = finish_time - arrival_time
             self.track_time_risk_assessment.append(duration)
+            
+            
             #Release the nurse
             self.nurse.release(req)
             self.patient_log.append(f"Patient {patient_ID}'s nurse  was released at {self.sim_format_time(self.env.now)}"+ '\n')
@@ -507,36 +511,39 @@ class AnE:
         self.patient_log.append(f"Patient {patient_ID}'s Doctor released at {self.sim_format_time(self.env.now)}"+ '\n')
     
     def resource_utilisation_tracker(self):
-        while True:
+        while True:  # Runs continuously
             self.update_resource_utilisation()
-            yield self.env.timeout(1)
+            yield self.env.timeout(1) # Updates every minute
 
 #Updates the resources tracking list
     def update_resource_utilisation(self):
-        self.track_clerk_utilisation.append((self.env.now, len(self.clerk.queue), self.clerk.count))
+        #Gets called every minute to update the tracking list
+        self.track_clerk_utilisation.append((self.env.now, len(self.clerk.queue), self.clerk.count)) 
         self.track_nurse_utilisation.append((self.env.now, len(self.nurse.queue), self.nurse.count))
         self.track_bed_utilisation.append((self.env.now, len(self.bed.queue), self.bed.count))
         self.track_doctor_utilisation.append((self.env.now, len(self.doctor.queue), self.doctor.count))
 
+    
     def caculate_resource_utilisation(self, resource_track, resource_capacity, last_patient_time):
         total_usage_time = 0
-        for i in range(len(resource_track) - 1):
+        for i in range(len(resource_track) - 1): # Lips through the resource tracking list
             time_interval = resource_track[i + 1][0] - resource_track[i][0]  # Time difference
-            usage = resource_track[i][2]  
-            total_usage_time += usage * time_interval  
+            usage = resource_track[i][2]  # Number of resources in use at the time
+            total_usage_time += usage * time_interval  # total usage time 
 
-        utilisation_percentage = (total_usage_time / (last_patient_time * resource_capacity)) * 100
+        utilisation_percentage = (total_usage_time / (last_patient_time * resource_capacity)) * 100 # Calculates the percentage of resource usage
         
-        # Ensure utilization is at most 100%
+        # Ensure utilisation is at most 100%
         return min(utilisation_percentage,100)  
     
-# FROM HERE CODE IS FOR DISPLAYING THE SIMULATION 
-
+#INTERFACE SET UP
 st.set_page_config(page_title="A&E Simulation🏥", layout="wide")
 
 #st.title("A&E Simulation 🏥")
 st.markdown("<p style =  'font-size:55px; font-weight:bold; text-align: center;'>A&E Simulation🏥</p>", unsafe_allow_html=True)
 #st.write("Testing")
+
+#Manual 
 with st.expander(label = "Manual", expanded = False):
         st.subheader("About the A&E Simulation", anchor = False)
         st.write("This web application presents you with a configurable Accident and Emergency (A&E) simulation. It generates results to help you and other users identify bottlenecks and assist in making well-informed decisions on ways to enhance overall efficiency. Patient flow refers to the movement process of patients through the A&E department, from when they arrive to when they are discharged. Bottlenecks, such as queues or waiting periods, may be identified with this system, and the overall efficiency of the system can be improved")
