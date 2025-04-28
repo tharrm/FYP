@@ -20,7 +20,7 @@ class AnE:
         #Self means the instance of the class
         self.env = env
         #Resource Allocation
-        self.doctor = sp.PriorityResource(env, num_doctors)
+        self.doctor = sp.PriorityResource(env, num_doctors)    #Priority resource ensures patients with high priority gets treated
         self.nurse = sp.PriorityResource(env, num_nurses)
         self.bed = sp.PriorityResource(env, num_beds)
         self.clerk = sp.Resource(env, num_clerk) 
@@ -291,15 +291,16 @@ class AnE:
         arrival_time= self.env.now 
         self.num_patient_requires_bed += 1
 
-        req= self.bed.request(priority=priority)  #Request a bed for the patient
+        req= self.bed.request(priority=priority)  #Request a bed for the patient based on priority
         yield req # Wait for the bed to be avaiable
 
         patient_bed_wait_time = self.env.now  - arrival_time
         self.patient_total_wait_time.append(patient_bed_wait_time)
 
+        #This tracks the patient bed wait times
         if patient_bed_wait_time > 0:
-            self.patient_who_waited.append(patient_bed_wait_time)
-            self.track_waiting_time_for_bed.append(patient_bed_wait_time)
+            self.patient_who_waited.append(patient_bed_wait_time) # All the wait time for the patients
+            self.track_waiting_time_for_bed.append(patient_bed_wait_time) # Bed wait time
         
         self.occupied_beds += 1 
         self.update_bed_occupancy()
@@ -324,7 +325,7 @@ class AnE:
 
         yield self.env.timeout(self.setup_time) # Stimulate the bed set up
 
-        self.nurse.release(req_nurse)
+        self.nurse.release(req_nurse) # nurse is finished so gets  released
 
         
         self.patient_log.append(f"Patient {patient_ID} bed set up completed at {self.sim_format_time(self.env.now)} "+ '\n')       
@@ -391,7 +392,7 @@ class AnE:
             
             
             #decision =random.uniform(0,1)
-            decision = random.choices(["Discharge", "Tests", "Medication", "Hospitilisation"], weights = [self.percentage_discharge, self.percentage_tests, self.percentage_medication, self.percentage_hospitilisation_surgery])[0]
+            decision = random.choices(["Discharge", "Tests", "Medication", "Hospitilisation"], weights = [self.percentage_discharge, self.percentage_tests, self.percentage_medication, self.percentage_hospitilisation_surgery])[0] #Randomly chooses  when the weights gets applied
             
             if decision == "Discharge":
                 self.track_time_for_discharge.append(duration)
