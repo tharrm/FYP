@@ -1,11 +1,8 @@
 import simpy as sp
 import random
 import numpy as np
-import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
-import seaborn as sns 
 import streamlit as st
-
 import plotly.express as px
 import plotly.graph_objects as go
 
@@ -13,17 +10,19 @@ import plotly.graph_objects as go
 #Creates the simulation environment 
 class AnE:
     
+    #Passes the parameters into the AnE class
     def __init__(self, env, num_doctors, num_nurses, num_beds, num_clerk,
                  num_immediate, num_very_urgent, num_urgent, num_standard, num_non_urgent,
                  admission_duration, risk_assessment_duration, doctor_consultation_duration, test_duration, medication_duration, follow_up_duration, length_of_stay, setup_time,
                  probability_discharge, probability_tests, probability_medication, percentage_hospitilisation_surgery,
                  start_time
                  ):
+        #Self means the instance of the class
         self.env = env
         #Resource Allocation
         self.doctor = sp.PriorityResource(env, num_doctors)
         self.nurse = sp.PriorityResource(env, num_nurses)
-        self.bed = sp.Resource(env, num_beds)
+        self.bed = sp.PriorityResource(env, num_beds)
         self.clerk = sp.Resource(env, num_clerk) 
 
         #This is for the triage calculation
@@ -49,14 +48,13 @@ class AnE:
         self.percentage_medication = probability_medication
         self.percentage_hospitilisation_surgery = percentage_hospitilisation_surgery 
        
-       
-        #self.patient_id=0
+       #Total patients was in the simulation
         self.patientCount = 0 
+        # This checks if the patients are present in the simulation
         self.active_patients = set()
 
         self.occupied_beds = 0 #Will increment and decrement 
         self.last_patient_time=0
-        #self.priority = 0
 
 
         self.start_time = start_time
@@ -113,12 +111,12 @@ class AnE:
         
 
 
-
+    #This function is used to format the time
     def sim_format_time(self,time):
          current_time = (datetime.combine(datetime.today(), self.start_time) + timedelta(minutes=time)).time()
          return current_time.strftime("%H:%M") # This formats the time as hour:minute
     
-
+    #This function is used to format the time in hours and minutes
     def format_in_hours_and_minutes(self, time):
         minutes = time / 60
         return f"{int(minutes) //60}h {int(minutes % 60)}m "
@@ -126,7 +124,7 @@ class AnE:
     def update_last_patient_time(self):
         self.last_patient_time = max(self.env.now, self.last_patient_time)
     
-    #patient is the process
+    #patient is the being
     def patient_generator(self, mean_interarrival_time, finish_time):
         patient_ID = 0
         self.update_bed_occupancy()
@@ -136,8 +134,7 @@ class AnE:
                 
                 if self.env.now > finish_time:
                     break 
-                #number_of_patients_arrival = np.random.poisson(average_rate_patients_per_interval)  # the poisson takens in the average rate of patients arriving per interval time
-                #for _ in range(number_of_patients_arrival):
+            
                 self.patientCount +=1 
                 patient_ID+=1
                 self.active_patients.add(patient_ID)
@@ -161,6 +158,7 @@ class AnE:
              yield self.env.process(self.patient_request_bed(patient_ID,priority))
              yield self.env.process(self.patient_request_doctor_follow_up(patient_ID,priority))
 
+        #Depending on the priority, the the triage categoriy gets updated used for tracking
         else:
              if  priority == 1:
                 self.num_patient_very_urgent +=1
@@ -286,8 +284,8 @@ class AnE:
     def patient_request_bed(self,patient_ID,priority):
         arrival_time= self.env.now 
         self.num_patient_requires_bed += 1
-               
-        req= self.bed.request()  #Request a bed for the patient
+
+        req= self.bed.request(priority=priority)  #Request a bed for the patient
         yield req # Wait for the bed to be avaiable
 
         patient_bed_wait_time = self.env.now  - arrival_time
@@ -513,7 +511,7 @@ class AnE:
             self.update_resource_utilisation()
             yield self.env.timeout(1)
 
-
+#Updates the resources tracking list
     def update_resource_utilisation(self):
         self.track_clerk_utilisation.append((self.env.now, len(self.clerk.queue), self.clerk.count))
         self.track_nurse_utilisation.append((self.env.now, len(self.nurse.queue), self.nurse.count))
