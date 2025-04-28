@@ -105,8 +105,10 @@ class AnE:
         self.track_nurse_utilisation = []
         self.track_doctor_utilisation = []
         self.track_bed_utilisation = []
+        
 
-        self.patient_log = []
+        #Tracks patient's journey
+        self.patient_log = [] 
 
         
 
@@ -379,18 +381,13 @@ class AnE:
             
             total = self.percentage_discharge + self.percentage_tests + self.percentage_medication + self.percentage_hospitilisation_surgery
             
-            if total ==0:
+            if total ==0: # if total is 0, automatically set the percentages to 25% 
                 self.percentage_discharge = 100/4
                 self.percentage_tests = 100/4
                 self.percentage_medication = 100/4
                 self.percentage_hospitilisation_surgery = 100/4
 
             
-            if total != 100:
-                self.percentage_discharge = (self.percentage_discharge / total) * 100 
-                self.percentage_tests = (self.percentage_tests / total) * 100
-                self.percentage_medication = (self.percentage_medication / total) * 100
-                self.percentage_hospitilisation_surgery = (self.percentage_hospitilisation_surgery / total) * 100
             
             
             #decision =random.uniform(0,1)
@@ -912,7 +909,7 @@ if run_button_pressed and not st.session_state.simulation_stop:
                 with col2:
 
                     if a_and_e.track_clerk_utilisation:
-                        clerk_times, queue_clerk, clerk_count = zip(*a_and_e.track_clerk_utilisation)
+                        clerk_times, queue_clerk, clerk_count = zip(*a_and_e.track_clerk_utilisation) # Creates 3 lists
 
                         clerk_utilisation = []
                         for count in clerk_count:
