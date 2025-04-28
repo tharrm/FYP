@@ -702,7 +702,7 @@ with st.sidebar:
 
     run_button_pressed = False # Initial Value      
     if st.button("▶️ Run Simulation"):
-       st.cache_data.clear()
+       st.cache_data.clear() # Ensures any datta is cleared before running the simulation
        if (total_percentage + total_percentages !=200):
            if total_percentages != 100:
                 st.error("Please check the triage percentages. They need to add up to 100%")
@@ -744,10 +744,10 @@ if run_button_pressed and not st.session_state.simulation_stop:
         
         with st.spinner("Running Simulation"):
            
-            
+            #Runs the simulation time has reached or has been stopped
             while env.peek() <= simulation_run_time and not st.session_state.simulation_stop:
                 env.step()
-                
+            #While loop ensures simulations run until all patients have been processed    
             while a_and_e.active_patients != set() and not  st.session_state.simulation_stop:
                 env.step()
               
@@ -806,7 +806,7 @@ if run_button_pressed and not st.session_state.simulation_stop:
             with col1:
                 st.metric(label= " Overall Average Wait Time" , value= (f"{hours1} hours and {minutes1} minutes"))
 
-
+            #Formats the patient log data
             with col2:
                 patient_log = "\n".join(a_and_e.patient_log)
                 st.session_state.patient_log_data = patient_log 
@@ -827,14 +827,14 @@ if run_button_pressed and not st.session_state.simulation_stop:
 
 
             st.subheader(" 📊Visualisations", anchor= False, divider= "red")
-
+            #Visual guide
             with st.expander(label = " ℹ️ Visualation Guide Info", expanded = False):
                 st.markdown("<p style='font-size:15px; font-weight:bold;'>1. Resource Utilisation (%)</p>", unsafe_allow_html = True)
                 st.write("The percentage stats shows the overall resource utilisation efficiency through out the simulation. ")
                 st.write("These graphs illustrate the efficency of the resources (clerks, nurses, doctors and beds) utilised throughout the simulation. High utilisation percentages refelct substantial demand, which may result in increase in patient waiting times. Where as low utilisation percentages indicate that the resources are underutilised, which may suggest that theres a surplus of resources.")
 
-                st.markdown("<p style='font-size:15px; font-weight:bold;'>2. Length of Stay for Patients Occupied in Bed</p>", unsafe_allow_html = True)
-                st.write("The box plot displays the distribution of patient bed stays. This can help identify outliers and asses the efficiency of patient flow.")
+               # st.markdown("<p style='font-size:15px; font-weight:bold;'>2. Length of Stay for Patients Occupied in Bed</p>", unsafe_allow_html = True)
+                #st.write("The box plot displays the distribution of patient bed stays. This can help identify outliers and asses the efficiency of patient flow.")
 
                 st.markdown("<p style='font-size:15px; font-weight:bold;'>3. Time Patients Spent in A&E</p>", unsafe_allow_html = True)
                 st.write("These graphs visualises how long patients typically stay in A&E. This can potentially highlight bottlenecks in the A&E")
@@ -928,7 +928,7 @@ if run_button_pressed and not st.session_state.simulation_stop:
                 
                 with col1: 
                     if a_and_e.track_doctor_utilisation:
-                        doctor_times, queue_doctor, doctor_count = zip(*a_and_e.track_doctor_utilisation)
+                        doctor_times, queue_doctor, doctor_count = zip(*a_and_e.track_doctor_utilisation) # Unpacks  into two list
 
 
                         doctor_utilisation = []
@@ -1107,7 +1107,7 @@ if run_button_pressed and not st.session_state.simulation_stop:
                 col1, col2 = st.columns(2)
 
 
-                    # Extracts data for the resources each
+                # Extracts data for the resources each
                 times_clerk, queue_clerk, usage_clerk = zip(*a_and_e.track_clerk_utilisation)
                 times_nurse, queue_nurse, usage_nurse = zip(*a_and_e.track_nurse_utilisation)
                 times_bed, queue_bed, usage_bed = zip(*a_and_e.track_bed_utilisation)
